@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "171694890795",
+    "firebase_url": "https://dbsi-by-cgf.firebaseio.com",
+    "project_id": "dbsi-by-cgf",
+    "storage_bucket": "dbsi-by-cgf.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:171694890795:android:8eeae032ea54a92d",
+        "android_client_info": {
+          "package_name": "in.collectivegood.dbsibycgf"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "171694890795-2icatfdkdkil151qmfhjrqg6p60c2o26.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "in.collectivegood.dbsibycgf",
+            "certificate_hash": "833ca786f9b2de5e7e606f937cd0f38428214559"
+          }
+        },
+        {
+          "client_id": "171694890795-lokvin0ckrd1ohcdfsu96ie32vge4ks6.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCFZ-MOQZkJ8X17qOuFU7NOE61vSTbW3-M"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "171694890795-lokvin0ckrd1ohcdfsu96ie32vge4ks6.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
