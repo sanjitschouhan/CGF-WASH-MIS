@@ -156,9 +156,13 @@ public class LoginActivity extends AppCompatActivity {
                                 = new UserProfileChangeRequest.Builder()
                                 .setDisplayName(nickName)
                                 .build();
-                        user.updateProfile(userProfileChangeRequest);
-                        startActivity(new Intent(LoginActivity.this, ProfileActivity.class));
-                        finish();
+                        user.updateProfile(userProfileChangeRequest).addOnCompleteListener(new OnCompleteListener<Void>() {
+                            @Override
+                            public void onComplete(@NonNull Task<Void> task) {
+                                startActivity(new Intent(LoginActivity.this, ProfileActivity.class));
+                                finish();
+                            }
+                        });
                     }
                 });
         builder.show();
