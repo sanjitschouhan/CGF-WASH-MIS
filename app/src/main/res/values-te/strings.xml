@@ -1,4 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">CGF WASH MIS</string>
+    <string name="telugu">తెలుగు</string>
+    <string name="password">పాస్వర్డ్</string>
+    <string name="initilalizing_application">అప్లికేషన్ను ప్రారంభించడం</string>
+    <string name="forgot_password">పాస్వర్డ్ మర్చిపోయారా</string>
+    <string name="email">ఇమెయిల్</string>
+    <string name="download">డౌన్లోడ్</string>
+    <string name="download_all">అన్నీ డౌన్లోడ్ చేయండి</string>
+    <string name="loading_data">డేటాను లోడ్ చేస్తోంది</string>
+    <string name="downloading_images">చిత్రాలు డౌన్లోడ్</string>
+    <string name="cancel">తుడిచివేయు</string>
+    <string name="enter_email_id">మీ ఇమెయిల్ను నమోదు చేయండి</string>
+    <string name="invalid_email">చెల్లని ఇమెయిల్</string>
+    <string name="min_pass_length_req">కనీస 6 అక్షరాలు అవసరం</string>
+    <string name="please_wait">దయచేసి వేచి ఉండండి</string>
+    <string name="reset">రీసెట్</string>
+    <string name="reset_password">రహస్యపదాన్ని మార్చుకోండి</string>
+    <string name="unable_to_sign_in">సైన్ ఇన్ చేయడం సాధ్యపడలేదు</string>
+    <string name="cannot_create_file">ఫైల్ను సృష్టించలేరు</string>
+    <string name="downloading_image">చిత్రాన్ని డౌన్లోడ్ చేస్తోంది</string>
+    <string name="image_uploaded">చిత్రం అప్లోడ్ చేయబడింది</string>
+    <string name="picture_saved">చిత్రం సేవ్ చేయబడింది</string>
+    <string name="upload">అప్లోడ్</string>
+    <string name="upload_confirm_prompt">మీరు ఈ చిత్రాన్ని అప్లోడ్ చేయాలనుకుంటున్నారా?</string>
+    <string name="upload_failed">అప్లోడ్ విఫలమైంది</string>
+    <string name="upload_image">చిత్రాన్ని అప్లోడ్ చేయండి</string>
+    <string name="uploading_image">చిత్రాన్ని అప్లోడ్ చేస్తోంది</string>
 </resources>

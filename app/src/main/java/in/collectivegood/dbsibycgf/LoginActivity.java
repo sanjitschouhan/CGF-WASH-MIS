@@ -52,19 +52,19 @@ public class LoginActivity extends AppCompatActivity {
     public void forgotPassword(View view) {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         final EditText emailEditText = new EditText(this);
-        emailEditText.setHint("Email");
+        emailEditText.setHint(getString(R.string.email));
         LinearLayout linearLayout = new LinearLayout(this);
         linearLayout.setPadding(30, 30, 30, 30);
         linearLayout.addView(emailEditText);
-        builder.setTitle("Reset Password")
-                .setMessage("Enter your Email Id")
+        builder.setTitle(getString(R.string.reset_password))
+                .setMessage(getString(R.string.enter_email_id))
                 .setView(linearLayout)
-                .setPositiveButton("Reset", new DialogInterface.OnClickListener() {
+                .setPositiveButton(getString(R.string.reset), new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
 
                     }
-                }).setNeutralButton("Cancel", null);
+                }).setNeutralButton(getString(R.string.cancel), null);
         final AlertDialog dialog = builder.create();
         dialog.show();
         dialog.getButton(AlertDialog.BUTTON_POSITIVE).setOnClickListener(new View.OnClickListener() {
@@ -72,7 +72,7 @@ public class LoginActivity extends AppCompatActivity {
             public void onClick(View v) {
                 String email = emailEditText.getText().toString().trim();
                 if (!email.matches(emailPattern)) {
-                    emailEditText.setError("Invalid email");
+                    emailEditText.setError(getString(R.string.invalid_email));
                 } else {
                     FirebaseAuth.getInstance().sendPasswordResetEmail(email);
                     dialog.dismiss();
@@ -85,15 +85,15 @@ public class LoginActivity extends AppCompatActivity {
         String email = emailEditText.getText().toString().trim();
         String password = passwordEditText.getText().toString().trim();
         if (!email.matches(emailPattern)) {
-            emailEditText.setError("Invalid Email");
+            emailEditText.setError(getString(R.string.invalid_email));
             return;
         }
         if (password.length() < 6) {
-            passwordEditText.setError("Minimum 6 characters required");
+            passwordEditText.setError(getString(R.string.min_pass_length_req));
             return;
         }
         final ProgressDialog dialog = new ProgressDialog(this);
-        dialog.setMessage("Please Wait");
+        dialog.setMessage(getString(R.string.please_wait));
         dialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
         dialog.setIndeterminate(true);
         dialog.setProgressNumberFormat(null);
@@ -104,9 +104,9 @@ public class LoginActivity extends AppCompatActivity {
                     @Override
                     public void onFailure(@NonNull Exception e) {
                         AlertDialog.Builder builder = new AlertDialog.Builder(LoginActivity.this);
-                        builder.setTitle("Unable to Sign In")
+                        builder.setTitle(getString(R.string.unable_to_sign_in))
                                 .setMessage(e.getMessage())
-                                .setPositiveButton("Close", null);
+                                .setPositiveButton(getString(R.string.close), null);
                         builder.show();
                     }
                 }).addOnCompleteListener(new OnCompleteListener<AuthResult>() {

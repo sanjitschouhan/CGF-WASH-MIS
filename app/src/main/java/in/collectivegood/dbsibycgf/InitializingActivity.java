@@ -28,6 +28,7 @@ import java.util.Arrays;
 
 import in.collectivegood.dbsibycgf.database.CCDbHelper;
 import in.collectivegood.dbsibycgf.database.CCRecord;
+import in.collectivegood.dbsibycgf.database.DbHelper;
 import in.collectivegood.dbsibycgf.database.Schemas;
 import in.collectivegood.dbsibycgf.database.SchoolDbHelper;
 import in.collectivegood.dbsibycgf.database.SchoolRecord;
@@ -37,6 +38,7 @@ public class InitializingActivity extends AppCompatActivity {
 
     SchoolDbHelper schoolDbHelper;
     CCDbHelper ccDbHelper;
+    DbHelper dbHelper;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,10 +47,12 @@ public class InitializingActivity extends AppCompatActivity {
 //        startActivity(new Intent(this, GalleryMainActivity.class));
 //        finish();
 
+        dbHelper = new DbHelper(this);
+
         final ProgressDialog dialog = new ProgressDialog(this);
         dialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
         dialog.setIndeterminate(true);
-        dialog.setMessage("Loading data");
+        dialog.setMessage(getString(R.string.loading_data));
         dialog.setProgressPercentFormat(null);
         dialog.setProgressNumberFormat(null);
         dialog.setCancelable(false);
@@ -84,8 +88,8 @@ public class InitializingActivity extends AppCompatActivity {
         BufferedInputStream buf = new BufferedInputStream(new FileInputStream(file));
         BufferedReader reader = new BufferedReader(new InputStreamReader(buf));
         int count = 0;
-        schoolDbHelper = new SchoolDbHelper(this);
-        ccDbHelper = new CCDbHelper(this);
+        schoolDbHelper = new SchoolDbHelper(dbHelper);
+        ccDbHelper = new CCDbHelper(dbHelper);
         reader.readLine();
         while (true) {
             String s = reader.readLine();
@@ -94,7 +98,7 @@ public class InitializingActivity extends AppCompatActivity {
                 Log.e("onComplete: ", Arrays.toString(record));
                 String block = record[1];
                 String village = record[2];
-                long schoolCode = Long.parseLong(record[3]);
+                String schoolCode = record[3];
                 String schoolName = record[4];
                 String schoolEmail = record[5];
                 String schoolDistrict = record[6];
@@ -105,7 +109,12 @@ public class InitializingActivity extends AppCompatActivity {
                 String projectCoordinator = record[11];
                 SchoolRecord schoolRecord = new SchoolRecord(schoolCode, block, village,
                         schoolName, schoolEmail, schoolState, schoolDistrict, ccUid);
-                schoolDbHelper.insert(schoolRecord);
+                Cursor school = schoolDbHelper.read(Schemas.SchoolDatabaseEntry.CODE, schoolCode);
+                if (school.getCount() <= 0) {
+                    school.close();
+                    schoolDbHelper.insert(schoolRecord);
+                }
+                school.close();
 
                 CCRecord ccRecord = new CCRecord(ccUid, ccName, ccEmail, projectCoordinator);
                 Cursor cc = ccDbHelper.read(Schemas.CCDatabaseEntry.UID, ccUid);

@@ -1,7 +1,8 @@
 package in.collectivegood.dbsibycgf.database;
 
 public class SchoolRecord {
-    private long code;
+
+    private String code;
     private String block;
     private String village;
     private String name;
@@ -13,7 +14,7 @@ public class SchoolRecord {
     public SchoolRecord() {
     }
 
-    public SchoolRecord(long code, String block, String village, String name, String email,
+    public SchoolRecord(String code, String block, String village, String name, String email,
                         String state, String district, String uidOfCC) {
         this.code = code;
         this.block = block;
@@ -42,11 +43,11 @@ public class SchoolRecord {
         this.block = block;
     }
 
-    public long getCode() {
+    public String getCode() {
         return code;
     }
 
-    public void setCode(long code) {
+    public void setCode(String code) {
         this.code = code;
     }
 

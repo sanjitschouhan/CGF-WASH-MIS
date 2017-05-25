@@ -126,15 +126,15 @@ public class GalleryMainActivity extends AppCompatActivity {
                 linearLayout.addView(imageView);
 
                 AlertDialog.Builder builder = new AlertDialog.Builder(this);
-                builder.setTitle("Upload Image")
-                        .setMessage("Do you want to upload this picture?")
+                builder.setTitle(getString(R.string.upload_image))
+                        .setMessage(getString(R.string.upload_confirm_prompt))
                         .setView(linearLayout)
-                        .setPositiveButton("Upload", new DialogInterface.OnClickListener() {
+                        .setPositiveButton(getString(R.string.upload), new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
                                 uploadImage(bitmap);
                             }
-                        }).setNegativeButton("Cancel", null)
+                        }).setNegativeButton(getString(R.string.cancel), null)
                         .setCancelable(false);
                 builder.show();
 
@@ -149,7 +149,7 @@ public class GalleryMainActivity extends AppCompatActivity {
         final ProgressDialog dialog = new ProgressDialog(this);
         dialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
         dialog.setIndeterminate(true);
-        dialog.setMessage("Uploading Image");
+        dialog.setMessage(getString(R.string.uploading_image));
         dialog.setProgressPercentFormat(null);
         dialog.setProgressNumberFormat(null);
         dialog.setCancelable(false);
@@ -158,10 +158,9 @@ public class GalleryMainActivity extends AppCompatActivity {
         final String path =
                 "gallery/" +
                         FirebaseAuth.getInstance().getCurrentUser()
-                                .getDisplayName().toLowerCase().split(" ")[0]
+                                .getDisplayName().toLowerCase()
                         + "/" + System.currentTimeMillis();
         StorageReference storageReference = firebaseStorage.getReference(path + ".jpeg");
-
 
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
@@ -175,7 +174,7 @@ public class GalleryMainActivity extends AppCompatActivity {
                             @Override
                             public void onComplete(@NonNull Task<Void> task) {
                                 dialog.dismiss();
-                                Toast.makeText(GalleryMainActivity.this, "Image Uploaded", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(GalleryMainActivity.this, getString(R.string.image_uploaded), Toast.LENGTH_SHORT).show();
                             }
                         });
                     }
@@ -183,7 +182,7 @@ public class GalleryMainActivity extends AppCompatActivity {
                 .addOnFailureListener(new OnFailureListener() {
                     @Override
                     public void onFailure(@NonNull Exception e) {
-                        Toast.makeText(GalleryMainActivity.this, "Upload Failed: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                        Toast.makeText(GalleryMainActivity.this, getString(R.string.upload_failed) + e.getMessage(), Toast.LENGTH_SHORT).show();
                         dialog.dismiss();
                     }
                 });

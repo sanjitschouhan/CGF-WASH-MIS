@@ -1,42 +1,18 @@
 package in.collectivegood.dbsibycgf.database;
 
 import android.content.ContentValues;
-import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-import android.database.sqlite.SQLiteOpenHelper;
 
-public class CCDbHelper extends SQLiteOpenHelper {
-    private static final int DATABASE_VERSION = 1;
-    private static final String DATABASE_NAME = "cgf.db";
-    private static final String SQL_CREATE_ENTRIES =
-            "CREATE TABLE " + Schemas.CCDatabaseEntry.TABLE_NAME + " (" +
-                    Schemas.CCDatabaseEntry.UID + " TEXT PRIMARY KEY," +
-                    Schemas.CCDatabaseEntry.NAME + " TEXT," +
-                    Schemas.CCDatabaseEntry.EMAIL + " TEXT," +
-                    Schemas.CCDatabaseEntry.PROJECT_COORDINATOR + " TEXT)";
+public class CCDbHelper {
+    private DbHelper dbHelper;
 
-    private static final String SQL_DELETE_ENTRIES =
-            "DROP TABLE IF EXISTS " + Schemas.CCDatabaseEntry.TABLE_NAME;
-
-    public CCDbHelper(Context context) {
-        super(context, DATABASE_NAME, null, DATABASE_VERSION);
-    }
-
-    @Override
-    public void onCreate(SQLiteDatabase db) {
-        db.execSQL(SQL_DELETE_ENTRIES);
-        db.execSQL(SQL_CREATE_ENTRIES);
-    }
-
-    @Override
-    public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-        db.execSQL(SQL_DELETE_ENTRIES);
-        onCreate(db);
+    public CCDbHelper(DbHelper dbHelper) {
+        this.dbHelper = dbHelper;
     }
 
     public void insert(CCRecord record) {
-        SQLiteDatabase db = this.getWritableDatabase();
+        SQLiteDatabase db = dbHelper.getWritableDatabase();
         ContentValues values = new ContentValues();
         values.put(Schemas.CCDatabaseEntry.UID, record.getUid());
         values.put(Schemas.CCDatabaseEntry.NAME, record.getName());
@@ -46,7 +22,7 @@ public class CCDbHelper extends SQLiteOpenHelper {
     }
 
     public Cursor read(String attribute, String value) {
-        SQLiteDatabase db = this.getReadableDatabase();
+        SQLiteDatabase db = dbHelper.getReadableDatabase();
         String[] projection = {
                 Schemas.CCDatabaseEntry.UID,
                 Schemas.CCDatabaseEntry.NAME,
@@ -60,7 +36,7 @@ public class CCDbHelper extends SQLiteOpenHelper {
             conditionArgs = new String[]{value};
         }
 
-        return db.query(
+        Cursor query = db.query(
                 Schemas.CCDatabaseEntry.TABLE_NAME,  // Table name
                 projection,                             // Columns to return
                 condition,                              // Columns for WHERE clause
@@ -69,11 +45,14 @@ public class CCDbHelper extends SQLiteOpenHelper {
                 null,                                   // HAVING clause
                 null                                    // SORT BY clause
         );
+
+        return query;
     }
 
     public int update(String uid, String[] columns, String[] values) {
-        SQLiteDatabase db = this.getReadableDatabase();
+        SQLiteDatabase db = dbHelper.getWritableDatabase();
 
+        int update = 0;
         ContentValues contentValues = new ContentValues();
         if (columns.length == values.length) {
             for (int i = 0; i < columns.length; i++) {
@@ -83,13 +62,13 @@ public class CCDbHelper extends SQLiteOpenHelper {
             String selection = Schemas.CCDatabaseEntry.UID + " = ?";
             String[] selectionArgs = {uid};
 
-            return db.update(
+            update = db.update(
                     Schemas.CCDatabaseEntry.TABLE_NAME,
                     contentValues,
                     selection,
                     selectionArgs);
         }
-        return 0;
+        return update;
     }
 
 

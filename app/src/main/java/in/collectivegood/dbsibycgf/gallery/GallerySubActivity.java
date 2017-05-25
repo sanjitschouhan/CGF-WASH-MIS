@@ -105,7 +105,7 @@ public class GallerySubActivity extends AppCompatActivity {
     private void downloadAll() {
         final ProgressDialog dialog = new ProgressDialog(this);
         dialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
-        dialog.setMessage("Downloading Images");
+        dialog.setMessage(getString(R.string.downloading_images));
         dialog.setCancelable(false);
         dialog.setProgress(0);
         dialog.setMax(list.size());

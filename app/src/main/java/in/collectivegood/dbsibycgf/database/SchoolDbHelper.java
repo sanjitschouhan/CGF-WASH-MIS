@@ -1,46 +1,19 @@
 package in.collectivegood.dbsibycgf.database;
 
 import android.content.ContentValues;
-import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-import android.database.sqlite.SQLiteOpenHelper;
 
-public class SchoolDbHelper extends SQLiteOpenHelper {
-    private static final int DATABASE_VERSION = 1;
-    private static final String DATABASE_NAME = "cgf.db";
-    private static final String SQL_CREATE_ENTRIES =
-            "CREATE TABLE " + Schemas.SchoolDatabaseEntry.TABLE_NAME + " (" +
-                    Schemas.SchoolDatabaseEntry.CODE + " INTEGER PRIMARY KEY," +
-                    Schemas.SchoolDatabaseEntry.BLOCK + " TEXT," +
-                    Schemas.SchoolDatabaseEntry.VILLAGE + " TEXT," +
-                    Schemas.SchoolDatabaseEntry.NAME + " TEXT," +
-                    Schemas.SchoolDatabaseEntry.EMAIL + " TEXT," +
-                    Schemas.SchoolDatabaseEntry.DISTRICT + " TEXT," +
-                    Schemas.SchoolDatabaseEntry.STATE + " TEXT," +
-                    Schemas.SchoolDatabaseEntry.UID_OF_CC + " TEXT)";
+public class SchoolDbHelper {
 
-    private static final String SQL_DELETE_ENTRIES =
-            "DROP TABLE IF EXISTS " + Schemas.SchoolDatabaseEntry.TABLE_NAME;
+    private DbHelper dbHelper;
 
-    public SchoolDbHelper(Context context) {
-        super(context, DATABASE_NAME, null, DATABASE_VERSION);
-    }
-
-    @Override
-    public void onCreate(SQLiteDatabase db) {
-        db.execSQL(SQL_DELETE_ENTRIES);
-        db.execSQL(SQL_CREATE_ENTRIES);
-    }
-
-    @Override
-    public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-        db.execSQL(SQL_DELETE_ENTRIES);
-        onCreate(db);
+    public SchoolDbHelper(DbHelper dbHelper) {
+        this.dbHelper = dbHelper;
     }
 
     public void insert(SchoolRecord record) {
-        SQLiteDatabase db = this.getWritableDatabase();
+        SQLiteDatabase db = dbHelper.getWritableDatabase();
         ContentValues values = new ContentValues();
         values.put(Schemas.SchoolDatabaseEntry.CODE, record.getCode());
         values.put(Schemas.SchoolDatabaseEntry.BLOCK, record.getBlock());
@@ -53,8 +26,8 @@ public class SchoolDbHelper extends SQLiteOpenHelper {
         db.insert(Schemas.SchoolDatabaseEntry.TABLE_NAME, null, values);
     }
 
-    public Cursor read(long code) {
-        SQLiteDatabase db = this.getReadableDatabase();
+    public Cursor read(String attribute, String value) {
+        SQLiteDatabase db = dbHelper.getReadableDatabase();
         String[] projection = {
                 Schemas.SchoolDatabaseEntry.CODE,
                 Schemas.SchoolDatabaseEntry.BLOCK,
@@ -67,12 +40,12 @@ public class SchoolDbHelper extends SQLiteOpenHelper {
         };
         String condition = null;
         String[] conditionArgs = null;
-        if (code != 0) {
-            condition = Schemas.SchoolDatabaseEntry.CODE + " = ?";
-            conditionArgs = new String[]{String.valueOf(code)};
+        if (attribute != null && value != null) {
+            condition = attribute + " = ?";
+            conditionArgs = new String[]{value};
         }
 
-        return db.query(
+        Cursor query = db.query(
                 Schemas.SchoolDatabaseEntry.TABLE_NAME,  // Table name
                 projection,                             // Columns to return
                 condition,                              // Columns for WHERE clause
@@ -81,11 +54,13 @@ public class SchoolDbHelper extends SQLiteOpenHelper {
                 null,                                   // HAVING clause
                 null                                    // SORT BY clause
         );
+        return query;
     }
 
     public int update(int code, String[] columns, String[] values) {
-        SQLiteDatabase db = this.getReadableDatabase();
+        SQLiteDatabase db = dbHelper.getWritableDatabase();
 
+        int update = 0;
         ContentValues contentValues = new ContentValues();
         if (columns.length == values.length) {
             for (int i = 0; i < columns.length; i++) {
@@ -95,14 +70,13 @@ public class SchoolDbHelper extends SQLiteOpenHelper {
             String selection = Schemas.SchoolDatabaseEntry.CODE + " = ?";
             String[] selectionArgs = {String.valueOf(code)};
 
-            return db.update(
+            update = db.update(
                     Schemas.SchoolDatabaseEntry.TABLE_NAME,
                     contentValues,
                     selection,
                     selectionArgs);
         }
-        return 0;
+        return update;
     }
-
 
 }

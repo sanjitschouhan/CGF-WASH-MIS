@@ -60,7 +60,7 @@ public class GalleryPreviewActivity extends AppCompatActivity {
         final ProgressDialog dialog = new ProgressDialog(this);
         dialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
         dialog.setIndeterminate(true);
-        dialog.setMessage("Downloading Image");
+        dialog.setMessage(getString(R.string.downloading_image));
         dialog.setProgressPercentFormat(null);
         dialog.setProgressNumberFormat(null);
         dialog.setCancelable(false);
@@ -70,7 +70,7 @@ public class GalleryPreviewActivity extends AppCompatActivity {
             reference.getFile(downloadFile).addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
                 @Override
                 public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
-                    Toast.makeText(GalleryPreviewActivity.this, "Picture Saved", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(GalleryPreviewActivity.this, getString(R.string.picture_saved), Toast.LENGTH_SHORT).show();
                     dialog.dismiss();
                 }
             }).addOnFailureListener(new OnFailureListener() {
@@ -81,7 +81,7 @@ public class GalleryPreviewActivity extends AppCompatActivity {
                 }
             });
         } else {
-            Toast.makeText(this, "Cannot Create File", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, getString(R.string.cannot_create_file), Toast.LENGTH_SHORT).show();
             dialog.dismiss();
         }
     }
