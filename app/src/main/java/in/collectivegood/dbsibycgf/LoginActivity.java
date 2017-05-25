@@ -55,6 +55,7 @@ public class LoginActivity extends AppCompatActivity {
         emailEditText.setHint(getString(R.string.email));
         LinearLayout linearLayout = new LinearLayout(this);
         linearLayout.setPadding(30, 30, 30, 30);
+        linearLayout.setOrientation(LinearLayout.VERTICAL);
         linearLayout.addView(emailEditText);
         builder.setTitle(getString(R.string.reset_password))
                 .setMessage(getString(R.string.enter_email_id))

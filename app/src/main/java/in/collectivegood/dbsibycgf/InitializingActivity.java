@@ -130,8 +130,6 @@ public class InitializingActivity extends AppCompatActivity {
         }
         Log.e("onComplete: ", String.valueOf(count));
         buf.close();
-        startActivity(new Intent(this, GalleryMainActivity.class));
-        finish();
     }
 
     public void setName(final FirebaseUser user) {
