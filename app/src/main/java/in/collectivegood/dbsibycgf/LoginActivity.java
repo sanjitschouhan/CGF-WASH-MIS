@@ -17,7 +17,6 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.auth.UserProfileChangeRequest;
 
 public class LoginActivity extends AppCompatActivity {
     private static final String TAG = "login_activity";
@@ -42,12 +41,8 @@ public class LoginActivity extends AppCompatActivity {
                 FirebaseUser user = firebaseAuth.getCurrentUser();
                 if (user != null) {
                     String displayName = user.getDisplayName();
-                    if (displayName == null) {
-                        setNickName(user);
-                    } else {
-                        startActivity(new Intent(LoginActivity.this, ProfileActivity.class));
-                        finish();
-                    }
+                    startActivity(new Intent(LoginActivity.this, InitializingActivity.class));
+                    finish();
                 }
             }
         };
@@ -136,35 +131,4 @@ public class LoginActivity extends AppCompatActivity {
         }
     }
 
-    public void setNickName(final FirebaseUser user) {
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        LinearLayout linearLayout = new LinearLayout(this);
-        linearLayout.setOrientation(LinearLayout.VERTICAL);
-        linearLayout.setPadding(30, 30, 30, 30);
-        final EditText editText = new EditText(this);
-        editText.setHint("Nickname");
-        linearLayout.addView(editText);
-        builder.setTitle("Enter Nickname")
-                .setView(linearLayout)
-                .setMessage("This name will be used to save your data")
-                .setCancelable(false)
-                .setPositiveButton("Save", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        String nickName = editText.getText().toString().trim().replace(" ", "_");
-                        UserProfileChangeRequest userProfileChangeRequest
-                                = new UserProfileChangeRequest.Builder()
-                                .setDisplayName(nickName)
-                                .build();
-                        user.updateProfile(userProfileChangeRequest).addOnCompleteListener(new OnCompleteListener<Void>() {
-                            @Override
-                            public void onComplete(@NonNull Task<Void> task) {
-                                startActivity(new Intent(LoginActivity.this, ProfileActivity.class));
-                                finish();
-                            }
-                        });
-                    }
-                });
-        builder.show();
-    }
 }
