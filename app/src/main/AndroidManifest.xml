@@ -3,6 +3,7 @@
     package="in.collectivegood.dbsibycgf">
 
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.CAMERA" />
 
     <application
         android:allowBackup="true"
@@ -11,6 +12,10 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <meta-data
+            android:name="com.google.android.gms.vision.DEPENDENCIES"
+            android:value="barcode" />
+
         <activity android:name=".LoginActivity" />
         <activity android:name=".MainActivity">
             <intent-filter>
@@ -22,7 +27,8 @@
         <activity android:name=".InitializingActivity" />
         <activity android:name=".gallery.GalleryMainActivity" />
         <activity android:name=".gallery.GallerySubActivity" />
-        <activity android:name=".gallery.GalleryPreviewActivity"></activity>
+        <activity android:name=".gallery.GalleryPreviewActivity" />
+        <activity android:name=".BarCodeActivity"></activity>
     </application>
 
 </manifest>

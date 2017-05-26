@@ -11,6 +11,7 @@ import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.Locale;
 
+
 public class MainActivity extends AppCompatActivity {
 
     @Override
@@ -39,4 +40,10 @@ public class MainActivity extends AppCompatActivity {
         Intent intent = new Intent(this, LoginActivity.class);
         startActivity(intent);
     }
+
+    public void scanQR(View view) {
+        startActivity(new Intent(this, BarCodeActivity.class));
+    }
+
+
 }
