@@ -4,6 +4,7 @@
 
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.INTERNET" />
 
     <application
         android:allowBackup="true"
@@ -28,7 +29,27 @@
         <activity android:name=".gallery.GalleryMainActivity" />
         <activity android:name=".gallery.GallerySubActivity" />
         <activity android:name=".gallery.GalleryPreviewActivity" />
-        <activity android:name=".BarCodeActivity"></activity>
+        <activity android:name=".BarCodeActivity" />
+        <activity android:name=".discussion.DiscussionActivity" />
+
+        <service android:name=".discussion.CgfWashMisDiscussionService">
+            <intent-filter>
+                <action android:name="com.google.firebase.MESSAGING_EVENT" />
+            </intent-filter>
+        </service>
+
+        <service android:name=".discussion.CgfWashMisInstanceIDService">
+            <intent-filter>
+                <action android:name="com.google.firebase.INSTANCE_ID_EVENT" />
+            </intent-filter>
+        </service>
+
+        <meta-data
+            android:name="com.google.firebase.messaging.default_notification_icon"
+            android:resource="@drawable/ic_launcher" />
+        <meta-data
+            android:name="com.google.firebase.messaging.default_notification_color"
+            android:resource="@color/colorAccent" />
     </application>
 
 </manifest>

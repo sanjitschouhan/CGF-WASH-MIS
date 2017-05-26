@@ -36,7 +36,7 @@ import in.collectivegood.dbsibycgf.database.DbHelper;
 import in.collectivegood.dbsibycgf.database.Schemas;
 import in.collectivegood.dbsibycgf.database.SchoolDbHelper;
 import in.collectivegood.dbsibycgf.database.SchoolRecord;
-import in.collectivegood.dbsibycgf.gallery.GalleryMainActivity;
+import in.collectivegood.dbsibycgf.discussion.DiscussionActivity;
 
 public class InitializingActivity extends AppCompatActivity {
 
@@ -44,12 +44,14 @@ public class InitializingActivity extends AppCompatActivity {
     SchoolDbHelper schoolDbHelper;
     CCDbHelper ccDbHelper;
     DbHelper dbHelper;
+    Intent intent;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_initializing);
 
+        intent = new Intent(InitializingActivity.this, DiscussionActivity.class);
         dbHelper = new DbHelper(this);
         schoolDbHelper = new SchoolDbHelper(dbHelper);
         ccDbHelper = new CCDbHelper(dbHelper);
@@ -97,7 +99,7 @@ public class InitializingActivity extends AppCompatActivity {
                         });
                     } else {
                         dialog.dismiss();
-                        startActivity(new Intent(InitializingActivity.this, GalleryMainActivity.class));
+                        startActivity(intent);
                         finish();
                     }
                 } else {
@@ -185,7 +187,7 @@ public class InitializingActivity extends AppCompatActivity {
         user.updateProfile(userProfileChangeRequest).addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override
             public void onSuccess(Void aVoid) {
-                startActivity(new Intent(InitializingActivity.this, GalleryMainActivity.class));
+                startActivity(intent);
                 finish();
             }
         }).addOnFailureListener(new OnFailureListener() {
