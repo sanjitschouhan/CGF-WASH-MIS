@@ -26,5 +26,11 @@ public final class Schemas {
         public static final String UID = "uid";
         public static final String PROJECT_COORDINATOR = "project_coordinator";
     }
+    public static class DiscussionDatabaseEntry implements BaseColumns {
+        public static final String TABLE_NAME = "discussion_database";
+        public static final String NAME = "name";
+        public static final String MESSAGE = "message";
+        public static final String TIME = "time";
+    }
 
 }
