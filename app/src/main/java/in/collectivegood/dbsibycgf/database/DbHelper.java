@@ -1,13 +1,11 @@
 package in.collectivegood.dbsibycgf.database;
 
-import android.content.ContentValues;
 import android.content.Context;
-import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
 public class DbHelper extends SQLiteOpenHelper {
-    private static final int DATABASE_VERSION = 2;
+    private static final int DATABASE_VERSION = 1;
     private static final String DATABASE_NAME = "cgf.db";
     private static final String SQL_CREATE_ENTRIES_SCHOOL =
             "CREATE TABLE " + Schemas.SchoolDatabaseEntry.TABLE_NAME + " (" +
@@ -27,7 +25,7 @@ public class DbHelper extends SQLiteOpenHelper {
             "CREATE TABLE " + Schemas.CCDatabaseEntry.TABLE_NAME + " (" +
                     Schemas.CCDatabaseEntry.UID + " TEXT PRIMARY KEY," +
                     Schemas.CCDatabaseEntry.NAME + " TEXT," +
-                    Schemas.CCDatabaseEntry.EMAIL + " TEXT," +
+                    Schemas.CCDatabaseEntry.EMAIL + " TEXT UNIQUE," +
                     Schemas.CCDatabaseEntry.PROJECT_COORDINATOR + " TEXT)";
 
     private static final String SQL_DELETE_ENTRIES_CC =
@@ -51,4 +49,15 @@ public class DbHelper extends SQLiteOpenHelper {
         onCreate(db);
     }
 
+    @Override
+    public void onDowngrade(SQLiteDatabase db, int oldVersion, int newVersion) {
+        onUpgrade(db, oldVersion, newVersion);
+    }
+
+    public void clear() {
+        SQLiteDatabase db = this.getWritableDatabase();
+        db.execSQL(SQL_DELETE_ENTRIES_SCHOOL);
+        db.execSQL(SQL_DELETE_ENTRIES_CC);
+        onCreate(db);
+    }
 }

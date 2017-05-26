@@ -28,4 +28,5 @@
     <string name="downloading_image">Downloading Image</string>
     <string name="picture_saved">Picture Saved</string>
     <string name="cannot_create_file">Cannot Create File</string>
+    <string name="error_downloading_data">Error downloading data, Please check your internet connection</string>
 </resources>
