@@ -23,6 +23,7 @@ public final class Schemas {
         public static final String TABLE_NAME = "cc_database";
         public static final String EMAIL = "email";
         public static final String NAME = "name";
+        public static final String PHONE = "phone";
         public static final String UID = "uid";
         public static final String PROJECT_COORDINATOR = "project_coordinator";
     }

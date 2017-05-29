@@ -17,6 +17,7 @@ public class CCDbHelper {
         values.put(Schemas.CCDatabaseEntry.UID, record.getUid());
         values.put(Schemas.CCDatabaseEntry.NAME, record.getName());
         values.put(Schemas.CCDatabaseEntry.EMAIL, record.getEmail());
+        values.put(Schemas.CCDatabaseEntry.PHONE, record.getPhone());
         values.put(Schemas.CCDatabaseEntry.PROJECT_COORDINATOR, record.getProjectCoordinator());
         db.insert(Schemas.CCDatabaseEntry.TABLE_NAME, null, values);
     }
@@ -27,6 +28,7 @@ public class CCDbHelper {
                 Schemas.CCDatabaseEntry.UID,
                 Schemas.CCDatabaseEntry.NAME,
                 Schemas.CCDatabaseEntry.EMAIL,
+                Schemas.CCDatabaseEntry.PHONE,
                 Schemas.CCDatabaseEntry.PROJECT_COORDINATOR,
         };
         String condition = null;

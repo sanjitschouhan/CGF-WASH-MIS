@@ -48,9 +48,11 @@ public class CCProfileActivity extends AppCompatActivity {
         String name = read.getString(read.getColumnIndexOrThrow(Schemas.CCDatabaseEntry.NAME));
         String reportingManager = read.getString(read.getColumnIndexOrThrow(Schemas.CCDatabaseEntry.PROJECT_COORDINATOR));
         String ccUID = read.getString(read.getColumnIndexOrThrow(Schemas.CCDatabaseEntry.UID));
+        String phone = read.getString(read.getColumnIndexOrThrow(Schemas.CCDatabaseEntry.PHONE));
 
         emailView.setText(email);
         nameView.setText(name);
+        phoneView.setText(phone);
         reportingManagerView.setText(reportingManager);
 
         Cursor read1 = schoolDbHelper.read(Schemas.SchoolDatabaseEntry.UID_OF_CC, ccUID);

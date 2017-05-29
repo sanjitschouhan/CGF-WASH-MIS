@@ -5,7 +5,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
 public class DbHelper extends SQLiteOpenHelper {
-    private static final int DATABASE_VERSION = 2;
+    private static final int DATABASE_VERSION = 3;
     private static final String DATABASE_NAME = "cgf.db";
     private static final String SQL_CREATE_ENTRIES_SCHOOL =
             "CREATE TABLE " + Schemas.SchoolDatabaseEntry.TABLE_NAME + " (" +
@@ -25,6 +25,7 @@ public class DbHelper extends SQLiteOpenHelper {
             "CREATE TABLE " + Schemas.CCDatabaseEntry.TABLE_NAME + " (" +
                     Schemas.CCDatabaseEntry.UID + " TEXT PRIMARY KEY," +
                     Schemas.CCDatabaseEntry.NAME + " TEXT," +
+                    Schemas.CCDatabaseEntry.PHONE + " TEXT," +
                     Schemas.CCDatabaseEntry.EMAIL + " TEXT UNIQUE," +
                     Schemas.CCDatabaseEntry.PROJECT_COORDINATOR + " TEXT)";
 

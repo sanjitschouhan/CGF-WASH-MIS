@@ -19,6 +19,7 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.UserProfileChangeRequest;
 import com.google.firebase.storage.FileDownloadTask;
 import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageMetadata;
 import com.google.firebase.storage.StorageReference;
 
 import java.io.BufferedInputStream;
@@ -40,10 +41,12 @@ import in.collectivegood.dbsibycgf.discussion.DiscussionActivity;
 public class InitializingActivity extends AppCompatActivity {
 
     private static final String TAG = "Initializing";
-    SchoolDbHelper schoolDbHelper;
-    CCDbHelper ccDbHelper;
-    DbHelper dbHelper;
-    Intent intent;
+    private StorageReference reference;
+    private SchoolDbHelper schoolDbHelper;
+    private CCDbHelper ccDbHelper;
+    private Intent intent;
+    private ProgressDialog dialog;
+    private File file;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,11 +54,10 @@ public class InitializingActivity extends AppCompatActivity {
         setContentView(R.layout.activity_initializing);
 
         intent = new Intent(InitializingActivity.this, DiscussionActivity.class);
-        dbHelper = new DbHelper(this);
-        schoolDbHelper = new SchoolDbHelper(dbHelper);
-        ccDbHelper = new CCDbHelper(dbHelper);
+        schoolDbHelper = new SchoolDbHelper(new DbHelper(this));
+        ccDbHelper = new CCDbHelper(new DbHelper(this));
 
-        final ProgressDialog dialog = new ProgressDialog(this);
+        dialog = new ProgressDialog(this);
         dialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
         dialog.setIndeterminate(true);
         dialog.setMessage(getString(R.string.loading_data));
@@ -63,32 +65,52 @@ public class InitializingActivity extends AppCompatActivity {
         dialog.setProgressNumberFormat(null);
         dialog.setCancelable(false);
         dialog.show();
-        final File file = new File(Environment.getExternalStorageDirectory() + "/" + getString(R.string.app_name) + "/list.csv");
+
+        file = new File(Environment.getExternalStorageDirectory() + "/" + getString(R.string.app_name) + "/list.csv");
         FirebaseStorage storage = FirebaseStorage.getInstance();
-        StorageReference reference = storage.getReference("list.csv");
+        reference = storage.getReference("list.csv");
         if (file.exists()) {
-            try {
-                readFile(file);
-                dialog.dismiss();
-                setName();
-                startActivity(intent);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-            finish();
+            final long localTime = file.lastModified();
+            reference.getMetadata().addOnSuccessListener(new OnSuccessListener<StorageMetadata>() {
+                @Override
+                public void onSuccess(StorageMetadata storageMetadata) {
+                    long onlineTime = storageMetadata.getCreationTimeMillis();
+                    if (localTime < onlineTime) {
+                        downloadFile();
+                    } else {
+                        try {
+                            readFile(file);
+                            setName();
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }
+            });
         } else {
             try {
                 File folder = new File(Environment.getExternalStorageDirectory() + "/" + getString(R.string.app_name));
+                boolean mkdirs = true;
                 if (!folder.exists()) {
-                    folder.mkdirs();
+                    mkdirs = folder.mkdirs();
                 }
-                Log.d(TAG, "onCreate: Initialising");
-                file.createNewFile();
-                reference.getFile(file).addOnCompleteListener(new OnCompleteListener<FileDownloadTask.TaskSnapshot>() {
+                if (mkdirs) {
+                    if (file.createNewFile()) {
+                        downloadFile();
+                    }
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    private void downloadFile() {
+        reference.getFile(file)
+                .addOnCompleteListener(new OnCompleteListener<FileDownloadTask.TaskSnapshot>() {
                     @Override
                     public void onComplete(@NonNull Task<FileDownloadTask.TaskSnapshot> task) {
                         try {
-                            dialog.dismiss();
                             readFile(file);
                             setName();
                         } catch (IOException e) {
@@ -96,22 +118,18 @@ public class InitializingActivity extends AppCompatActivity {
                         }
                     }
                 });
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
     }
 
     private void readFile(File file) throws IOException {
         BufferedInputStream buf = new BufferedInputStream(new FileInputStream(file));
         BufferedReader reader = new BufferedReader(new InputStreamReader(buf));
-        int count = 0;
         reader.readLine();
         while (true) {
             String s = reader.readLine();
             if (s != null) {
                 String[] record = s.split(",");
                 Log.d(TAG, "onComplete: " + Arrays.toString(record));
+
                 String block = record[1];
                 String village = record[2];
                 String schoolCode = record[3];
@@ -123,30 +141,29 @@ public class InitializingActivity extends AppCompatActivity {
                 String ccEmail = record[9];
                 String ccUid = record[10];
                 String projectCoordinator = record[11];
+                String ccPhone = record[12];
+
                 SchoolRecord schoolRecord = new SchoolRecord(schoolCode, block, village,
                         schoolName, schoolEmail, schoolState, schoolDistrict, ccUid);
                 Cursor school = schoolDbHelper.read(Schemas.SchoolDatabaseEntry.CODE, schoolCode);
-                Log.d(TAG, "readFile: " + schoolRecord.toString());
                 if (school.getCount() <= 0) {
                     school.close();
                     schoolDbHelper.insert(schoolRecord);
                 }
                 school.close();
 
-                CCRecord ccRecord = new CCRecord(ccUid, ccName, ccEmail, projectCoordinator);
+                CCRecord ccRecord = new CCRecord(ccUid, ccName, ccPhone, ccEmail, projectCoordinator);
                 Cursor cc = ccDbHelper.read(Schemas.CCDatabaseEntry.UID, ccUid);
-                Log.d(TAG, "readFile: " + ccRecord.toString());
                 if (cc.getCount() <= 0) {
                     cc.close();
                     ccDbHelper.insert(ccRecord);
                 }
                 cc.close();
-                count++;
+
             } else {
                 break;
             }
         }
-        Log.d(TAG, "onComplete: " + String.valueOf(count));
         buf.close();
     }
 
@@ -154,33 +171,48 @@ public class InitializingActivity extends AppCompatActivity {
         final FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         assert user != null;
         Cursor cc = ccDbHelper.read(Schemas.CCDatabaseEntry.EMAIL, user.getEmail());
-        Log.d(TAG, "setName: " + cc.toString());
         String name = "UNKNOWN";
         if (cc.getCount() > 0) {
             cc.moveToFirst();
-            Log.d(TAG, "setName: " + cc.toString());
             name = cc.getString(cc.getColumnIndexOrThrow(Schemas.CCDatabaseEntry.NAME));
             intent = new Intent(InitializingActivity.this, CCProfileActivity.class);
+        } else {
+            cc = schoolDbHelper.read(Schemas.SchoolDatabaseEntry.EMAIL, user.getEmail());
+            if (cc.getCount() > 0) {
+                cc.moveToFirst();
+                name = cc.getString(cc.getColumnIndexOrThrow(Schemas.SchoolDatabaseEntry.NAME));
+                intent = new Intent(InitializingActivity.this, SchoolDbHelper.class);
+            }
         }
-        Log.d(TAG, "setName: " + name);
-        UserProfileChangeRequest userProfileChangeRequest
-                = new UserProfileChangeRequest.Builder()
-                .setDisplayName(name)
-                .build();
-        user.updateProfile(userProfileChangeRequest).addOnSuccessListener(new OnSuccessListener<Void>() {
-            @Override
-            public void onSuccess(Void aVoid) {
-                startActivity(intent);
-                finish();
-            }
-        }).addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull Exception e) {
-                Toast.makeText(InitializingActivity.this,
-                        e.getMessage(),
-                        Toast.LENGTH_SHORT).show();
-                finish();
-            }
-        });
+        if (user.getDisplayName() == null) {
+            Log.d(TAG, "setName: " + name);
+            UserProfileChangeRequest userProfileChangeRequest
+                    = new UserProfileChangeRequest.Builder()
+                    .setDisplayName(name)
+                    .build();
+            user.updateProfile(userProfileChangeRequest)
+                    .addOnSuccessListener(new OnSuccessListener<Void>() {
+                        @Override
+                        public void onSuccess(Void aVoid) {
+                            startActivity(intent);
+                            dialog.dismiss();
+                            finish();
+                        }
+                    })
+                    .addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+                            Toast.makeText(
+                                    InitializingActivity.this, e.getMessage(), Toast.LENGTH_SHORT
+                            ).show();
+                            dialog.dismiss();
+                            finish();
+                        }
+                    });
+        } else {
+            startActivity(intent);
+            dialog.dismiss();
+            finish();
+        }
     }
 }
