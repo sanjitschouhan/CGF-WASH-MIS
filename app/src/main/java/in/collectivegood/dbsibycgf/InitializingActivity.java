@@ -19,7 +19,6 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.UserProfileChangeRequest;
 import com.google.firebase.storage.FileDownloadTask;
 import com.google.firebase.storage.FirebaseStorage;
-import com.google.firebase.storage.StorageMetadata;
 import com.google.firebase.storage.StorageReference;
 
 import java.io.BufferedInputStream;
@@ -66,58 +65,41 @@ public class InitializingActivity extends AppCompatActivity {
         dialog.show();
         final File file = new File(Environment.getExternalStorageDirectory() + "/" + getString(R.string.app_name) + "/list.csv");
         FirebaseStorage storage = FirebaseStorage.getInstance();
-        final StorageReference reference = storage.getReference("list.csv");
-        reference.getMetadata().addOnSuccessListener(new OnSuccessListener<StorageMetadata>() {
-            @Override
-            public void onSuccess(StorageMetadata storageMetadata) {
-                long onlineUpdatedTime = storageMetadata.getUpdatedTimeMillis();
-                if (file.exists()) {
-                    long localUpdateTime = file.lastModified();
-                    Log.d(TAG, "onSuccess: " + localUpdateTime + "<" + onlineUpdatedTime);
-                    if (localUpdateTime < onlineUpdatedTime) {
-                        dbHelper.clear();
-                        reference.getFile(file).addOnCompleteListener(new OnCompleteListener<FileDownloadTask.TaskSnapshot>() {
-                            @Override
-                            public void onComplete(@NonNull Task<FileDownloadTask.TaskSnapshot> task) {
-                                try {
-                                    readFile(file);
-                                    setName();
-                                    dialog.dismiss();
-                                } catch (IOException e) {
-                                    e.printStackTrace();
-                                }
-                            }
-                        }).addOnFailureListener(new OnFailureListener() {
-                            @Override
-                            public void onFailure(@NonNull Exception e) {
-                                Toast.makeText(InitializingActivity.this,
-                                        getString(R.string.error_downloading_data),
-                                        Toast.LENGTH_SHORT).show();
-                                dialog.dismiss();
-                                finish();
-                            }
-                        });
-                    } else {
-                        dialog.dismiss();
-                        startActivity(intent);
-                        finish();
-                    }
-                } else {
-                    reference.getFile(file).addOnCompleteListener(new OnCompleteListener<FileDownloadTask.TaskSnapshot>() {
-                        @Override
-                        public void onComplete(@NonNull Task<FileDownloadTask.TaskSnapshot> task) {
-                            try {
-                                readFile(file);
-                                setName();
-                                dialog.dismiss();
-                            } catch (IOException e) {
-                                e.printStackTrace();
-                            }
-                        }
-                    });
-                }
+        StorageReference reference = storage.getReference("list.csv");
+        if (file.exists()) {
+            try {
+                readFile(file);
+                dialog.dismiss();
+                setName();
+                startActivity(intent);
+            } catch (IOException e) {
+                e.printStackTrace();
             }
-        });
+            finish();
+        } else {
+            try {
+                File folder = new File(Environment.getExternalStorageDirectory() + "/" + getString(R.string.app_name));
+                if (!folder.exists()) {
+                    folder.mkdirs();
+                }
+                Log.d(TAG, "onCreate: Initialising");
+                file.createNewFile();
+                reference.getFile(file).addOnCompleteListener(new OnCompleteListener<FileDownloadTask.TaskSnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<FileDownloadTask.TaskSnapshot> task) {
+                        try {
+                            dialog.dismiss();
+                            readFile(file);
+                            setName();
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                });
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
     }
 
     private void readFile(File file) throws IOException {
@@ -178,6 +160,7 @@ public class InitializingActivity extends AppCompatActivity {
             cc.moveToFirst();
             Log.d(TAG, "setName: " + cc.toString());
             name = cc.getString(cc.getColumnIndexOrThrow(Schemas.CCDatabaseEntry.NAME));
+            intent = new Intent(InitializingActivity.this, CCProfileActivity.class);
         }
         Log.d(TAG, "setName: " + name);
         UserProfileChangeRequest userProfileChangeRequest
