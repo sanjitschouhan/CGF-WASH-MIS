@@ -16,6 +16,8 @@ import com.google.firebase.FirebaseApp;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
+import java.util.ArrayList;
+
 import in.collectivegood.dbsibycgf.database.CheckInDbHelper;
 import in.collectivegood.dbsibycgf.database.CheckInRecord;
 import in.collectivegood.dbsibycgf.database.DbHelper;
@@ -37,6 +39,7 @@ public class CheckInSyncAdapter extends AbstractThreadedSyncAdapter {
         DatabaseReference myRef = database.getReference("check_ins");
         Cursor cursor = dbHelper.read();
 
+        final ArrayList<Integer> ids = new ArrayList<>();
         while (cursor.moveToNext()) {
             final int id = cursor.getInt(cursor.getColumnIndexOrThrow(Schemas.CheckInEntry._ID));
             final String uidOfCC = cursor.getString(cursor.getColumnIndexOrThrow(Schemas.CheckInEntry.UID_OF_CC));
@@ -48,7 +51,7 @@ public class CheckInSyncAdapter extends AbstractThreadedSyncAdapter {
                     .addOnSuccessListener(new OnSuccessListener<Void>() {
                         @Override
                         public void onSuccess(Void aVoid) {
-                            dbHelper.delete(id);
+                            ids.add(id);
                         }
                     }).addOnFailureListener(new OnFailureListener() {
                 @Override
@@ -58,5 +61,8 @@ public class CheckInSyncAdapter extends AbstractThreadedSyncAdapter {
             });
         }
         cursor.close();
+        for (int i = 0; i < ids.size(); i++) {
+            dbHelper.delete(ids.get(i));
+        }
     }
 }

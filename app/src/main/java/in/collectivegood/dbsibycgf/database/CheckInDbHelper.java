@@ -47,7 +47,7 @@ public class CheckInDbHelper {
         SQLiteDatabase db = dbHelper.getWritableDatabase();
         return db.delete(
                 Schemas.CheckInEntry.TABLE_NAME,
-                Schemas.CheckInEntry._ID + "= ? ",
+                Schemas.CheckInEntry._ID + " = ? ",
                 new String[]{String.valueOf(id)}
         );
     }

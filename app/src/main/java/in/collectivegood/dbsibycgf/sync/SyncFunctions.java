@@ -2,9 +2,7 @@ package in.collectivegood.dbsibycgf.sync;
 
 import android.accounts.Account;
 import android.accounts.AccountManager;
-import android.content.ContentResolver;
 import android.content.Context;
-import android.os.Bundle;
 
 import static android.content.Context.ACCOUNT_SERVICE;
 
@@ -21,7 +19,7 @@ public class SyncFunctions {
         AccountManager accountManager = (AccountManager) context.getSystemService(ACCOUNT_SERVICE);
         if (accountManager.addAccountExplicitly(newAccount, null, null)) {
             account = newAccount;
-            ContentResolver.addPeriodicSync(account, AUTHORITY, Bundle.EMPTY, 10 * 60);
+//            ContentResolver.addPeriodicSync(account, AUTHORITY, Bundle.EMPTY, 10 * 60);
         } else {
             account = null;
         }
