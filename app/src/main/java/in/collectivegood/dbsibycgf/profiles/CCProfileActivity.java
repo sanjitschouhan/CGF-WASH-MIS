@@ -15,11 +15,11 @@ import in.collectivegood.dbsibycgf.database.CCDbHelper;
 import in.collectivegood.dbsibycgf.database.DbHelper;
 import in.collectivegood.dbsibycgf.database.Schemas;
 import in.collectivegood.dbsibycgf.database.SchoolDbHelper;
-import in.collectivegood.dbsibycgf.discussion.DiscussionActivity;
 import in.collectivegood.dbsibycgf.gallery.GalleryMainActivity;
 
 public class CCProfileActivity extends AppCompatActivity {
 
+    private String ccUID;
     private TextView nameView;
     private TextView phoneView;
     private TextView emailView;
@@ -48,7 +48,7 @@ public class CCProfileActivity extends AppCompatActivity {
         read.moveToNext();
         String name = read.getString(read.getColumnIndexOrThrow(Schemas.CCDatabaseEntry.NAME));
         String reportingManager = read.getString(read.getColumnIndexOrThrow(Schemas.CCDatabaseEntry.PROJECT_COORDINATOR));
-        String ccUID = read.getString(read.getColumnIndexOrThrow(Schemas.CCDatabaseEntry.UID));
+        ccUID = read.getString(read.getColumnIndexOrThrow(Schemas.CCDatabaseEntry.UID));
         String phone = read.getString(read.getColumnIndexOrThrow(Schemas.CCDatabaseEntry.PHONE));
 
         emailView.setText(email);
@@ -67,8 +67,9 @@ public class CCProfileActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
-    public void openChat(View view) {
-        Intent intent = new Intent(this, DiscussionActivity.class);
+    public void openOtherCC(View view) {
+        Intent intent = new Intent(this, CCOtherActivity.class);
+        intent.putExtra("cc_uid", ccUID);
         startActivity(intent);
     }
 }

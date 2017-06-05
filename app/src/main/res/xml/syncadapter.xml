@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<sync-adapter xmlns:android="http://schemas.android.com/apk/res/android"
+    android:accountType="CGF WASH MIS"
+    android:allowParallelSyncs="false"
+    android:contentAuthority="in.collectivegood.dbsibycgf.provider"
+    android:isAlwaysSyncable="true"
+    android:supportsUploading="false"
+    android:userVisible="false" />

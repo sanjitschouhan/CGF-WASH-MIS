@@ -39,8 +39,9 @@ import in.collectivegood.dbsibycgf.database.SchoolRecord;
 import in.collectivegood.dbsibycgf.discussion.DiscussionActivity;
 import in.collectivegood.dbsibycgf.profiles.CCProfileActivity;
 
-public class InitializingActivity extends AppCompatActivity {
+import static in.collectivegood.dbsibycgf.sync.SyncFunctions.CreateSyncAccount;
 
+public class InitializingActivity extends AppCompatActivity {
     private static final String TAG = "Initializing";
     private StorageReference reference;
     private SchoolDbHelper schoolDbHelper;
@@ -191,10 +192,12 @@ public class InitializingActivity extends AppCompatActivity {
                     = new UserProfileChangeRequest.Builder()
                     .setDisplayName(name)
                     .build();
+            final String finalName = name;
             user.updateProfile(userProfileChangeRequest)
                     .addOnSuccessListener(new OnSuccessListener<Void>() {
                         @Override
                         public void onSuccess(Void aVoid) {
+                            CreateSyncAccount(InitializingActivity.this, finalName);
                             startActivity(intent);
                             dialog.dismiss();
                             finish();
@@ -211,9 +214,11 @@ public class InitializingActivity extends AppCompatActivity {
                         }
                     });
         } else {
+            CreateSyncAccount(InitializingActivity.this, name);
             startActivity(intent);
             dialog.dismiss();
             finish();
         }
     }
+
 }

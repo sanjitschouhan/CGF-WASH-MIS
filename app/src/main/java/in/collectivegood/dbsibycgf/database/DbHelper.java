@@ -5,7 +5,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
 public class DbHelper extends SQLiteOpenHelper {
-    private static final int DATABASE_VERSION = 3;
+    private static final int DATABASE_VERSION = 5;
     private static final String DATABASE_NAME = "cgf.db";
     private static final String SQL_CREATE_ENTRIES_SCHOOL =
             "CREATE TABLE " + Schemas.SchoolDatabaseEntry.TABLE_NAME + " (" +
@@ -41,6 +41,17 @@ public class DbHelper extends SQLiteOpenHelper {
     private static final String SQL_DELETE_ENTRIES_DISCUSSION =
             "DROP TABLE IF EXISTS " + Schemas.DiscussionDatabaseEntry.TABLE_NAME;
 
+    private static final String SQL_CREATE_ENTRIES_CHECK_IN =
+            "CREATE TABLE " + Schemas.CheckInEntry.TABLE_NAME + " (" +
+                    Schemas.CheckInEntry._ID + " NUMBER AUTO INCREMENT," +
+                    Schemas.CheckInEntry.UID_OF_CC + " TEXT," +
+                    Schemas.CheckInEntry.SCHOOL_CODE + " TEXT," +
+                    Schemas.CheckInEntry.START_TIME + " NUMBER," +
+                    Schemas.CheckInEntry.END_TIME + " NUMBER )";
+
+    private static final String SQL_DELETE_ENTRIES_CHECK_IN =
+            "DROP TABLE IF EXISTS " + Schemas.CheckInEntry.TABLE_NAME;
+
 
     public DbHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -51,6 +62,7 @@ public class DbHelper extends SQLiteOpenHelper {
         db.execSQL(SQL_CREATE_ENTRIES_SCHOOL);
         db.execSQL(SQL_CREATE_ENTRIES_CC);
         db.execSQL(SQL_CREATE_ENTRIES_DISCUSSION);
+        db.execSQL(SQL_CREATE_ENTRIES_CHECK_IN);
     }
 
     @Override
@@ -58,6 +70,7 @@ public class DbHelper extends SQLiteOpenHelper {
         db.execSQL(SQL_DELETE_ENTRIES_SCHOOL);
         db.execSQL(SQL_DELETE_ENTRIES_CC);
         db.execSQL(SQL_DELETE_ENTRIES_DISCUSSION);
+        db.execSQL(SQL_DELETE_ENTRIES_CHECK_IN);
         onCreate(db);
     }
 
@@ -70,6 +83,7 @@ public class DbHelper extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getWritableDatabase();
         db.execSQL(SQL_DELETE_ENTRIES_SCHOOL);
         db.execSQL(SQL_DELETE_ENTRIES_CC);
-        onCreate(db);
+        db.execSQL(SQL_CREATE_ENTRIES_SCHOOL);
+        db.execSQL(SQL_CREATE_ENTRIES_CC);
     }
 }

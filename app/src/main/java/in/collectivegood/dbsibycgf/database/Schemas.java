@@ -34,4 +34,12 @@ public final class Schemas {
         public static final String TIME = "time";
     }
 
+    public static class CheckInEntry implements BaseColumns {
+        public static final String TABLE_NAME = "check_in_database";
+        public static final String UID_OF_CC = "uid_of_cc";
+        public static final String SCHOOL_CODE = "school_code";
+        public static final String START_TIME = "start_time";
+        public static final String END_TIME = "end_time";
+    }
+
 }
