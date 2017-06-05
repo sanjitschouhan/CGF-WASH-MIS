@@ -61,7 +61,15 @@
             android:layout_height="wrap_content"
             android:layout_margin="5dp"
             android:layout_marginLeft="4dp"
-            android:text="Mandal District:"
+            android:text="Mandal "
+            android:textStyle="bold" />
+        <TextView
+            android:id="@+id/district"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"
+            android:layout_marginLeft="4dp"
+            android:text="District "
             android:textStyle="bold" />
 
         <TextView

@@ -3,7 +3,7 @@
     package="in.collectivegood.dbsibycgf">
 
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-    <!--<uses-permission android:name="android.permission.CAMERA" />-->
+    <!-- <uses-permission android:name="android.permission.CAMERA" /> -->
     <uses-permission android:name="android.permission.INTERNET" />
 
     <application
@@ -52,6 +52,7 @@
 
         <activity android:name=".SchoolActivity" />
         <activity android:name=".CCProfileActivity" />
+        <activity android:name=".calender.CalendarActivity"></activity>
     </application>
 
 </manifest>
