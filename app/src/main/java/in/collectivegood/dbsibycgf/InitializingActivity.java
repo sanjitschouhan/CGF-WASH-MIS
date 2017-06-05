@@ -37,6 +37,7 @@ import in.collectivegood.dbsibycgf.database.Schemas;
 import in.collectivegood.dbsibycgf.database.SchoolDbHelper;
 import in.collectivegood.dbsibycgf.database.SchoolRecord;
 import in.collectivegood.dbsibycgf.discussion.DiscussionActivity;
+import in.collectivegood.dbsibycgf.profiles.CCProfileActivity;
 
 public class InitializingActivity extends AppCompatActivity {
 

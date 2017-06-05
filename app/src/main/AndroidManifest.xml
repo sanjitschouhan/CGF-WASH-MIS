@@ -50,8 +50,8 @@
             android:name="com.google.firebase.messaging.default_notification_color"
             android:resource="@color/colorAccent" />
 
-        <activity android:name=".SchoolActivity" />
-        <activity android:name=".CCProfileActivity" />
+        <activity android:name=".profiles.SchoolProfileActivity" />
+        <activity android:name=".profiles.CCProfileActivity" />
         <activity android:name=".calender.CalendarActivity"></activity>
     </application>
 
