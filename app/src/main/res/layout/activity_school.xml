@@ -63,7 +63,7 @@
             android:layout_height="wrap_content"
             android:layout_margin="5dp"
             android:layout_marginLeft="4dp"
-            android:text="Mandal "
+            android:text="Mandal:"
             android:textStyle="bold" />
 
         <TextView
