@@ -28,7 +28,7 @@
                     android:id="@+id/cc_pictures"
                     android:layout_width="75sp"
                     android:layout_height="100sp"
-                    android:src="@mipmap/ic_launcher" />
+                    android:src="@drawable/default_student_image" />
 
                 <LinearLayout
                     android:layout_width="0dp"
@@ -206,7 +206,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Data"
+                        android:text="Field Data"
                         android:textSize="20sp" />
 
                 </LinearLayout>
