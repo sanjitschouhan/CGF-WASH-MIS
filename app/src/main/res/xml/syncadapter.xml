@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <sync-adapter xmlns:android="http://schemas.android.com/apk/res/android"
-    android:accountType="CGF WASH MIS"
+    android:accountType="collectivegood.in"
     android:allowParallelSyncs="false"
     android:contentAuthority="in.collectivegood.dbsibycgf.provider"
     android:isAlwaysSyncable="true"

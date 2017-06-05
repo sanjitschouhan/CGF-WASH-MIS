@@ -5,7 +5,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
 public class DbHelper extends SQLiteOpenHelper {
-    private static final int DATABASE_VERSION = 5;
+    private static final int DATABASE_VERSION = 6;
     private static final String DATABASE_NAME = "cgf.db";
     private static final String SQL_CREATE_ENTRIES_SCHOOL =
             "CREATE TABLE " + Schemas.SchoolDatabaseEntry.TABLE_NAME + " (" +
@@ -43,7 +43,7 @@ public class DbHelper extends SQLiteOpenHelper {
 
     private static final String SQL_CREATE_ENTRIES_CHECK_IN =
             "CREATE TABLE " + Schemas.CheckInEntry.TABLE_NAME + " (" +
-                    Schemas.CheckInEntry._ID + " NUMBER AUTO INCREMENT," +
+                    Schemas.CheckInEntry._ID + " INTEGER PRIMARY KEY AUTOINCREMENT," +
                     Schemas.CheckInEntry.UID_OF_CC + " TEXT," +
                     Schemas.CheckInEntry.SCHOOL_CODE + " TEXT," +
                     Schemas.CheckInEntry.START_TIME + " NUMBER," +

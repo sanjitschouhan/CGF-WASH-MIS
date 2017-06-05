@@ -1,7 +1,6 @@
 package in.collectivegood.dbsibycgf.profiles;
 
 import android.app.AlertDialog;
-import android.content.ContentResolver;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -10,7 +9,6 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.CardView;
 import android.view.View;
-import android.view.textservice.SpellCheckerInfo;
 import android.widget.Toast;
 
 import java.util.ArrayList;
@@ -23,8 +21,7 @@ import in.collectivegood.dbsibycgf.database.Schemas;
 import in.collectivegood.dbsibycgf.database.SchoolDbHelper;
 import in.collectivegood.dbsibycgf.discussion.DiscussionActivity;
 
-import static in.collectivegood.dbsibycgf.sync.SyncFunctions.AUTHORITY;
-import static in.collectivegood.dbsibycgf.sync.SyncFunctions.account;
+import static in.collectivegood.dbsibycgf.sync.SyncFunctions.Sync;
 
 public class CCOtherActivity extends AppCompatActivity {
     private String ccUid;
@@ -105,6 +102,9 @@ public class CCOtherActivity extends AppCompatActivity {
         long end_time = System.currentTimeMillis();
         CheckInRecord checkInRecord = new CheckInRecord(ccUid, schoolCode, start_time, end_time);
         checkInDbHelper.insert(checkInRecord);
+
+        Sync();
+
         SharedPreferences.Editor editor = preferences.edit();
         editor.remove("school_code");
         editor.remove("school_name");
@@ -113,9 +113,5 @@ public class CCOtherActivity extends AppCompatActivity {
         updateCheckInOptions();
         Toast.makeText(this, "Checked out of " + schoolName, Toast.LENGTH_SHORT).show();
 
-        Bundle settingsBundle = new Bundle();
-        settingsBundle.putBoolean(ContentResolver.SYNC_EXTRAS_MANUAL, true);
-        settingsBundle.putBoolean(ContentResolver.SYNC_EXTRAS_EXPEDITED, true);
-        ContentResolver.requestSync(account, AUTHORITY, settingsBundle);
     }
 }

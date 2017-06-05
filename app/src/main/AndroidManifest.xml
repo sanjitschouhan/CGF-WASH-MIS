@@ -2,6 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="in.collectivegood.dbsibycgf">
 
+    <uses-permission android:name="android.permission.GET_ACCOUNTS" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <!-- <uses-permission android:name="android.permission.CAMERA" /> -->
     <uses-permission android:name="android.permission.INTERNET" />
@@ -57,10 +58,10 @@
         <activity android:name=".profiles.CCProfileActivity" />
         <activity android:name=".calender.CalendarActivity" />
         <activity android:name=".profiles.CCOtherActivity" />
-        <service
-            android:name=".sync.AuthenticatorService">
+
+        <service android:name="in.collectivegood.dbsibycgf.sync.AuthenticatorService">
             <intent-filter>
-                <action android:name="android.accounts.AccountAuthenticator"/>
+                <action android:name="android.accounts.AccountAuthenticator" />
             </intent-filter>
             <meta-data
                 android:name="android.accounts.AccountAuthenticator"
@@ -68,14 +69,14 @@
         </service>
 
         <provider
-            android:name=".sync.StubProvider"
+            android:name="in.collectivegood.dbsibycgf.sync.StubProvider"
             android:authorities="in.collectivegood.dbsibycgf.provider"
             android:exported="false"
-            android:syncable="true"/>
+            android:syncable="true" />
 
 
         <service
-            android:name=".sync.CGFWASHSyncService"
+            android:name="in.collectivegood.dbsibycgf.sync.CGFWASHSyncService"
             android:exported="true"
             android:process=":sync">
             <intent-filter>

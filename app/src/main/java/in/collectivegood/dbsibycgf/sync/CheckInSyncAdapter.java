@@ -7,16 +7,11 @@ import android.content.Context;
 import android.content.SyncResult;
 import android.database.Cursor;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.widget.Toast;
 
-import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.FirebaseApp;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-
-import java.util.ArrayList;
 
 import in.collectivegood.dbsibycgf.database.CheckInDbHelper;
 import in.collectivegood.dbsibycgf.database.CheckInRecord;
@@ -25,11 +20,12 @@ import in.collectivegood.dbsibycgf.database.Schemas;
 
 
 public class CheckInSyncAdapter extends AbstractThreadedSyncAdapter {
+    private static final String TAG = "SyncAdapter";
     private CheckInDbHelper dbHelper;
 
     public CheckInSyncAdapter(Context context, boolean autoInitialize) {
         super(context, autoInitialize);
-        dbHelper = new CheckInDbHelper(new DbHelper(getContext()));
+        dbHelper = new CheckInDbHelper(new DbHelper(context));
     }
 
     @Override
@@ -37,9 +33,12 @@ public class CheckInSyncAdapter extends AbstractThreadedSyncAdapter {
         FirebaseApp.initializeApp(getContext());
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         DatabaseReference myRef = database.getReference("check_ins");
+
+        if (dbHelper == null)
+            dbHelper = new CheckInDbHelper(new DbHelper(getContext()));
+
         Cursor cursor = dbHelper.read();
 
-        final ArrayList<Integer> ids = new ArrayList<>();
         while (cursor.moveToNext()) {
             final int id = cursor.getInt(cursor.getColumnIndexOrThrow(Schemas.CheckInEntry._ID));
             final String uidOfCC = cursor.getString(cursor.getColumnIndexOrThrow(Schemas.CheckInEntry.UID_OF_CC));
@@ -51,18 +50,10 @@ public class CheckInSyncAdapter extends AbstractThreadedSyncAdapter {
                     .addOnSuccessListener(new OnSuccessListener<Void>() {
                         @Override
                         public void onSuccess(Void aVoid) {
-                            ids.add(id);
+                            dbHelper.delete(id);
                         }
-                    }).addOnFailureListener(new OnFailureListener() {
-                @Override
-                public void onFailure(@NonNull Exception e) {
-                    Toast.makeText(getContext(), e.getMessage(), Toast.LENGTH_SHORT).show();
-                }
-            });
+                    });
         }
         cursor.close();
-        for (int i = 0; i < ids.size(); i++) {
-            dbHelper.delete(ids.get(i));
-        }
     }
 }

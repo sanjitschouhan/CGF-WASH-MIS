@@ -1,13 +1,15 @@
 package in.collectivegood.dbsibycgf;
 
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.os.Environment;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -28,7 +30,6 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.Arrays;
 
 import in.collectivegood.dbsibycgf.database.CCDbHelper;
 import in.collectivegood.dbsibycgf.database.CCRecord;
@@ -69,26 +70,36 @@ public class InitializingActivity extends AppCompatActivity {
         dialog.show();
 
         file = new File(Environment.getExternalStorageDirectory() + "/" + getString(R.string.app_name) + "/list.csv");
+
         FirebaseStorage storage = FirebaseStorage.getInstance();
         reference = storage.getReference("list.csv");
         if (file.exists()) {
             final long localTime = file.lastModified();
-            reference.getMetadata().addOnSuccessListener(new OnSuccessListener<StorageMetadata>() {
-                @Override
-                public void onSuccess(StorageMetadata storageMetadata) {
-                    long onlineTime = storageMetadata.getCreationTimeMillis();
-                    if (localTime < onlineTime) {
-                        downloadFile();
-                    } else {
-                        try {
-                            readFile(file);
-                            setName();
-                        } catch (IOException e) {
-                            e.printStackTrace();
+            if (isNetworkAvailable()) {
+                reference.getMetadata().addOnSuccessListener(new OnSuccessListener<StorageMetadata>() {
+                    @Override
+                    public void onSuccess(StorageMetadata storageMetadata) {
+                        long onlineTime = storageMetadata.getCreationTimeMillis();
+                        if (localTime < onlineTime) {
+                            downloadFile();
+                        } else {
+                            try {
+                                readFile(file);
+                                setName();
+                            } catch (IOException e) {
+                                e.printStackTrace();
+                            }
                         }
                     }
+                });
+            } else {
+                try {
+                    readFile(file);
+                } catch (IOException e) {
+                    e.printStackTrace();
                 }
-            });
+                setName();
+            }
         } else {
             try {
                 File folder = new File(Environment.getExternalStorageDirectory() + "/" + getString(R.string.app_name));
@@ -130,7 +141,7 @@ public class InitializingActivity extends AppCompatActivity {
             String s = reader.readLine();
             if (s != null) {
                 String[] record = s.split(",");
-                Log.d(TAG, "onComplete: " + Arrays.toString(record));
+//                Log.d(TAG, "onComplete: " + Arrays.toString(record));
 
                 String block = record[1];
                 String village = record[2];
@@ -187,7 +198,7 @@ public class InitializingActivity extends AppCompatActivity {
             }
         }
         if (user.getDisplayName() == null) {
-            Log.d(TAG, "setName: " + name);
+//            Log.d(TAG, "setName: " + name);
             UserProfileChangeRequest userProfileChangeRequest
                     = new UserProfileChangeRequest.Builder()
                     .setDisplayName(name)
@@ -221,4 +232,10 @@ public class InitializingActivity extends AppCompatActivity {
         }
     }
 
+    private boolean isNetworkAvailable() {
+        ConnectivityManager connectivityManager
+                = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
+        return activeNetworkInfo != null && activeNetworkInfo.isConnected();
+    }
 }
