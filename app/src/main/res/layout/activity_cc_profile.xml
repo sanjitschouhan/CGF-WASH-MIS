@@ -153,20 +153,20 @@
             android:layout_height="match_parent">
 
             <Button
-                style="@style/Widget.AppCompat.Button.Colored"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_above="@id/check_in_btn"
-                android:layout_marginTop="20dp"
-                android:text="ACTIVITIES" />
-
-            <Button
                 android:id="@+id/check_in_btn"
                 style="@style/Widget.AppCompat.Button.Borderless"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_alignParentBottom="true"
                 android:text="CHECK IN" />
+
+            <Button
+                style="@style/Widget.AppCompat.Button.Colored"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_above="@id/check_in_btn"
+                android:layout_marginTop="20dp"
+                android:text="ACTIVITIES" />
         </RelativeLayout>
     </LinearLayout>
 
