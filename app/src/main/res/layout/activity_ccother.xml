@@ -30,8 +30,8 @@
                 android:padding="10dp">
 
                 <ImageView
-                    android:layout_width="96sp"
-                    android:layout_height="96sp"
+                    android:layout_width="64sp"
+                    android:layout_height="64sp"
                     android:src="@drawable/note" />
 
                 <TextView
@@ -61,8 +61,8 @@
                 android:padding="10dp">
 
                 <ImageView
-                    android:layout_width="96sp"
-                    android:layout_height="96sp"
+                    android:layout_width="64sp"
+                    android:layout_height="64sp"
                     android:src="@drawable/note" />
 
                 <TextView
@@ -91,8 +91,8 @@
                 android:padding="10dp">
 
                 <ImageView
-                    android:layout_width="96sp"
-                    android:layout_height="96sp"
+                    android:layout_width="64sp"
+                    android:layout_height="64sp"
                     android:src="@drawable/person" />
 
                 <TextView
@@ -121,8 +121,8 @@
                 android:padding="10dp">
 
                 <ImageView
-                    android:layout_width="96sp"
-                    android:layout_height="96sp"
+                    android:layout_width="64sp"
+                    android:layout_height="64sp"
                     android:src="@drawable/chat" />
 
                 <TextView

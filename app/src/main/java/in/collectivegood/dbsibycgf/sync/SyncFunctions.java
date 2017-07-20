@@ -24,7 +24,7 @@ public class SyncFunctions {
             ContentResolver.addPeriodicSync(account, AUTHORITY, Bundle.EMPTY, 60);
             ContentResolver.setSyncAutomatically(account, AUTHORITY, true);
         } else {
-            account = accountManager.getAccountsByType(ACCOUNT_TYPE)[0];
+            account = null;
         }
         mResolver = context.getContentResolver();
         /*

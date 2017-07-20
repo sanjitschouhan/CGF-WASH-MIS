@@ -80,6 +80,7 @@
                 <TextView
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
+                    android:layout_gravity="end"
                     android:layout_weight="1"
                     android:text="No of School"
                     android:textAlignment="textEnd" />
@@ -106,6 +107,7 @@
                     style="@style/Base.TextAppearance.AppCompat.Large"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
+                    android:layout_gravity="end"
                     android:layout_weight="1"
                     android:textAlignment="textEnd"
                     tools:text="10" />
@@ -141,8 +143,8 @@
                     android:padding="10dp">
 
                     <ImageView
-                        android:layout_width="96sp"
-                        android:layout_height="96sp"
+                        android:layout_width="64sp"
+                        android:layout_height="64sp"
                         android:src="@drawable/camera" />
 
                     <TextView
@@ -170,8 +172,8 @@
                     android:padding="10dp">
 
                     <ImageView
-                        android:layout_width="96sp"
-                        android:layout_height="96sp"
+                        android:layout_width="64sp"
+                        android:layout_height="64sp"
                         android:src="@drawable/calendar" />
 
                     <TextView
@@ -182,6 +184,7 @@
 
                 </LinearLayout>
             </android.support.v7.widget.CardView>
+
 
             <android.support.v7.widget.CardView
                 android:layout_width="0dp"
@@ -199,18 +202,19 @@
                     android:padding="10dp">
 
                     <ImageView
-                        android:layout_width="96sp"
-                        android:layout_height="96sp"
+                        android:layout_width="64sp"
+                        android:layout_height="64sp"
                         android:src="@drawable/note" />
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Field Data"
+                        android:text="SVP"
                         android:textSize="20sp" />
 
                 </LinearLayout>
             </android.support.v7.widget.CardView>
+
         </LinearLayout>
 
         <LinearLayout
@@ -240,14 +244,14 @@
                         android:padding="10dp">
 
                         <ImageView
-                            android:layout_width="96sp"
-                            android:layout_height="96sp"
+                            android:layout_width="64sp"
+                            android:layout_height="64sp"
                             android:src="@drawable/note" />
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="SVP"
+                            android:text="Field Data"
                             android:textSize="20sp" />
 
                     </LinearLayout>
@@ -258,8 +262,8 @@
                     android:layout_height="wrap_content"
                     android:layout_margin="5dp"
                     android:layout_weight="1"
-                    android:onClick="openOtherCC"
                     android:elevation="3dp"
+                    android:onClick="openOtherCC"
                     app:cardCornerRadius="2dp">
 
                     <LinearLayout
@@ -270,8 +274,8 @@
                         android:padding="10dp">
 
                         <ImageView
-                            android:layout_width="96sp"
-                            android:layout_height="96sp"
+                            android:layout_width="64sp"
+                            android:layout_height="64sp"
                             android:src="@drawable/person" />
 
                         <TextView

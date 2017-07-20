@@ -39,7 +39,6 @@ import java.util.ArrayList;
 
 import in.collectivegood.dbsibycgf.R;
 
-@SuppressWarnings("VisibleForTests")
 public class GalleryMainActivity extends AppCompatActivity {
 
     private static final int REQUEST_CODE_IMAGE = 1;
@@ -170,6 +169,7 @@ public class GalleryMainActivity extends AppCompatActivity {
                 .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                     @Override
                     public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                        //noinspection VisibleForTests
                         firebaseDatabase.getReference(path).setValue(taskSnapshot.getDownloadUrl().toString()).addOnCompleteListener(new OnCompleteListener<Void>() {
                             @Override
                             public void onComplete(@NonNull Task<Void> task) {
