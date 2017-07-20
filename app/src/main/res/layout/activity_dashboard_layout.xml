@@ -4,8 +4,14 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:gravity="center"
     tools:context="in.collectivegood.dbsibycgf.activities_dashboard.Dashboard_layout">
-<GridView
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"></GridView>
+
+    <GridView
+        android:id="@+id/gridview"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:numColumns="3">
+
+    </GridView>
 </LinearLayout>
