@@ -58,33 +58,36 @@
         <activity android:name=".calender.CalendarActivity" />
         <activity android:name=".profiles.CCOtherActivity" />
 
-        <service android:name="in.collectivegood.dbsibycgf.sync.AuthenticatorService">
+        <service android:name=".sync.AuthenticatorService">
             <intent-filter>
                 <action android:name="android.accounts.AccountAuthenticator" />
             </intent-filter>
+
             <meta-data
                 android:name="android.accounts.AccountAuthenticator"
                 android:resource="@xml/authenticator" />
         </service>
 
         <provider
-            android:name="in.collectivegood.dbsibycgf.sync.StubProvider"
+            android:name=".sync.StubProvider"
             android:authorities="in.collectivegood.dbsibycgf.provider"
             android:exported="false"
             android:syncable="true" />
 
-
         <service
-            android:name="in.collectivegood.dbsibycgf.sync.CGFWASHSyncService"
+            android:name=".sync.CGFWASHSyncService"
             android:exported="true"
             android:process=":sync">
             <intent-filter>
                 <action android:name="android.content.SyncAdapter" />
             </intent-filter>
+
             <meta-data
                 android:name="android.content.SyncAdapter"
                 android:resource="@xml/syncadapter" />
         </service>
+
+        <activity android:name=".LayoutMisActivity"></activity>
     </application>
 
 </manifest>

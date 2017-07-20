@@ -2,6 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
+      <module fileurl="file://$PROJECT_DIR$/CGF-WASH-MIS.iml" filepath="$PROJECT_DIR$/CGF-WASH-MIS.iml" />
       <module fileurl="file://$PROJECT_DIR$/DBSIbyCGF.iml" filepath="$PROJECT_DIR$/DBSIbyCGF.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
     </modules>
