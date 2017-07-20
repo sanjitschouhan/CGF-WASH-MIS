@@ -118,42 +118,56 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_margin="2dp"
+        android:layout_margin="10dp"
         android:orientation="vertical">
+
         <TextView
+            style="@style/TextAppearance.AppCompat.Large"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="District :"
-            android:textSize="30sp"/>
+            android:text="District :" />
+
         <TextView
+            style="@style/TextAppearance.AppCompat.Large"
             android:layout_width="match_parent"
-            android:layout_marginTop="20dp"
             android:layout_height="wrap_content"
-            android:text="Mandals :"
-            android:textSize="30sp"/>
+            android:layout_marginTop="20dp"
+            android:text="Mandals :" />
+
         <TextView
+            style="@style/TextAppearance.AppCompat.Large"
             android:layout_width="match_parent"
-            android:layout_marginTop="20dp"
             android:layout_height="wrap_content"
-            android:text="No of Schools:"
-            android:textSize="30sp"/>
+            android:layout_marginTop="20dp"
+            android:text="No of Schools:" />
+
         <TextView
-            android:layout_width="match_parent"
-            android:layout_marginTop="20dp"
-            android:layout_height="wrap_content"
-            android:text="list of schools"
-            android:textSize="20sp"/>
-        <Button
+            style="@style/TextAppearance.AppCompat.Large"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
-            android:text="ACTIVITIES"
-            android:background="#db1a81e9"/>
-        <Button
+            android:text="list of schools" />
+
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
-            android:text="CHECK IN"
-            android:background="#db1a81e9"/>
+            android:layout_height="match_parent">
+
+            <Button
+                style="@style/Widget.AppCompat.Button.Colored"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_above="@id/check_in_btn"
+                android:layout_marginTop="20dp"
+                android:text="ACTIVITIES" />
+
+            <Button
+                android:id="@+id/check_in_btn"
+                style="@style/Widget.AppCompat.Button.Borderless"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:text="CHECK IN" />
+        </RelativeLayout>
     </LinearLayout>
+
 </LinearLayout>
