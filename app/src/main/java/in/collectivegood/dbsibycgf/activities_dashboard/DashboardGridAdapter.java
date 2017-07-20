@@ -15,12 +15,8 @@ import java.util.ArrayList;
 
 import in.collectivegood.dbsibycgf.R;
 
-/**
- * Created by hp on 7/20/2017.
- */
-
-public class gridadapter extends ArrayAdapter<griditem> {
-    public gridadapter(@NonNull Context context, @IdRes ArrayList<griditem> textViewResourceId) {
+public class DashboardGridAdapter extends ArrayAdapter<GridItem> {
+    public DashboardGridAdapter(@NonNull Context context, @IdRes ArrayList<GridItem> textViewResourceId) {
         super(context, 0, textViewResourceId);
     }
 ImageView imageView;
@@ -32,11 +28,11 @@ ImageView imageView;
         if(view==null){
             view=(LayoutInflater.from(getContext())).inflate(R.layout.griditem,null);
         }
-        griditem griditem=getItem(position);
+        GridItem GridItem =getItem(position);
         imageView=(ImageView) view.findViewById(R.id.imageforgrid);
         textView=(TextView)view.findViewById(R.id.textforgrid);
-        imageView.setImageResource(griditem.getImage());
-        textView.setText(griditem.getText());
+        imageView.setImageResource(GridItem.getImage());
+        textView.setText(GridItem.getText());
         return view;
 
     }

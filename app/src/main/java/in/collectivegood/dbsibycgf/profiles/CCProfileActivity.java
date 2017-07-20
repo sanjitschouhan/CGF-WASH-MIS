@@ -11,7 +11,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
 import in.collectivegood.dbsibycgf.R;
-import in.collectivegood.dbsibycgf.activities_dashboard.Dashboard_layout;
+import in.collectivegood.dbsibycgf.activities_dashboard.DashboardLayout;
 import in.collectivegood.dbsibycgf.calender.CalendarActivity;
 import in.collectivegood.dbsibycgf.database.CCDbHelper;
 import in.collectivegood.dbsibycgf.database.DbHelper;
@@ -81,7 +81,7 @@ public class CCProfileActivity extends AppCompatActivity {
     }
 
     public void activityscreenopen(View view) {
-        Intent intent=new Intent(this, Dashboard_layout.class);
+        Intent intent=new Intent(this, DashboardLayout.class);
         startActivity(intent);
     }
 }

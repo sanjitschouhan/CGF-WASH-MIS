@@ -57,7 +57,7 @@
         <activity android:name=".profiles.CCProfileActivity" />
         <activity android:name=".calender.CalendarActivity" />
         <activity android:name=".profiles.CCOtherActivity" />
-        <activity android:name=".activities_dashboard.Dashboard_layout" />
+        <activity android:name=".activities_dashboard.DashboardLayout" />
 
         <service android:name="in.collectivegood.dbsibycgf.sync.AuthenticatorService">
             <intent-filter>
