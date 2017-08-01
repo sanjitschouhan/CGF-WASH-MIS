@@ -11,7 +11,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
 import in.collectivegood.dbsibycgf.R;
-import in.collectivegood.dbsibycgf.activities_dashboard.DashboardActivity;
+import in.collectivegood.dbsibycgf.dashboard.DashboardActivity;
 import in.collectivegood.dbsibycgf.database.CCDbHelper;
 import in.collectivegood.dbsibycgf.database.DbHelper;
 import in.collectivegood.dbsibycgf.database.Schemas;

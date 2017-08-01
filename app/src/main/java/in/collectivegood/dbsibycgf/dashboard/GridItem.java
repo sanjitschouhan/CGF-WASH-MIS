@@ -1,4 +1,4 @@
-package in.collectivegood.dbsibycgf.activities_dashboard;
+package in.collectivegood.dbsibycgf.dashboard;
 
 class GridItem {
     private int image;

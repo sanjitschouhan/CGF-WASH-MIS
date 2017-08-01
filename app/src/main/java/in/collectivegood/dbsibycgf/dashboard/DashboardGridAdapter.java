@@ -1,4 +1,4 @@
-package in.collectivegood.dbsibycgf.activities_dashboard;
+package in.collectivegood.dbsibycgf.dashboard;
 
 import android.content.Context;
 import android.support.annotation.IdRes;

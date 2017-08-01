@@ -1,4 +1,4 @@
-package in.collectivegood.dbsibycgf.activities_dashboard;
+package in.collectivegood.dbsibycgf.dashboard;
 
 import android.content.Intent;
 import android.os.Bundle;
