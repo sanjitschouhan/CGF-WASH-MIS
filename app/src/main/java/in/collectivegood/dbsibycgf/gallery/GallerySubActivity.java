@@ -29,11 +29,13 @@ import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FileDownloadTask;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
@@ -45,13 +47,16 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 import in.collectivegood.dbsibycgf.R;
+import in.collectivegood.dbsibycgf.support.UserTypes;
 
 public class GallerySubActivity extends AppCompatActivity {
     private static final int REQUEST_CODE_IMAGE = 1;
+    private String name;
     private GalleryAdapter adapter;
     private FirebaseDatabase firebaseDatabase;
     private ArrayList<String> list;
     private RecyclerView recyclerView;
+    private boolean deleting = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -71,6 +76,7 @@ public class GallerySubActivity extends AppCompatActivity {
                 findViewById(R.id.empty).setVisibility(View.GONE);
                 if (list.size() == 0)
                     findViewById(R.id.empty2).setVisibility(View.VISIBLE);
+
             }
         }, 5000);
 
@@ -79,7 +85,7 @@ public class GallerySubActivity extends AppCompatActivity {
         recyclerView.setAdapter(adapter);
 
         //noinspection ConstantConditions
-        final String name = getIntent().getExtras().getString("name").toLowerCase();
+        name = getIntent().getExtras().getString("name").toLowerCase();
         final DatabaseReference gallery = firebaseDatabase.getReference("gallery").child(name);
 
         gallery.addChildEventListener(new ChildEventListener() {
@@ -98,8 +104,13 @@ public class GallerySubActivity extends AppCompatActivity {
 
             @Override
             public void onChildRemoved(DataSnapshot dataSnapshot) {
-                list.remove(name + "/" + dataSnapshot.getKey());
-                adapter.notifyDataSetChanged();
+                if (!deleting) {
+                    list.remove(name + "/" + dataSnapshot.getKey());
+                    adapter.notifyDataSetChanged();
+                    if (list.size() == 0) {
+                        findViewById(R.id.empty2).setVisibility(View.VISIBLE);
+                    }
+                }
             }
 
             @Override
@@ -119,7 +130,30 @@ public class GallerySubActivity extends AppCompatActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.gallery_sub, menu);
+        adminOptions(menu);
         return true;
+    }
+
+    private void adminOptions(final Menu menu) {
+        FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
+        if (currentUser != null) {
+            //noinspection ConstantConditions
+            final DatabaseReference user_type = FirebaseDatabase.getInstance().getReference("user_types").child(currentUser.getEmail().replaceAll("\\.", "(dot)"));
+            user_type.addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(DataSnapshot dataSnapshot) {
+                    String value = dataSnapshot.getValue(String.class);
+                    if (value.equals(UserTypes.USER_TYPE_ADMIN)) {
+                        menu.findItem(R.id.menu_gallery_sub_delete_all).setVisible(true);
+                    }
+                }
+
+                @Override
+                public void onCancelled(DatabaseError databaseError) {
+
+                }
+            });
+        }
     }
 
     @Override
@@ -127,9 +161,60 @@ public class GallerySubActivity extends AppCompatActivity {
         if (item.getItemId() == R.id.menu_gallery_sub_download_all) {
             downloadAll();
             return true;
+        } else if (item.getItemId() == R.id.menu_gallery_sub_delete_all) {
+            deleteAll();
+            return true;
         } else {
             return super.onOptionsItemSelected(item);
         }
+    }
+
+    private void deleteAll() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle(R.string.delete_prompt_title)
+                .setMessage(R.string.delete_prompt_message)
+                .setNegativeButton(R.string.cancel, null)
+                .setPositiveButton(R.string.delete, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        deleteAllPictures();
+                    }
+                });
+
+        if (list.size() == 0) {
+            Toast.makeText(this, R.string.no_photos_to_delete, Toast.LENGTH_SHORT).show();
+        } else {
+            builder.show();
+        }
+    }
+
+    private void deleteAllPictures() {
+        final ProgressDialog dialog = new ProgressDialog(this);
+        dialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
+        dialog.setMessage(getString(R.string.deleting_photos));
+        dialog.setCancelable(false);
+        dialog.setProgress(0);
+        dialog.setMax(list.size());
+        dialog.show();
+        deleting = true;
+        for (final String fileName : list) {
+            FirebaseDatabase.getInstance().getReference("gallery").child(fileName).removeValue()
+                    .addOnSuccessListener(new OnSuccessListener<Void>() {
+                        @Override
+                        public void onSuccess(Void aVoid) {
+                            dialog.setProgress(dialog.getProgress() + 1);
+                            if (dialog.getProgress() == dialog.getMax()) {
+                                dialog.dismiss();
+                                Toast.makeText(GallerySubActivity.this, R.string.deleted, Toast.LENGTH_SHORT).show();
+                            }
+                        }
+                    });
+            FirebaseStorage.getInstance().getReference("gallery").child(fileName + ".jpeg").delete();
+        }
+        findViewById(R.id.empty2).setVisibility(View.VISIBLE);
+        list.clear();
+        deleting = false;
+        adapter.notifyDataSetChanged();
     }
 
     private void downloadAll() {
@@ -171,6 +256,10 @@ public class GallerySubActivity extends AppCompatActivity {
                     dialog.dismiss();
                 }
             }
+        }
+        if (list.size() == 0) {
+            dialog.dismiss();
+            Toast.makeText(this, R.string.no_photos_to_download, Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -293,4 +382,5 @@ public class GallerySubActivity extends AppCompatActivity {
                 });
 
     }
+
 }

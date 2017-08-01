@@ -3,7 +3,13 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
         android:id="@+id/menu_gallery_sub_download_all"
-        android:icon="@android:drawable/stat_sys_download_done"
+        android:icon="@android:drawable/stat_sys_download"
         android:title="@string/download_all"
-        app:showAsAction="withText|always" />
+        app:showAsAction="withText|ifRoom" />
+    <item
+        android:id="@+id/menu_gallery_sub_delete_all"
+        android:icon="@android:drawable/ic_menu_delete"
+        android:title="@string/delete_all"
+        android:visible="false"
+        app:showAsAction="ifRoom|withText" />
 </menu>

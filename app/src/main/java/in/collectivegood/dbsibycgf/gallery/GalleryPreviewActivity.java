@@ -15,6 +15,7 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.firebase.ui.storage.images.FirebaseImageLoader;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.storage.FileDownloadTask;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
@@ -24,9 +25,10 @@ import java.io.File;
 import in.collectivegood.dbsibycgf.R;
 
 public class GalleryPreviewActivity extends AppCompatActivity {
-    ImageView imageView;
-    StorageReference reference;
-    String url;
+    private static final String TAG = "gallery_preview_activity";
+    private ImageView imageView;
+    private StorageReference reference;
+    private String url;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,6 +38,8 @@ public class GalleryPreviewActivity extends AppCompatActivity {
         imageView = (ImageView) findViewById(R.id.preview_image);
 
         url = getIntent().getExtras().getString("url");
+        System.out.println(url);
+        System.out.println(url.split("\\.")[0]);
 
         reference = FirebaseStorage.getInstance().getReference(url);
         File file = getFile();
@@ -43,8 +47,8 @@ public class GalleryPreviewActivity extends AppCompatActivity {
             Glide.with(this)
                     .load(file)
                     .into(imageView);
-            Button downloadButton = (Button) findViewById(R.id.download_button);
-            downloadButton.setText("Downloaded");
+            Button downloadButton = (Button) findViewById(R.id.btn_download);
+            downloadButton.setText(R.string.downloaded);
             downloadButton.setEnabled(false);
         } else {
             Glide.with(this)
@@ -110,5 +114,11 @@ public class GalleryPreviewActivity extends AppCompatActivity {
             }
         }
         return file;
+    }
+
+    public void deletePicture(View view) {
+        FirebaseDatabase.getInstance().getReference(url.split("\\.")[0]).removeValue();
+        reference.delete();
+        finish();
     }
 }

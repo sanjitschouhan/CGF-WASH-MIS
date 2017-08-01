@@ -64,6 +64,7 @@ public class GalleryMainActivity extends AppCompatActivity {
                 @Override
                 public void onDataChange(DataSnapshot dataSnapshot) {
                     String value = dataSnapshot.getValue(String.class);
+                    user_type.removeEventListener(this);
                     if (value.equals(UserTypes.USER_TYPE_ADMIN)) {
                         InitialiseMainGallery();
                     } else {
@@ -211,11 +212,11 @@ public class GalleryMainActivity extends AppCompatActivity {
                         + "/" + System.currentTimeMillis();
         StorageReference storageReference = firebaseStorage.getReference(path + ".jpeg");
 
-        int byteCount = bitmap.getByteCount() / 1024 / 1024;
+        int byteCount = bitmap.getByteCount() / 1024;
 
         int quality = 100;
-        if (byteCount > 2) {
-            quality = 200 / byteCount;
+        if (byteCount > 100) {
+            quality = 100 / byteCount;
         }
 
         ByteArrayOutputStream baos = new ByteArrayOutputStream();

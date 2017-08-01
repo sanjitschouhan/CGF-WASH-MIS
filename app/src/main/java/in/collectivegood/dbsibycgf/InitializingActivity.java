@@ -103,6 +103,7 @@ public class InitializingActivity extends AppCompatActivity {
                 if (!found) {
                     databaseReference.child(current_key).setValue(UserTypes.USER_TYPE_CC);
                 }
+                databaseReference.removeEventListener(this);
                 proceedWithLoading();
             }
 

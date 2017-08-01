@@ -1,30 +1,30 @@
 package in.collectivegood.dbsibycgf.activities_dashboard;
 
-public class GridItem {
+class GridItem {
     private int image;
     private String text;
     private Class className;
 
-    public Class getClassName() {
-        return className;
-    }
-
-    public GridItem(int image, String text, Class className) {
+    GridItem(int image, String text, Class className) {
         this.image = image;
         this.text = text;
         this.className = className;
     }
 
-    public GridItem(int image, String text) {
+    GridItem(int image, String text) {
         this.image = image;
         this.text = text;
     }
 
-    public int getImage() {
+    Class getClassName() {
+        return className;
+    }
+
+    int getImage() {
         return image;
     }
 
-    public String getText() {
+    String getText() {
         return text;
     }
 }
