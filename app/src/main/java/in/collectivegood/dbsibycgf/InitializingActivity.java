@@ -23,6 +23,11 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.UserProfileChangeRequest;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FileDownloadTask;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageMetadata;
@@ -43,6 +48,7 @@ import in.collectivegood.dbsibycgf.database.SchoolDbHelper;
 import in.collectivegood.dbsibycgf.database.SchoolRecord;
 import in.collectivegood.dbsibycgf.discussion.DiscussionActivity;
 import in.collectivegood.dbsibycgf.profiles.CCProfileActivity;
+import in.collectivegood.dbsibycgf.support.UserTypes;
 
 import static in.collectivegood.dbsibycgf.sync.SyncFunctions.CreateSyncAccount;
 
@@ -74,6 +80,8 @@ public class InitializingActivity extends AppCompatActivity {
         dialog.setCancelable(false);
         dialog.show();
 
+        setUserType();
+
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED &&
                 ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
             load();
@@ -82,6 +90,26 @@ public class InitializingActivity extends AppCompatActivity {
                     new String[]{Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE},
                     PERMISSIONS_REQUEST_READ_WRITE_EXTERNAL_STORAGE);
         }
+    }
+
+    private void setUserType() {
+        DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("user_types");
+        //noinspection ConstantConditions
+        final DatabaseReference userType = databaseReference.child(FirebaseAuth.getInstance().getCurrentUser().getEmail());
+
+        userType.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                if (dataSnapshot == null) {
+                    userType.setValue(UserTypes.USER_TYPE_CC);
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
     }
 
     @Override
