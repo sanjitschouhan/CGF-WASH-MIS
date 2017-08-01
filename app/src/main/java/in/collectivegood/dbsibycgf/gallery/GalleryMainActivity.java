@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
@@ -24,11 +25,13 @@ import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
@@ -38,6 +41,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 import in.collectivegood.dbsibycgf.R;
+import in.collectivegood.dbsibycgf.support.UserTypes;
 
 public class GalleryMainActivity extends AppCompatActivity {
 
@@ -52,8 +56,43 @@ public class GalleryMainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_gallery_main);
 
-        GridView gridView = (GridView) findViewById(R.id.gallery_cc_list);
+        FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
+        if (currentUser != null) {
+            //noinspection ConstantConditions
+            final DatabaseReference user_type = FirebaseDatabase.getInstance().getReference("user_types").child(currentUser.getEmail().replaceAll("\\.", "(dot)"));
+            user_type.addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(DataSnapshot dataSnapshot) {
+                    String value = dataSnapshot.getValue(String.class);
+                    if (value.equals(UserTypes.USER_TYPE_ADMIN)) {
+                        InitialiseMainGallery();
+                    } else {
+                        ViewGallery();
+                    }
+                }
+
+                @Override
+                public void onCancelled(DatabaseError databaseError) {
+
+                }
+            });
+        }
+
+    }
+
+    private void ViewGallery() {
+        //noinspection ConstantConditions
+        String name = FirebaseAuth.getInstance().getCurrentUser().getDisplayName().toLowerCase();
+        Intent intent = new Intent(GalleryMainActivity.this, GallerySubActivity.class);
+        intent.putExtra("name", name);
+        startActivity(intent);
+        finish();
+    }
+
+    private void InitialiseMainGallery() {
+        final GridView gridView = (GridView) findViewById(R.id.gallery_cc_list);
         gridView.setEmptyView(findViewById(R.id.empty));
+
         list = new ArrayList<>();
         adapter = new ArrayAdapter<>(this, R.layout.gallery_cc, R.id.gallery_cc_name, list);
         gridView.setAdapter(adapter);
@@ -62,6 +101,16 @@ public class GalleryMainActivity extends AppCompatActivity {
         firebaseDatabase = FirebaseDatabase.getInstance();
 
         DatabaseReference gallery = firebaseDatabase.getReference("gallery");
+
+        Handler handler = new Handler();
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                gridView.setEmptyView(findViewById(R.id.empty2));
+                findViewById(R.id.empty).setVisibility(View.GONE);
+            }
+        }, 5000);
+
         gallery.addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {
@@ -154,6 +203,7 @@ public class GalleryMainActivity extends AppCompatActivity {
         dialog.setCancelable(false);
         dialog.show();
 
+        //noinspection ConstantConditions
         final String path =
                 "gallery/" +
                         FirebaseAuth.getInstance().getCurrentUser()
@@ -161,8 +211,15 @@ public class GalleryMainActivity extends AppCompatActivity {
                         + "/" + System.currentTimeMillis();
         StorageReference storageReference = firebaseStorage.getReference(path + ".jpeg");
 
+        int byteCount = bitmap.getByteCount() / 1024 / 1024;
+
+        int quality = 100;
+        if (byteCount > 2) {
+            quality = 200 / byteCount;
+        }
+
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
+        bitmap.compress(Bitmap.CompressFormat.JPEG, quality, baos);
         byte[] data = baos.toByteArray();
 
         storageReference.putBytes(data)

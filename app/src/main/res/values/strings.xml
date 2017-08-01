@@ -29,4 +29,13 @@
     <string name="picture_saved">Picture Saved</string>
     <string name="cannot_create_file">Cannot Create File</string>
     <string name="error_downloading_data">Error downloading data, Please check your internet connection</string>
+    <string name="no_of_schools">No of Schools:</string>
+    <string name="district">District:</string>
+    <string name="mandals">Mandals:</string>
+    <string name="check_in">CHECK IN</string>
+    <string name="activities">ACTIVITIES</string>
+    <string name="list_of_schools">list of schools</string>
+    <string name="uid">UID</string>
+    <string name="reporting_manager">Reporting Manager</string>
+    <string name="no_data_found">No Data Found</string>
 </resources>

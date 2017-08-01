@@ -53,7 +53,7 @@ import in.collectivegood.dbsibycgf.support.UserTypes;
 import static in.collectivegood.dbsibycgf.sync.SyncFunctions.CreateSyncAccount;
 
 public class InitializingActivity extends AppCompatActivity {
-    private static final String TAG = "Initializing";
+    private static final String TAG = "Activity_Initializing";
     private static final int PERMISSIONS_REQUEST_READ_WRITE_EXTERNAL_STORAGE = 1;
     private StorageReference reference;
     private SchoolDbHelper schoolDbHelper;
@@ -81,7 +81,39 @@ public class InitializingActivity extends AppCompatActivity {
         dialog.show();
 
         setUserType();
+    }
 
+    private void setUserType() {
+        final DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("user_types");
+        //noinspection ConstantConditions
+        final String current_key = FirebaseAuth.getInstance().getCurrentUser().getEmail().replaceAll("\\.", "(dot)");
+
+        databaseReference.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                Iterable<DataSnapshot> children = dataSnapshot.getChildren();
+                boolean found = false;
+                for (DataSnapshot child : children) {
+                    String key = child.getKey();
+                    if (key.equals(current_key)) {
+                        found = true;
+                        break;
+                    }
+                }
+                if (!found) {
+                    databaseReference.child(current_key).setValue(UserTypes.USER_TYPE_CC);
+                }
+                proceedWithLoading();
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+    }
+
+    private void proceedWithLoading() {
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED &&
                 ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
             load();
@@ -90,26 +122,6 @@ public class InitializingActivity extends AppCompatActivity {
                     new String[]{Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE},
                     PERMISSIONS_REQUEST_READ_WRITE_EXTERNAL_STORAGE);
         }
-    }
-
-    private void setUserType() {
-        DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("user_types");
-        //noinspection ConstantConditions
-        final DatabaseReference userType = databaseReference.child(FirebaseAuth.getInstance().getCurrentUser().getEmail());
-
-        userType.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                if (dataSnapshot == null) {
-                    userType.setValue(UserTypes.USER_TYPE_CC);
-                }
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-
-            }
-        });
     }
 
     @Override

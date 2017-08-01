@@ -38,7 +38,7 @@ public class DashboardLayout extends AppCompatActivity {
         gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Class aClass = dashboardItems.get(position).getClass();
+                Class aClass = dashboardItems.get(position).getClassName();
                 if (aClass != null) {
                     Intent intent = new Intent(DashboardLayout.this, aClass);
                     startActivity(intent);

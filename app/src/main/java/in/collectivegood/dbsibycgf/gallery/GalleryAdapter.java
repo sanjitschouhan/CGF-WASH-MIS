@@ -54,6 +54,7 @@ public class GalleryAdapter extends RecyclerView.Adapter<ViewHolder> {
                     .using(new FirebaseImageLoader())
                     .load(reference)
                     .diskCacheStrategy(DiskCacheStrategy.RESULT)
+                    .thumbnail((float) 0.01)
                     .into(holder.imageView);
         }
         holder.url = url;

@@ -12,76 +12,102 @@ import com.google.firebase.auth.FirebaseUser;
 
 import in.collectivegood.dbsibycgf.R;
 import in.collectivegood.dbsibycgf.activities_dashboard.DashboardLayout;
-import in.collectivegood.dbsibycgf.calender.CalendarActivity;
 import in.collectivegood.dbsibycgf.database.CCDbHelper;
 import in.collectivegood.dbsibycgf.database.DbHelper;
 import in.collectivegood.dbsibycgf.database.Schemas;
 import in.collectivegood.dbsibycgf.database.SchoolDbHelper;
-import in.collectivegood.dbsibycgf.gallery.GalleryMainActivity;
 
 public class CCProfileActivity extends AppCompatActivity {
 
+    private int noOfSchools;
+    private String mandal;
+    private String district;
+    private String email;
+    private String name;
+    private String reportingManager;
+    private String phone;
     private String ccUID;
     private TextView nameView;
     private TextView phoneView;
     private TextView emailView;
-    private CCDbHelper ccDbHelper;
-    private SchoolDbHelper schoolDbHelper;
     private TextView reportingManagerView;
     private TextView noOfSchoolsView;
+    private TextView mandalView;
+    private TextView districtView;
+    private TextView uidView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_cc_profile);
 
-        nameView = (TextView) findViewById(R.id.cc_name);
-        phoneView = (TextView) findViewById(R.id.cc_phone);
-        emailView = (TextView) findViewById(R.id.cc_email);
-        reportingManagerView = (TextView) findViewById(R.id.cc_reporting_manager);
-        noOfSchoolsView = (TextView) findViewById(R.id.cc_no_of_schools);
+        getSupportActionBar().setElevation(0);
 
-        FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
-        String email = currentUser.getEmail();
-
-        ccDbHelper = new CCDbHelper(new DbHelper(this));
-        schoolDbHelper = new SchoolDbHelper(new DbHelper(this));
-        Cursor read = ccDbHelper.read(Schemas.CCDatabaseEntry.EMAIL, email);
-        read.moveToNext();
-        String name = read.getString(read.getColumnIndexOrThrow(Schemas.CCDatabaseEntry.NAME));
-        String reportingManager = read.getString(read.getColumnIndexOrThrow(Schemas.CCDatabaseEntry.PROJECT_COORDINATOR));
-        ccUID = read.getString(read.getColumnIndexOrThrow(Schemas.CCDatabaseEntry.UID));
-        String phone = read.getString(read.getColumnIndexOrThrow(Schemas.CCDatabaseEntry.PHONE));
+        init();
+        getCCData();
+        getSchoolData();
 
         emailView.setText(email);
         nameView.setText(name);
         phoneView.setText(phone);
         reportingManagerView.setText(reportingManager);
-
-        Cursor read1 = schoolDbHelper.read(Schemas.SchoolDatabaseEntry.UID_OF_CC, ccUID);
-        int noOfSchools = read1.getCount();
+        uidView.setText(ccUID);
 
         noOfSchoolsView.setText(String.valueOf(noOfSchools));
+        mandalView.setText(mandal);
+        districtView.setText(district);
     }
 
-    public void openGallery(View view) {
-        Intent intent = new Intent(this, GalleryMainActivity.class);
-        startActivity(intent);
+    /**
+     * Get all schools information for current Cluster Coordinator
+     */
+    private void getSchoolData() {
+        SchoolDbHelper schoolDbHelper = new SchoolDbHelper(new DbHelper(this));
+        Cursor read = schoolDbHelper.read(Schemas.SchoolDatabaseEntry.UID_OF_CC, ccUID);
+        noOfSchools = read.getCount();
+        read.moveToNext();
+        mandal = read.getString(read.getColumnIndexOrThrow(Schemas.SchoolDatabaseEntry.BLOCK));
+        district = read.getString(read.getColumnIndexOrThrow(Schemas.SchoolDatabaseEntry.DISTRICT));
+        read.close();
     }
 
-    public void openOtherCC(View view) {
-        Intent intent = new Intent(this, CCOtherActivity.class);
-        intent.putExtra("cc_uid", ccUID);
-        startActivity(intent);
+    /**
+     * Get information about current cluster coordinator
+     */
+    private void getCCData() {
+        FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
+        assert currentUser != null;
+        email = currentUser.getEmail();
+
+        CCDbHelper ccDbHelper = new CCDbHelper(new DbHelper(this));
+        Cursor read = ccDbHelper.read(Schemas.CCDatabaseEntry.EMAIL, email);
+        read.moveToNext();
+        name = read.getString(read.getColumnIndexOrThrow(Schemas.CCDatabaseEntry.NAME));
+        reportingManager = read.getString(read.getColumnIndexOrThrow(Schemas.CCDatabaseEntry.PROJECT_COORDINATOR));
+        ccUID = read.getString(read.getColumnIndexOrThrow(Schemas.CCDatabaseEntry.UID));
+        phone = read.getString(read.getColumnIndexOrThrow(Schemas.CCDatabaseEntry.PHONE));
+        read.close();
     }
 
-    public void openCalendar(View view) {
-        Intent intent= new Intent(this, CalendarActivity.class);
-        startActivity(intent);
+    /**
+     * Initialise the references to views
+     */
+    private void init() {
+        nameView = (TextView) findViewById(R.id.cc_name);
+        phoneView = (TextView) findViewById(R.id.cc_phone);
+        emailView = (TextView) findViewById(R.id.cc_email);
+        reportingManagerView = (TextView) findViewById(R.id.cc_reporting_manager);
+        noOfSchoolsView = (TextView) findViewById(R.id.cc_no_of_schools);
+        mandalView = (TextView) findViewById(R.id.cc_mandal);
+        districtView = (TextView) findViewById(R.id.cc_district);
+        uidView = (TextView) findViewById(R.id.cc_uid);
     }
 
-    public void activityscreenopen(View view) {
-        Intent intent=new Intent(this, DashboardLayout.class);
+    /**
+     * Open the activity screen
+     */
+    public void OpenActivityScreen(View view) {
+        Intent intent = new Intent(this, DashboardLayout.class);
         startActivity(intent);
     }
 }

@@ -51,6 +51,7 @@ public class GalleryPreviewActivity extends AppCompatActivity {
                     .using(new FirebaseImageLoader())
                     .load(reference)
                     .diskCacheStrategy(DiskCacheStrategy.RESULT)
+                    .thumbnail((float) 0.02)
                     .into(imageView);
         }
     }

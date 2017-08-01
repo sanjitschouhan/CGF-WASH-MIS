@@ -10,12 +10,13 @@
     <android.support.v7.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:elevation="2dp"
+        android:elevation="20dp"
         app:cardCornerRadius="2dp">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:background="@color/colorPrimary"
             android:orientation="vertical"
             android:padding="10dp">
 
@@ -33,6 +34,8 @@
                 <LinearLayout
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginStart="10dp"
                     android:layout_weight="3"
                     android:gravity="center"
                     android:orientation="vertical"
@@ -40,30 +43,30 @@
 
                     <TextView
                         android:id="@+id/cc_name"
+                        style="@style/Base.TextAppearance.AppCompat.Large.Inverse"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:ellipsize="end"
                         android:maxLines="1"
-                        android:textSize="20sp"
-                        tools:text="Name :" />
+                        tools:text="Name" />
 
                     <TextView
                         android:id="@+id/cc_email"
+                        style="@style/Base.TextAppearance.AppCompat.Medium.Inverse"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:ellipsize="end"
                         android:maxLines="1"
-                        android:textSize="20sp"
-                        tools:text="Designation :" />
+                        tools:text="Email" />
 
                     <TextView
                         android:id="@+id/cc_phone"
+                        style="@style/Base.TextAppearance.AppCompat.Medium.Inverse"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:ellipsize="end"
                         android:maxLines="1"
-                        android:textSize="20sp"
-                        tools:text="Organaisation" />
+                        tools:text="Contact Number" />
                 </LinearLayout>
             </LinearLayout>
 
@@ -72,17 +75,19 @@
                 android:layout_height="wrap_content">
 
                 <TextView
+                    style="@style/Base.TextAppearance.AppCompat.Inverse"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_weight="2"
-                    android:text="UID" />
+                    android:layout_weight="1"
+                    android:text="@string/uid" />
 
                 <TextView
+                    style="@style/Base.TextAppearance.AppCompat.Inverse"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_gravity="end"
-                    android:layout_weight="1"
-                    android:text="Reporting Manager"
+                    android:layout_weight="2"
+                    android:text="@string/reporting_manager"
                     android:textAlignment="textEnd" />
             </LinearLayout>
 
@@ -93,8 +98,8 @@
                 android:layout_marginBottom="10dp">
 
                 <TextView
-                    android:id="@+id/cc_reporting_manager"
-                    style="@style/Base.TextAppearance.AppCompat.Large"
+                    android:id="@+id/cc_uid"
+                    style="@style/Base.TextAppearance.AppCompat.Large.Inverse"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="2"
@@ -103,12 +108,12 @@
                     tools:text="123456" />
 
                 <TextView
-                    android:id="@+id/cc_no_of_schools"
-                    style="@style/Base.TextAppearance.AppCompat.Large"
+                    android:id="@+id/cc_reporting_manager"
+                    style="@style/Base.TextAppearance.AppCompat.Large.Inverse"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_gravity="end"
-                    android:layout_weight="1"
+                    android:layout_weight="3"
                     android:textAlignment="textEnd"
                     tools:text="Name" />
             </LinearLayout>
@@ -121,53 +126,100 @@
         android:layout_margin="10dp"
         android:orientation="vertical">
 
-        <TextView
-            style="@style/TextAppearance.AppCompat.Large"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="District :" />
+            android:layout_marginTop="20dp">
 
-        <TextView
-            style="@style/TextAppearance.AppCompat.Large"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
-            android:text="Mandals :" />
+            <TextView
+                style="@style/TextAppearance.AppCompat.Large"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/district" />
 
-        <TextView
-            style="@style/TextAppearance.AppCompat.Large"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
-            android:text="No of Schools:" />
+            <TextView
+                android:id="@+id/cc_district"
+                style="@style/Base.TextAppearance.AppCompat.Medium"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="end"
+                android:layout_weight="1"
+                android:textAlignment="textEnd"
+                tools:text="District" />
+        </LinearLayout>
 
-        <TextView
-            style="@style/TextAppearance.AppCompat.Large"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
-            android:text="list of schools" />
+            android:layout_marginTop="20dp">
+
+            <TextView
+                style="@style/TextAppearance.AppCompat.Large"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/mandals" />
+
+            <TextView
+                android:id="@+id/cc_mandal"
+                style="@style/Base.TextAppearance.AppCompat.Medium"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="end"
+                android:layout_weight="1"
+                android:textAlignment="textEnd"
+                tools:text="Mandal" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp">
+
+            <TextView
+                style="@style/TextAppearance.AppCompat.Large"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/no_of_schools" />
+
+            <TextView
+                android:id="@+id/cc_no_of_schools"
+                style="@style/Base.TextAppearance.AppCompat.Medium"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="end"
+                android:layout_weight="1"
+                android:textAlignment="textEnd"
+                tools:text="10" />
+        </LinearLayout>
 
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
             <Button
-                android:id="@+id/check_in_btn"
-                style="@style/Widget.AppCompat.Button.Borderless"
+                android:id="@+id/btn_check_in"
+                style="@style/Widget.AppCompat.Button.Borderless.Colored"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_alignParentBottom="true"
-                android:text="CHECK IN" />
+                android:text="@string/check_in" />
 
             <Button
+                android:id="@+id/btn_activities"
                 style="@style/Widget.AppCompat.Button.Colored"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_above="@id/check_in_btn"
-                android:onClick="activityscreenopen"
-                android:layout_marginTop="20dp"
-                android:text="ACTIVITIES" />
+                android:layout_above="@id/btn_check_in"
+                android:onClick="OpenActivityScreen"
+                android:text="@string/activities" />
+
+            <Button
+                style="@style/Widget.AppCompat.Button.Borderless.Colored"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_above="@id/btn_activities"
+                android:text="@string/list_of_schools" />
+
         </RelativeLayout>
     </LinearLayout>
 
