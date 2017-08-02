@@ -182,7 +182,7 @@ public class GallerySubActivity extends AppCompatActivity {
                 });
 
         if (list.size() == 0) {
-            Toast.makeText(this, R.string.no_photos_to_delete, Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, R.string.no_pictures_to_delete, Toast.LENGTH_SHORT).show();
         } else {
             builder.show();
         }
@@ -191,7 +191,7 @@ public class GallerySubActivity extends AppCompatActivity {
     private void deleteAllPictures() {
         final ProgressDialog dialog = new ProgressDialog(this);
         dialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
-        dialog.setMessage(getString(R.string.deleting_photos));
+        dialog.setMessage(getString(R.string.deleting_picture));
         dialog.setCancelable(false);
         dialog.setProgress(0);
         dialog.setMax(list.size());

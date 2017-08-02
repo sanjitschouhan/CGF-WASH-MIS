@@ -1,6 +1,8 @@
 package in.collectivegood.dbsibycgf.gallery;
 
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.os.Environment;
 import android.support.annotation.NonNull;
@@ -116,9 +118,23 @@ public class GalleryPreviewActivity extends AppCompatActivity {
         return file;
     }
 
-    public void deletePicture(View view) {
+    private void deleteConfirm() {
         FirebaseDatabase.getInstance().getReference(url.split("\\.")[0]).removeValue();
         reference.delete();
         finish();
+    }
+
+    public void deletePicture(View view) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle(R.string.delete_prompt_title_single)
+                .setMessage(R.string.delete_prompt_message_single)
+                .setNegativeButton(R.string.cancel, null)
+                .setPositiveButton(R.string.delete, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        deleteConfirm();
+                    }
+                });
+
     }
 }

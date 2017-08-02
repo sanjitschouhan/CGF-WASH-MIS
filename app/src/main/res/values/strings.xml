@@ -50,10 +50,12 @@
     <string name="downloaded">Downloaded</string>
     <string name="delete">Delete</string>
     <string name="delete_all">Delete All</string>
-    <string name="no_photos_to_download">No Photos to download</string>
-    <string name="delete_prompt_title">Delete All Photos</string>
-    <string name="delete_prompt_message">Deleted Photos cannot be recoved. Are you sure you want to delete all photos for current cluster coordinator?</string>
-    <string name="no_photos_to_delete">No photos to delete</string>
-    <string name="deleting_photos">Deleting Photos..</string>
+    <string name="no_pictures_to_download">No Pictures to download</string>
+    <string name="delete_prompt_title">Delete All Pictures</string>
+    <string name="delete_prompt_message">Deleted Pictures cannot be recoved. Are you sure you want to delete all pictures for current cluster coordinator?</string>
+    <string name="no_pictures_to_delete">No pictures to delete</string>
+    <string name="deleting_picture">Deleting Pictures..</string>
     <string name="deleted">Deleted</string>
+    <string name="delete_prompt_title_single">Delete Picture</string>
+    <string name="delete_prompt_message_single">Deleted Picture cannot be recoved. Are you sure you want to delete this picture?</string>
 </resources>
