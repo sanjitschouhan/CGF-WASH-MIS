@@ -10,7 +10,11 @@ import android.widget.GridView;
 import java.util.ArrayList;
 
 import in.collectivegood.dbsibycgf.R;
+import in.collectivegood.dbsibycgf.calender.CalendarActivity;
 import in.collectivegood.dbsibycgf.gallery.GalleryMainActivity;
+import in.collectivegood.dbsibycgf.gis.GISActivity;
+import in.collectivegood.dbsibycgf.heps.HEPSDataActivity;
+import in.collectivegood.dbsibycgf.wash_resources.WashResourcesActivity;
 
 public class DashboardActivity extends AppCompatActivity {
     GridView gridView;
@@ -24,13 +28,13 @@ public class DashboardActivity extends AppCompatActivity {
         gridView = (GridView) findViewById(R.id.gridview);
         dashboardItems = new ArrayList<>();
         dashboardItems.add(new GridItem(R.mipmap.ic_launcher_round, getString(R.string.photos), GalleryMainActivity.class));
-        dashboardItems.add(new GridItem(R.mipmap.ic_launcher_round, getString(R.string.calender)));
-        dashboardItems.add(new GridItem(R.mipmap.ic_launcher_round, getString(R.string.heps_data)));
+        dashboardItems.add(new GridItem(R.mipmap.ic_launcher_round, getString(R.string.calender), CalendarActivity.class));
+        dashboardItems.add(new GridItem(R.mipmap.ic_launcher_round, getString(R.string.heps_data), HEPSDataActivity.class));
 //        dashboardItems.add(new GridItem(R.mipmap.ic_launcher_round, getString(R.string.svp_data)));
-        dashboardItems.add(new GridItem(R.mipmap.ic_launcher_round, getString(R.string.gis)));
+        dashboardItems.add(new GridItem(R.mipmap.ic_launcher_round, getString(R.string.gis), GISActivity.class));
         dashboardItems.add(new GridItem(R.mipmap.ic_launcher_round, getString(R.string.advocacy)));
 //        dashboardItems.add(new GridItem(R.mipmap.ic_launcher_round, getString(R.string.reports)));
-        dashboardItems.add(new GridItem(R.mipmap.ic_launcher_round, getString(R.string.resources)));
+        dashboardItems.add(new GridItem(R.mipmap.ic_launcher_round, getString(R.string.resources), WashResourcesActivity.class));
 //        dashboardItems.add(new GridItem(R.mipmap.ic_launcher_round, getString(R.string.others)));
         dashboardGridAdapter = new DashboardGridAdapter(this, dashboardItems);
         gridView.setAdapter(dashboardGridAdapter);
