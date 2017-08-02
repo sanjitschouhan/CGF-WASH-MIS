@@ -1,10 +1,13 @@
 package in.collectivegood.dbsibycgf.heps;
 
+import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.ListView;
 
@@ -30,6 +33,13 @@ public class HEPSDataActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_hepsdata);
 
+        initialiseReferences();
+        updateSchoolList(null);
+        addListeners();
+    }
+
+    private void initialiseReferences() {
+
         searchQueryInputEditText = (EditText) findViewById(R.id.search_query_input);
         schoolListView = (ListView) findViewById(R.id.school_list);
 
@@ -39,23 +49,32 @@ public class HEPSDataActivity extends AppCompatActivity {
         schoolListView.setAdapter(adapter);
 
         schoolDbHelper = new SchoolDbHelper(new DbHelper(this));
+    }
 
-        updateSchoolList(null);
-
+    private void addListeners() {
         searchQueryInputEditText.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
             }
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-
             }
 
             @Override
             public void afterTextChanged(Editable s) {
                 updateSchoolList(s.toString().trim().replaceAll(" ", "%"));
+            }
+        });
+
+        schoolListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                SchoolRecord schoolRecord = schoolList.get(position);
+                Intent intent = new Intent(HEPSDataActivity.this, HEPSDataFormActivity.class);
+                intent.putExtra("code", schoolRecord.getCode());
+                startActivity(intent);
+                finish();
             }
         });
     }

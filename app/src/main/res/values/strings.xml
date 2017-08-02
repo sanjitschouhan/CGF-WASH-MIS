@@ -59,4 +59,13 @@
     <string name="delete_prompt_title_single">Delete Picture</string>
     <string name="delete_prompt_message_single">Deleted Picture cannot be recoved. Are you sure you want to delete this picture?</string>
     <string name="search">Search</string>
+    <string name="form_back_title">Close Without Saving</string>
+    <string name="form_back_message">Unsaved data cannot be recovered. Do you want to discard the form?</string>
+    <string name="discard">Discard</string>
+    <string name="school_details">School Details</string>
+    <string name="no_of_teachers">Number of Teachers</string>
+    <string name="male">Male</string>
+    <string name="female">Female</string>
+    <string name="total">Total</string>
+    <string name="classwise_strength">Classwise Strength</string>
 </resources>

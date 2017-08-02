@@ -1,0 +1,519 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="in.collectivegood.dbsibycgf.heps.HEPSDataFormActivity">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <android.support.v7.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:elevation="20dp"
+                app:cardCornerRadius="2dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:orientation="vertical"
+                    android:padding="10dp">
+
+                    <TextView
+                        style="@style/Base.TextAppearance.AppCompat.Large"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/school_details" />
+
+                    <TextView
+                        android:id="@+id/school_name"
+                        style="@style/Base.TextAppearance.AppCompat.Medium"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:ellipsize="end"
+                        android:maxLines="1"
+                        tools:text="Name" />
+
+                    <TextView
+                        android:id="@+id/school_code"
+                        style="@style/Base.TextAppearance.AppCompat.Medium"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:ellipsize="end"
+                        android:maxLines="1"
+                        tools:text="Code" />
+
+                    <TextView
+                        android:id="@+id/school_address"
+                        style="@style/Base.TextAppearance.AppCompat.Medium"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:ellipsize="end"
+                        android:maxLines="1"
+                        tools:text="Address" />
+                </LinearLayout>
+
+            </android.support.v7.widget.CardView>
+
+            <TextView
+                style="@style/Base.TextAppearance.AppCompat.Headline"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="20dp"
+                android:text="Form A"
+                android:textAlignment="center" />
+
+            <android.support.v7.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="1dp"
+                android:elevation="20dp"
+                app:cardCornerRadius="2dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:orientation="vertical"
+                    android:padding="10dp">
+
+                    <TextView
+                        style="@style/Base.TextAppearance.AppCompat.Large"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="10dp"
+                        android:text="@string/no_of_teachers" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center">
+
+                        <TextView
+                            style="@style/Base.TextAppearance.AppCompat.Medium"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="@string/male" />
+
+                        <EditText
+                            android:id="@+id/male_teachers"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="end"
+                            android:layout_weight="1"
+                            android:hint="@string/male"
+                            android:inputType="number"
+                            android:maxLength="10"
+                            android:nextFocusDown="@+id/female_teachers"
+                            android:textAlignment="textEnd" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center">
+
+                        <TextView
+                            style="@style/Base.TextAppearance.AppCompat.Medium"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="@string/female" />
+
+                        <EditText
+                            android:id="@id/female_teachers"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="end"
+                            android:layout_weight="1"
+                            android:hint="@string/female"
+                            android:inputType="number"
+                            android:maxLength="10"
+                            android:nextFocusDown="@+id/class_1_boys"
+                            android:textAlignment="textEnd" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center">
+
+                        <TextView
+                            style="@style/Base.TextAppearance.AppCompat.Medium"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="@string/total" />
+
+                        <TextView
+                            android:id="@+id/total_teachers"
+                            style="@style/Base.TextAppearance.AppCompat.Medium"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="end"
+                            android:layout_weight="1"
+                            android:ellipsize="marquee"
+                            android:text="0"
+                            android:textAlignment="textEnd" />
+                    </LinearLayout>
+                </LinearLayout>
+            </android.support.v7.widget.CardView>
+
+            <android.support.v7.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="1dp"
+                android:elevation="20dp"
+                app:cardCornerRadius="2dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:orientation="vertical"
+                    android:padding="10dp">
+
+                    <TextView
+                        style="@style/Base.TextAppearance.AppCompat.Large"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="10dp"
+                        android:text="@string/classwise_strength" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center">
+
+                        <TextView
+                            style="@style/Base.TextAppearance.AppCompat.Medium"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="Class"
+                            android:textAlignment="center"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            style="@style/Base.TextAppearance.AppCompat.Medium"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="@string/male"
+                            android:textAlignment="center"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            style="@style/Base.TextAppearance.AppCompat.Medium"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="@string/female"
+                            android:textAlignment="center"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            style="@style/Base.TextAppearance.AppCompat.Medium"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="@string/total"
+                            android:textAlignment="center"
+                            android:textStyle="bold" />
+
+                    </LinearLayout>
+
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center">
+
+                        <TextView
+                            style="@style/Base.TextAppearance.AppCompat.Medium"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="1"
+                            android:textAlignment="center"
+                            android:textStyle="bold" />
+
+
+                        <EditText
+                            android:id="@+id/class_1_boys"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:hint="@string/male"
+                            android:inputType="number"
+                            android:maxLength="10"
+                            android:nextFocusDown="@+id/class_1_girls"
+                            android:textAlignment="center" />
+
+                        <EditText
+                            android:id="@id/class_1_girls"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:hint="@string/female"
+                            android:inputType="number"
+                            android:maxLength="10"
+                            android:nextFocusDown="@+id/class_2_boys"
+                            android:textAlignment="center" />
+
+                        <TextView
+                            android:id="@+id/class_1_total"
+                            style="@style/Base.TextAppearance.AppCompat.Medium"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="0"
+                            android:textAlignment="center" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center">
+
+                        <TextView
+                            style="@style/Base.TextAppearance.AppCompat.Medium"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="2"
+                            android:textAlignment="center"
+                            android:textStyle="bold" />
+
+
+                        <EditText
+                            android:id="@id/class_2_boys"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:hint="@string/male"
+                            android:inputType="number"
+                            android:maxLength="10"
+                            android:nextFocusDown="@+id/class_2_girls"
+                            android:textAlignment="center" />
+
+                        <EditText
+                            android:id="@id/class_2_girls"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:hint="@string/female"
+                            android:inputType="number"
+                            android:maxLength="10"
+                            android:nextFocusDown="@+id/class_3_boys"
+                            android:textAlignment="center" />
+
+                        <TextView
+                            android:id="@+id/class_2_total"
+                            style="@style/Base.TextAppearance.AppCompat.Medium"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="0"
+                            android:textAlignment="center" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center">
+
+                        <TextView
+                            style="@style/Base.TextAppearance.AppCompat.Medium"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="3"
+                            android:textAlignment="center"
+                            android:textStyle="bold" />
+
+
+                        <EditText
+                            android:id="@id/class_3_boys"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:hint="@string/male"
+                            android:inputType="number"
+                            android:maxLength="10"
+                            android:nextFocusDown="@+id/class_3_girls"
+                            android:textAlignment="center" />
+
+                        <EditText
+                            android:id="@id/class_3_girls"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:hint="@string/female"
+                            android:inputType="number"
+                            android:maxLength="10"
+                            android:nextFocusDown="@+id/class_4_boys"
+                            android:textAlignment="center" />
+
+                        <TextView
+                            android:id="@+id/class_3_total"
+                            style="@style/Base.TextAppearance.AppCompat.Medium"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="0"
+                            android:textAlignment="center" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center">
+
+                        <TextView
+                            style="@style/Base.TextAppearance.AppCompat.Medium"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="4"
+                            android:textAlignment="center"
+                            android:textStyle="bold" />
+
+
+                        <EditText
+                            android:id="@id/class_4_boys"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:hint="@string/male"
+                            android:inputType="number"
+                            android:maxLength="10"
+                            android:nextFocusDown="@+id/class_4_girls"
+                            android:textAlignment="center" />
+
+                        <EditText
+                            android:id="@id/class_4_girls"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:hint="@string/female"
+                            android:inputType="number"
+                            android:maxLength="10"
+                            android:nextFocusDown="@+id/class_5_boys"
+                            android:textAlignment="center" />
+
+                        <TextView
+                            android:id="@+id/class_4_total"
+                            style="@style/Base.TextAppearance.AppCompat.Medium"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="0"
+                            android:textAlignment="center" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center">
+
+                        <TextView
+                            style="@style/Base.TextAppearance.AppCompat.Medium"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="5"
+                            android:textAlignment="center"
+                            android:textStyle="bold" />
+
+
+                        <EditText
+                            android:id="@id/class_5_boys"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:hint="@string/male"
+                            android:inputType="number"
+                            android:maxLength="10"
+                            android:nextFocusDown="@+id/class_5_girls"
+                            android:textAlignment="center" />
+
+                        <EditText
+                            android:id="@id/class_5_girls"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:hint="@string/female"
+                            android:inputType="number"
+                            android:maxLength="10"
+                            android:textAlignment="center" />
+
+                        <TextView
+                            android:id="@+id/class_5_total"
+                            style="@style/Base.TextAppearance.AppCompat.Medium"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="0"
+                            android:textAlignment="center" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center">
+
+                        <TextView
+                            style="@style/Base.TextAppearance.AppCompat.Medium"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="@string/total"
+                            android:textAlignment="center"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:id="@+id/class_total_boys"
+                            style="@style/Base.TextAppearance.AppCompat.Medium"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="0"
+                            android:textAlignment="center"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:id="@+id/class_total_girls"
+                            style="@style/Base.TextAppearance.AppCompat.Medium"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="0"
+                            android:textAlignment="center"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:id="@+id/class_total_total"
+                            style="@style/Base.TextAppearance.AppCompat.Medium"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="0"
+                            android:textAlignment="center"
+                            android:textStyle="bold" />
+                    </LinearLayout>
+                </LinearLayout>
+            </android.support.v7.widget.CardView>
+        </LinearLayout>
+    </ScrollView>
+</LinearLayout>

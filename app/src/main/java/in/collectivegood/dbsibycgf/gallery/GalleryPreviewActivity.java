@@ -135,6 +135,7 @@ public class GalleryPreviewActivity extends AppCompatActivity {
                         deleteConfirm();
                     }
                 });
+        builder.show();
 
     }
 }
