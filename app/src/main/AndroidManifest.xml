@@ -88,7 +88,8 @@
                 android:resource="@xml/syncadapter" />
         </service>
 
-        <activity android:name=".heps.HEPSDataActivity"></activity>
+        <activity android:name=".heps.HEPSDataActivity" />
+        <activity android:name=".gis.GISActivity"></activity>
     </application>
 
 </manifest>
