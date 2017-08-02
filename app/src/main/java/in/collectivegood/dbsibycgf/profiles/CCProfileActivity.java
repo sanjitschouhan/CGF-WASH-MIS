@@ -19,6 +19,7 @@ import in.collectivegood.dbsibycgf.database.SchoolDbHelper;
 
 public class CCProfileActivity extends AppCompatActivity {
 
+    private static String ccUID;
     private int noOfSchools;
     private String mandal;
     private String district;
@@ -26,7 +27,6 @@ public class CCProfileActivity extends AppCompatActivity {
     private String name;
     private String reportingManager;
     private String phone;
-    private String ccUID;
     private TextView nameView;
     private TextView phoneView;
     private TextView emailView;
@@ -35,6 +35,10 @@ public class CCProfileActivity extends AppCompatActivity {
     private TextView mandalView;
     private TextView districtView;
     private TextView uidView;
+
+    public static String getCcUID() {
+        return ccUID;
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

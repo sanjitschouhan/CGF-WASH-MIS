@@ -58,4 +58,5 @@
     <string name="deleted">Deleted</string>
     <string name="delete_prompt_title_single">Delete Picture</string>
     <string name="delete_prompt_message_single">Deleted Picture cannot be recoved. Are you sure you want to delete this picture?</string>
+    <string name="search">Search</string>
 </resources>

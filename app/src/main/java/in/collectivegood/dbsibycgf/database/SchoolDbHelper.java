@@ -4,6 +4,8 @@ import android.content.ContentValues;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
+import in.collectivegood.dbsibycgf.profiles.CCProfileActivity;
+
 public class SchoolDbHelper {
 
     private DbHelper dbHelper;
@@ -79,4 +81,40 @@ public class SchoolDbHelper {
         return update;
     }
 
+    public Cursor read(String queryString) {
+        SQLiteDatabase db = dbHelper.getReadableDatabase();
+        String[] projection = {
+                Schemas.SchoolDatabaseEntry.CODE,
+                Schemas.SchoolDatabaseEntry.BLOCK,
+                Schemas.SchoolDatabaseEntry.VILLAGE,
+                Schemas.SchoolDatabaseEntry.NAME,
+                Schemas.SchoolDatabaseEntry.EMAIL,
+                Schemas.SchoolDatabaseEntry.DISTRICT,
+                Schemas.SchoolDatabaseEntry.STATE
+        };
+        String condition;
+        String[] conditionArgs;
+        if (queryString != null && queryString.length() > 0) {
+            condition = "(" + Schemas.SchoolDatabaseEntry.NAME + " like ? or "
+                    + Schemas.SchoolDatabaseEntry.VILLAGE + " like ? or "
+                    + Schemas.SchoolDatabaseEntry.DISTRICT + " like ? ) and "
+                    + Schemas.SchoolDatabaseEntry.UID_OF_CC + " = ? ";
+
+            conditionArgs = new String[]{"%" + queryString + "%", "%" + queryString + "%", "%" + queryString + "%", CCProfileActivity.getCcUID()};
+        } else {
+            condition = Schemas.SchoolDatabaseEntry.UID_OF_CC + " = ? ";
+
+            conditionArgs = new String[]{CCProfileActivity.getCcUID()};
+        }
+
+        return db.query(
+                Schemas.SchoolDatabaseEntry.TABLE_NAME,  // Table name
+                projection,                             // Columns to return
+                condition,                              // Columns for WHERE clause
+                conditionArgs,                           // Values for WHERE clause
+                null,                                   // GROUP BY clause
+                null,                                   // HAVING clause
+                null                                    // SORT BY clause
+        );
+    }
 }

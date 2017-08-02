@@ -259,7 +259,7 @@ public class GallerySubActivity extends AppCompatActivity {
         }
         if (list.size() == 0) {
             dialog.dismiss();
-            Toast.makeText(this, R.string.no_photos_to_download, Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, R.string.no_pictures_to_download, Toast.LENGTH_SHORT).show();
         }
     }
 
