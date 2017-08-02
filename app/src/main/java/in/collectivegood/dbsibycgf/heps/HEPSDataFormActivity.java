@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
 
@@ -33,6 +34,10 @@ public class HEPSDataFormActivity extends AppCompatActivity {
         maleTeachersEditText = (EditText) findViewById(R.id.male_teachers);
         femaleTeachersEditText = (EditText) findViewById(R.id.female_teachers);
         totalTeachersTextView = (TextView) findViewById(R.id.total_teachers);
+
+        findViewById(R.id.toilets_layout).setVisibility(View.GONE);
+        findViewById(R.id.toilets_separate_layout).setVisibility(View.GONE);
+        findViewById(R.id.toilets_combined_layout).setVisibility(View.GONE);
 
         setSchoolDetails();
 
@@ -77,6 +82,9 @@ public class HEPSDataFormActivity extends AppCompatActivity {
                         R.id.class_5_girls
                 },
                 R.id.class_total_total);
+        addWatcherToIds(new int[]{R.id.toilets_separate_boys}, R.id.toilets_separate_boys_functioning);
+        addWatcherToIds(new int[]{R.id.toilets_separate_girls}, R.id.toilets_separate_girls_functioning);
+        addWatcherToIds(new int[]{R.id.toilets_total}, R.id.toilets_total_functioning);
     }
 
     private void addWatcherToIds(int[] ids, int resultId) {
@@ -113,6 +121,12 @@ public class HEPSDataFormActivity extends AppCompatActivity {
                 }
 
                 resultView.setText(String.valueOf(total));
+                if (total == 0) {
+                    resultView.setEnabled(false);
+                } else {
+                    resultView.setEnabled(true);
+                }
+
             }
         };
 
@@ -152,5 +166,47 @@ public class HEPSDataFormActivity extends AppCompatActivity {
                 })
                 .setNegativeButton(R.string.cancel, null);
         builder.show();
+    }
+
+    public void showToiletsLayout(View view) {
+        findViewById(R.id.toilets_layout).setVisibility(View.VISIBLE);
+    }
+
+    public void hideToiletsLayout(View view) {
+        findViewById(R.id.toilets_layout).setVisibility(View.GONE);
+        reset(new int[]{
+                R.id.toilets_separate_boys,
+                R.id.toilets_separate_boys_functioning,
+                R.id.toilets_separate_girls,
+                R.id.toilets_separate_girls_functioning,
+                R.id.toilets_total,
+                R.id.toilets_total_functioning
+        });
+    }
+
+    public void showSeparateLayout(View view) {
+        findViewById(R.id.toilets_separate_layout).setVisibility(View.VISIBLE);
+        findViewById(R.id.toilets_combined_layout).setVisibility(View.GONE);
+        reset(new int[]{
+                R.id.toilets_total,
+                R.id.toilets_total_functioning
+        });
+    }
+
+    public void showCombinedLayout(View view) {
+        findViewById(R.id.toilets_combined_layout).setVisibility(View.VISIBLE);
+        findViewById(R.id.toilets_separate_layout).setVisibility(View.GONE);
+        reset(new int[]{
+                R.id.toilets_separate_boys,
+                R.id.toilets_separate_boys_functioning,
+                R.id.toilets_separate_girls,
+                R.id.toilets_separate_girls_functioning
+        });
+    }
+
+    private void reset(int[] ids) {
+        for (int id : ids) {
+            ((EditText) findViewById(id)).setText("0");
+        }
     }
 }

@@ -68,4 +68,11 @@
     <string name="female">Female</string>
     <string name="total">Total</string>
     <string name="classwise_strength">Classwise Strength</string>
+    <string name="are_there_toilets_in_the_school">Are there toilets in the school?</string>
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
+    <string name="are_there_separate_toilets_for_boys_and_girls">Are there separate toilets for boys and girls?</string>
+    <string name="functioning">Functioning</string>
+    <string name="boys">Boys</string>
+    <string name="girls">Girls</string>
 </resources>
