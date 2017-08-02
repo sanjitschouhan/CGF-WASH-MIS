@@ -173,6 +173,8 @@
 
             <include layout="@layout/activity_hepsdata_form_toilets" />
 
+            <include layout="@layout/activity_hepsdata_form_urinals" />
+
         </LinearLayout>
     </ScrollView>
 </LinearLayout>

@@ -39,6 +39,10 @@ public class HEPSDataFormActivity extends AppCompatActivity {
         findViewById(R.id.toilets_separate_layout).setVisibility(View.GONE);
         findViewById(R.id.toilets_combined_layout).setVisibility(View.GONE);
 
+        findViewById(R.id.urinals_layout).setVisibility(View.GONE);
+        findViewById(R.id.urinals_separate_layout).setVisibility(View.GONE);
+        findViewById(R.id.urinals_combined_layout).setVisibility(View.GONE);
+
         setSchoolDetails();
 
         addListeners();
@@ -85,6 +89,10 @@ public class HEPSDataFormActivity extends AppCompatActivity {
         addWatcherToIds(new int[]{R.id.toilets_separate_boys}, R.id.toilets_separate_boys_functioning);
         addWatcherToIds(new int[]{R.id.toilets_separate_girls}, R.id.toilets_separate_girls_functioning);
         addWatcherToIds(new int[]{R.id.toilets_total}, R.id.toilets_total_functioning);
+
+        addWatcherToIds(new int[]{R.id.urinals_separate_boys}, R.id.urinals_separate_boys_functioning);
+        addWatcherToIds(new int[]{R.id.urinals_separate_girls}, R.id.urinals_separate_girls_functioning);
+        addWatcherToIds(new int[]{R.id.urinals_total}, R.id.urinals_total_functioning);
     }
 
     private void addWatcherToIds(int[] ids, int resultId) {
@@ -208,5 +216,41 @@ public class HEPSDataFormActivity extends AppCompatActivity {
         for (int id : ids) {
             ((EditText) findViewById(id)).setText("0");
         }
+    }
+
+    public void showUrinalsLayout(View view) {
+        findViewById(R.id.urinals_layout).setVisibility(View.VISIBLE);
+    }
+
+    public void hideUrinalsLayout(View view) {
+        findViewById(R.id.urinals_layout).setVisibility(View.GONE);
+        reset(new int[]{
+                R.id.urinals_separate_boys,
+                R.id.urinals_separate_boys_functioning,
+                R.id.urinals_separate_girls,
+                R.id.urinals_separate_girls_functioning,
+                R.id.urinals_total,
+                R.id.urinals_total_functioning
+        });
+    }
+
+    public void showUrinalsSeparateLayout(View view) {
+        findViewById(R.id.urinals_separate_layout).setVisibility(View.VISIBLE);
+        findViewById(R.id.urinals_combined_layout).setVisibility(View.GONE);
+        reset(new int[]{
+                R.id.urinals_total,
+                R.id.urinals_total_functioning
+        });
+    }
+
+    public void showUrinalsCombinedLayout(View view) {
+        findViewById(R.id.urinals_combined_layout).setVisibility(View.VISIBLE);
+        findViewById(R.id.urinals_separate_layout).setVisibility(View.GONE);
+        reset(new int[]{
+                R.id.urinals_separate_boys,
+                R.id.urinals_separate_boys_functioning,
+                R.id.urinals_separate_girls,
+                R.id.urinals_separate_girls_functioning
+        });
     }
 }
