@@ -16,6 +16,7 @@ import in.collectivegood.dbsibycgf.database.CCDbHelper;
 import in.collectivegood.dbsibycgf.database.DbHelper;
 import in.collectivegood.dbsibycgf.database.Schemas;
 import in.collectivegood.dbsibycgf.database.SchoolDbHelper;
+import in.collectivegood.dbsibycgf.support.JavaMail;
 
 public class CCProfileActivity extends AppCompatActivity {
 
@@ -82,6 +83,8 @@ public class CCProfileActivity extends AppCompatActivity {
         FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
         assert currentUser != null;
         email = currentUser.getEmail();
+
+//        JavaMail.mail(this, email);
 
         CCDbHelper ccDbHelper = new CCDbHelper(new DbHelper(this));
         Cursor read = ccDbHelper.read(Schemas.CCDatabaseEntry.EMAIL, email);

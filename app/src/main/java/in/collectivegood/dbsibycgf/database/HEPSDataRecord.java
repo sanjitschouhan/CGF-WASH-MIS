@@ -74,6 +74,26 @@ public class HEPSDataRecord {
         this.noOfTaps = noOfTaps;
     }
 
+    public static String header() {
+        return "\"CC ID\"" +
+                "," + "\"School Code\"" + "," + "\"School Name\"" + "," + "\"School Address\"" +
+                "," + "\"Male Teachers\"" + "," + "\"Female Teachers\"" + "," + "\"Total Teachers\"" +
+                "," + "\"Class 1 Boys\"" + "," + "\"Class 1 Girls\"" + "," + "\"Class 1 Total\"" +
+                "," + "\"Class 2 Boys\"" + "," + "\"Class 2 Girls\"" + "," + "\"Class 2 Total\"" +
+                "," + "\"Class 3 Boys\"" + "," + "\"Class 3 Girls\"" + "," + "\"Class 3 Total\"" +
+                "," + "\"Class 4 Boys\"" + "," + "\"Class 4 Girls\"" + "," + "\"Class 4 Total\"" +
+                "," + "\"Class 5 Boys\"" + "," + "\"Class 5 Girls\"" + "," + "\"Class 5 Total\"" +
+                "," + "\"Total Boys\"" + "," + "\"Total Girls\"" + "," + "\"Total\"" +
+                "," + "\"Boys Toilets\"" + "," + "\"Functioning Boys Toilets\"" +
+                "," + "\"Girls Toilets\"" + "," + "\"Functioning Girls Toilets\"" +
+                "," + "\"Total Toilets\"" + "," + "\"Functioning Toilets\"" +
+                "," + "\"Boys Urinals\"" + "," + "\"Functioning Boys Urinals\"" +
+                "," + "\"Girls Urinals\"" + "," + "\"Functioning Girls Urinals\"" +
+                "," + "\"Total Urinals\"" + "," + "\"Functioning Urinals\"" +
+                "," + "\"Water Source\"" +
+                "," + "\"No Of Taps\"" + "\n";
+    }
+
     public long getTotalToilets() {
         return totalToilets;
     }
@@ -180,5 +200,37 @@ public class HEPSDataRecord {
 
     public long getNoOfTaps() {
         return noOfTaps;
+    }
+
+    @Override
+    public String toString() {
+        return uidOfCC + "," +
+                schoolCode + ",\"" + schoolName + "\",\"" + schoolAddress + "\"," +
+                maleTeachers + "," + femaleTeachers + "," + (maleTeachers + femaleTeachers) +
+                "," + getBoys(1) + "," + getGirls(1) + "," + (getTotalClassStrength(1)) +
+                "," + getBoys(2) + "," + getGirls(2) + "," + (getTotalClassStrength(2)) +
+                "," + getBoys(3) + "," + getGirls(3) + "," + (getTotalClassStrength(3)) +
+                "," + getBoys(4) + "," + getGirls(4) + "," + (getTotalClassStrength(4)) +
+                "," + getBoys(5) + "," + getGirls(5) + "," + (getTotalClassStrength(5)) +
+                "," + getTotalBoys() + "," + getTotalGirls() + "," + (getTotalBoys() + getTotalGirls()) +
+                "," + boysToilets + "," + functioningBoysToilets +
+                "," + girlsToilets + "," + functioningGirlsToilets +
+                "," + totalToilets + "," + functioningTotalToilets +
+                "," + boysUrinals + "," + functioningBoysUrinals +
+                "," + girlsUrinals + "," + functioningGirlsUrinals +
+                "," + totalUrinals + "," + functioningTotalUrinals +
+                ",\"" + getWaterSourceText() +
+                "\"," + noOfTaps + "\n";
+    }
+
+    private String getWaterSourceText() {
+        if (waterSource == 0)
+            return "None";
+        else if (waterSource == 1)
+            return "Borewell";
+        else if (waterSource == 2)
+            return "Govt Supply";
+        else
+            return "Borewell and Govt Supply";
     }
 }

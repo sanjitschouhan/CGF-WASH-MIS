@@ -36,5 +36,7 @@ dependencies {
     compile 'com.google.firebase:firebase-messaging:10.0.1'
     compile 'com.squareup.okhttp3:okhttp:3.8.0'
     testCompile 'junit:junit:4.12'
+    compile 'com.sun.mail:android-mail:1.5.5'
+    compile 'com.sun.mail:android-activation:1.5.5'
 }
 apply plugin: 'com.google.gms.google-services'
