@@ -5,7 +5,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
 public class DbHelper extends SQLiteOpenHelper {
-    private static final int DATABASE_VERSION = 6;
+    private static final int DATABASE_VERSION = 7;
     private static final String DATABASE_NAME = "cgf.db";
     private static final String SQL_CREATE_ENTRIES_SCHOOL =
             "CREATE TABLE " + Schemas.SchoolDatabaseEntry.TABLE_NAME + " (" +
@@ -52,6 +52,53 @@ public class DbHelper extends SQLiteOpenHelper {
     private static final String SQL_DELETE_ENTRIES_CHECK_IN =
             "DROP TABLE IF EXISTS " + Schemas.CheckInEntry.TABLE_NAME;
 
+    private static final String SQL_CREATE_ENTRIES_HEPS_FORM =
+            "CREATE TABLE " + Schemas.HEPSFormEntry.TABLE_NAME + " (" +
+                    Schemas.HEPSFormEntry._ID + " INTEGER PRIMARY KEY AUTOINCREMENT," +
+                    Schemas.HEPSFormEntry.UID_OF_CC + " TEXT," +
+                    Schemas.HEPSFormEntry.SCHOOL_CODE + " TEXT," +
+                    Schemas.HEPSFormEntry.SCHOOL_NAME + " TEXT," +
+                    Schemas.HEPSFormEntry.SCHOOL_ADDRESS + " TEXT," +
+                    Schemas.HEPSFormEntry.MALE_TEACHERS + " NUMBER," +
+                    Schemas.HEPSFormEntry.FEMALE_TEACHERS + " NUMBER," +
+                    Schemas.HEPSFormEntry.TOTAL_TEACHERS + " NUMBER," +
+                    Schemas.HEPSFormEntry.CLASS_1_BOYS + " NUMBER," +
+                    Schemas.HEPSFormEntry.CLASS_1_GIRLS + " NUMBER," +
+                    Schemas.HEPSFormEntry.CLASS_1_TOTAL + " NUMBER," +
+                    Schemas.HEPSFormEntry.CLASS_2_BOYS + " NUMBER," +
+                    Schemas.HEPSFormEntry.CLASS_2_GIRLS + " NUMBER," +
+                    Schemas.HEPSFormEntry.CLASS_2_TOTAL + " NUMBER," +
+                    Schemas.HEPSFormEntry.CLASS_3_BOYS + " NUMBER," +
+                    Schemas.HEPSFormEntry.CLASS_3_GIRLS + " NUMBER," +
+                    Schemas.HEPSFormEntry.CLASS_3_TOTAL + " NUMBER," +
+                    Schemas.HEPSFormEntry.CLASS_4_BOYS + " NUMBER," +
+                    Schemas.HEPSFormEntry.CLASS_4_GIRLS + " NUMBER," +
+                    Schemas.HEPSFormEntry.CLASS_4_TOTAL + " NUMBER," +
+                    Schemas.HEPSFormEntry.CLASS_5_BOYS + " NUMBER," +
+                    Schemas.HEPSFormEntry.CLASS_5_GIRLS + " NUMBER," +
+                    Schemas.HEPSFormEntry.CLASS_5_TOTAL + " NUMBER," +
+                    Schemas.HEPSFormEntry.CLASS_TOTAL_BOYS + " NUMBER," +
+                    Schemas.HEPSFormEntry.CLASS_TOTAL_GIRLS + " NUMBER," +
+                    Schemas.HEPSFormEntry.CLASS_TOTAL_TOTAL + " NUMBER," +
+                    Schemas.HEPSFormEntry.TOILETS_BOYS + " NUMBER," +
+                    Schemas.HEPSFormEntry.TOILETS_BOYS_FUNCTIONING + " NUMBER," +
+                    Schemas.HEPSFormEntry.TOILETS_GIRLS + " NUMBER," +
+                    Schemas.HEPSFormEntry.TOILETS_GIRLS_FUNCTIONING + " NUMBER," +
+                    Schemas.HEPSFormEntry.TOILETS_TOTAL + " NUMBER," +
+                    Schemas.HEPSFormEntry.TOILETS_TOTAL_FUNCTIONING + " NUMBER," +
+                    Schemas.HEPSFormEntry.URINALS_BOYS + " NUMBER," +
+                    Schemas.HEPSFormEntry.URINALS_BOYS_FUNCTIONING + " NUMBER," +
+                    Schemas.HEPSFormEntry.URINALS_GIRLS + " NUMBER," +
+                    Schemas.HEPSFormEntry.URINALS_GIRLS_FUNCTIONING + " NUMBER," +
+                    Schemas.HEPSFormEntry.URINALS_TOTAL + " NUMBER," +
+                    Schemas.HEPSFormEntry.URINALS_TOTAL_FUNCTIONING + " NUMBER," +
+                    Schemas.HEPSFormEntry.WATER_SOURCE + " NUMBER," +
+                    Schemas.HEPSFormEntry.NO_OF_TAPS + " NUMBER," +
+                    ")";
+
+    private static final String SQL_DELETE_ENTRIES_HEPS_FORM =
+            "DROP TABLE IF EXISTS " + Schemas.HEPSFormEntry.TABLE_NAME;
+
 
     public DbHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -63,6 +110,7 @@ public class DbHelper extends SQLiteOpenHelper {
         db.execSQL(SQL_CREATE_ENTRIES_CC);
         db.execSQL(SQL_CREATE_ENTRIES_DISCUSSION);
         db.execSQL(SQL_CREATE_ENTRIES_CHECK_IN);
+        db.execSQL(SQL_CREATE_ENTRIES_HEPS_FORM);
     }
 
     @Override
@@ -71,6 +119,7 @@ public class DbHelper extends SQLiteOpenHelper {
         db.execSQL(SQL_DELETE_ENTRIES_CC);
         db.execSQL(SQL_DELETE_ENTRIES_DISCUSSION);
         db.execSQL(SQL_DELETE_ENTRIES_CHECK_IN);
+        db.execSQL(SQL_DELETE_ENTRIES_HEPS_FORM);
         onCreate(db);
     }
 
