@@ -352,7 +352,7 @@ public class GallerySubActivity extends AppCompatActivity {
 
         int quality = 100;
         if (byteCount > 500) {
-            quality = 200 / byteCount;
+            quality = 100 * 500 / byteCount;
         }
 
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
