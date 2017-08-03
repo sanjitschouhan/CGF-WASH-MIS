@@ -94,6 +94,7 @@ public class DbHelper extends SQLiteOpenHelper {
                     Schemas.HEPSFormEntry.URINALS_TOTAL_FUNCTIONING + " NUMBER," +
                     Schemas.HEPSFormEntry.WATER_SOURCE + " NUMBER," +
                     Schemas.HEPSFormEntry.NO_OF_TAPS + " NUMBER," +
+                    Schemas.HEPSFormEntry.IS_SYNCED + " NUMBER" +
                     ")";
 
     private static final String SQL_DELETE_ENTRIES_HEPS_FORM =

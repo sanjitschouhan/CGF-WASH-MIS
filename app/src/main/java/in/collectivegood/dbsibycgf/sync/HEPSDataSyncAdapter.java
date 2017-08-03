@@ -16,7 +16,6 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
 import in.collectivegood.dbsibycgf.database.CCDbHelper;
-import in.collectivegood.dbsibycgf.database.CheckInRecord;
 import in.collectivegood.dbsibycgf.database.DbHelper;
 import in.collectivegood.dbsibycgf.database.HEPSDataDbHelper;
 import in.collectivegood.dbsibycgf.database.HEPSDataRecord;
@@ -36,22 +35,67 @@ public class HEPSDataSyncAdapter extends AbstractThreadedSyncAdapter {
     public void onPerformSync(Account account, Bundle extras, String authority, ContentProviderClient provider, SyncResult syncResult) {
         FirebaseApp.initializeApp(getContext());
         FirebaseDatabase database = FirebaseDatabase.getInstance();
-        DatabaseReference myRef = database.getReference("check_ins");
+        DatabaseReference myRef = database.getReference("heps_data");
 
         if (dbHelper == null)
             dbHelper = new HEPSDataDbHelper(new DbHelper(getContext()));
 
-        Cursor cursor = dbHelper.read(Schemas.HEPSFormEntry.UID_OF_CC, getCCData());
+        Cursor cursor = dbHelper.read(Schemas.HEPSFormEntry.IS_SYNCED, "0");
 
         while (cursor.moveToNext()) {
             final int id = cursor.getInt(cursor.getColumnIndexOrThrow(Schemas.HEPSFormEntry._ID));
-            myRef.child(String.valueOf(getCCData() + "_" + id))
-                    .setValue(new HEPSDataRecord())
-                    //// TODO: 3/8/17 heps data query from db
+            String schoolCode = cursor.getString(cursor.getColumnIndexOrThrow(Schemas.HEPSFormEntry.SCHOOL_CODE));
+
+            HEPSDataRecord record = new HEPSDataRecord(
+                    getCCUid(),
+                    cursor.getString(cursor.getColumnIndexOrThrow(Schemas.HEPSFormEntry.SCHOOL_CODE)),
+                    cursor.getString(cursor.getColumnIndexOrThrow(Schemas.HEPSFormEntry.SCHOOL_NAME)),
+                    cursor.getString(cursor.getColumnIndexOrThrow(Schemas.HEPSFormEntry.SCHOOL_ADDRESS)),
+
+                    cursor.getLong(cursor.getColumnIndexOrThrow(Schemas.HEPSFormEntry.MALE_TEACHERS)),
+                    cursor.getLong(cursor.getColumnIndexOrThrow(Schemas.HEPSFormEntry.FEMALE_TEACHERS)),
+
+                    new long[]{
+                            cursor.getLong(cursor.getColumnIndexOrThrow(Schemas.HEPSFormEntry.CLASS_1_BOYS)),
+                            cursor.getLong(cursor.getColumnIndexOrThrow(Schemas.HEPSFormEntry.CLASS_2_BOYS)),
+                            cursor.getLong(cursor.getColumnIndexOrThrow(Schemas.HEPSFormEntry.CLASS_3_BOYS)),
+                            cursor.getLong(cursor.getColumnIndexOrThrow(Schemas.HEPSFormEntry.CLASS_4_BOYS)),
+                            cursor.getLong(cursor.getColumnIndexOrThrow(Schemas.HEPSFormEntry.CLASS_5_BOYS))
+                    },
+
+                    new long[]{
+                            cursor.getLong(cursor.getColumnIndexOrThrow(Schemas.HEPSFormEntry.CLASS_1_GIRLS)),
+                            cursor.getLong(cursor.getColumnIndexOrThrow(Schemas.HEPSFormEntry.CLASS_2_GIRLS)),
+                            cursor.getLong(cursor.getColumnIndexOrThrow(Schemas.HEPSFormEntry.CLASS_3_GIRLS)),
+                            cursor.getLong(cursor.getColumnIndexOrThrow(Schemas.HEPSFormEntry.CLASS_4_GIRLS)),
+                            cursor.getLong(cursor.getColumnIndexOrThrow(Schemas.HEPSFormEntry.CLASS_5_GIRLS))
+                    },
+
+                    cursor.getLong(cursor.getColumnIndexOrThrow(Schemas.HEPSFormEntry.TOILETS_BOYS)),
+                    cursor.getLong(cursor.getColumnIndexOrThrow(Schemas.HEPSFormEntry.TOILETS_BOYS_FUNCTIONING)),
+                    cursor.getLong(cursor.getColumnIndexOrThrow(Schemas.HEPSFormEntry.TOILETS_GIRLS)),
+                    cursor.getLong(cursor.getColumnIndexOrThrow(Schemas.HEPSFormEntry.TOILETS_GIRLS_FUNCTIONING)),
+
+                    cursor.getLong(cursor.getColumnIndexOrThrow(Schemas.HEPSFormEntry.TOILETS_TOTAL)),
+                    cursor.getLong(cursor.getColumnIndexOrThrow(Schemas.HEPSFormEntry.TOILETS_TOTAL_FUNCTIONING)),
+
+                    cursor.getLong(cursor.getColumnIndexOrThrow(Schemas.HEPSFormEntry.URINALS_BOYS)),
+                    cursor.getLong(cursor.getColumnIndexOrThrow(Schemas.HEPSFormEntry.URINALS_BOYS_FUNCTIONING)),
+                    cursor.getLong(cursor.getColumnIndexOrThrow(Schemas.HEPSFormEntry.URINALS_GIRLS)),
+                    cursor.getLong(cursor.getColumnIndexOrThrow(Schemas.HEPSFormEntry.URINALS_GIRLS_FUNCTIONING)),
+
+                    cursor.getLong(cursor.getColumnIndexOrThrow(Schemas.HEPSFormEntry.URINALS_TOTAL)),
+                    cursor.getLong(cursor.getColumnIndexOrThrow(Schemas.HEPSFormEntry.URINALS_TOTAL_FUNCTIONING)),
+
+                    cursor.getLong(cursor.getColumnIndexOrThrow(Schemas.HEPSFormEntry.WATER_SOURCE)),
+                    cursor.getLong(cursor.getColumnIndexOrThrow(Schemas.HEPSFormEntry.NO_OF_TAPS))
+            );
+            myRef.child(String.valueOf(getCCUid() + "_" + schoolCode))
+                    .setValue(record)
                     .addOnSuccessListener(new OnSuccessListener<Void>() {
                         @Override
                         public void onSuccess(Void aVoid) {
-//                            dbHelper.delete(id);
+                            dbHelper.update(id, new String[]{Schemas.HEPSFormEntry.IS_SYNCED}, new String[]{"1"});
                         }
                     });
         }
@@ -61,7 +105,7 @@ public class HEPSDataSyncAdapter extends AbstractThreadedSyncAdapter {
     /**
      * Get information about current cluster coordinator
      */
-    private String getCCData() {
+    private String getCCUid() {
         FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
         assert currentUser != null;
         String email = currentUser.getEmail();

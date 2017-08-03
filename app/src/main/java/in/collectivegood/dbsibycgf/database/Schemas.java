@@ -46,6 +46,8 @@ public final class Schemas {
     public static class HEPSFormEntry implements BaseColumns {
         public static final String TABLE_NAME = "heps_forms";
 
+        public static final String IS_SYNCED = "is_synced";
+
         public static final String UID_OF_CC = "uid_of_cc";
         public static final String SCHOOL_CODE = "school_code";
         public static final String SCHOOL_NAME = "school_name";

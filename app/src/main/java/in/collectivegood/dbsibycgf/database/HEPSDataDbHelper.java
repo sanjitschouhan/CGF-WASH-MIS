@@ -13,6 +13,7 @@ public class HEPSDataDbHelper {
     }
 
     public void insert(HEPSDataRecord record) {
+        delete(record.getSchoolCode());
         SQLiteDatabase db = dbHelper.getWritableDatabase();
         ContentValues values = new ContentValues();
         values.put(Schemas.HEPSFormEntry.UID_OF_CC, record.getUidOfCC());
@@ -54,6 +55,7 @@ public class HEPSDataDbHelper {
         values.put(Schemas.HEPSFormEntry.URINALS_TOTAL_FUNCTIONING, record.getFunctioningTotalUrinals());
         values.put(Schemas.HEPSFormEntry.WATER_SOURCE, record.getWaterSource());
         values.put(Schemas.HEPSFormEntry.NO_OF_TAPS, record.getNoOfTaps());
+        values.put(Schemas.HEPSFormEntry.IS_SYNCED, 0);
 
         db.insert(Schemas.HEPSFormEntry.TABLE_NAME, null, values);
     }
@@ -117,6 +119,17 @@ public class HEPSDataDbHelper {
                 null,                                   // GROUP BY clause
                 null,                                   // HAVING clause
                 null                                    // SORT BY clause
+        );
+    }
+
+    public int delete(String SchoolCode) {
+        SQLiteDatabase db = dbHelper.getWritableDatabase();
+        String selection = Schemas.HEPSFormEntry.SCHOOL_CODE + " = ?";
+        String[] selectionArgs = {SchoolCode};
+        return db.delete(
+                Schemas.HEPSFormEntry.TABLE_NAME,
+                selection,
+                selectionArgs
         );
     }
 
