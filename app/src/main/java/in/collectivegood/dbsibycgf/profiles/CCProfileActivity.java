@@ -84,8 +84,6 @@ public class CCProfileActivity extends AppCompatActivity {
         assert currentUser != null;
         email = currentUser.getEmail();
 
-//        JavaMail.mail(this, email);
-
         CCDbHelper ccDbHelper = new CCDbHelper(new DbHelper(this));
         Cursor read = ccDbHelper.read(Schemas.CCDatabaseEntry.EMAIL, email);
         read.moveToNext();
