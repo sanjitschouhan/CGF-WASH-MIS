@@ -31,6 +31,11 @@ public class HEPSDataSyncAdapter extends AbstractThreadedSyncAdapter {
         dbHelper = new HEPSDataDbHelper(new DbHelper(context));
     }
 
+    public HEPSDataSyncAdapter(Context context, boolean autoInitialize, boolean allowParallelSyncs) {
+        super(context, autoInitialize, allowParallelSyncs);
+        dbHelper = new HEPSDataDbHelper(new DbHelper(context));
+    }
+
     @Override
     public void onPerformSync(Account account, Bundle extras, String authority, ContentProviderClient provider, SyncResult syncResult) {
         FirebaseApp.initializeApp(getContext());
@@ -90,7 +95,8 @@ public class HEPSDataSyncAdapter extends AbstractThreadedSyncAdapter {
                     cursor.getLong(cursor.getColumnIndexOrThrow(Schemas.HEPSFormEntry.WATER_SOURCE)),
                     cursor.getLong(cursor.getColumnIndexOrThrow(Schemas.HEPSFormEntry.NO_OF_TAPS))
             );
-            myRef.child(String.valueOf(getCCUid() + "_" + schoolCode))
+            System.out.println(record);
+            myRef.child(String.valueOf(getCCUid() + "/" + schoolCode))
                     .setValue(record)
                     .addOnSuccessListener(new OnSuccessListener<Void>() {
                         @Override

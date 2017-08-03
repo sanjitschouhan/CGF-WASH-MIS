@@ -268,7 +268,6 @@ public class InitializingActivity extends AppCompatActivity {
             }
         }
         if (user.getDisplayName() == null) {
-//            Log.d(TAG, "setName: " + name);
             UserProfileChangeRequest userProfileChangeRequest
                     = new UserProfileChangeRequest.Builder()
                     .setDisplayName(name)

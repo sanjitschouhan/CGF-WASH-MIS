@@ -1,5 +1,7 @@
 package in.collectivegood.dbsibycgf.database;
 
+import java.util.ArrayList;
+
 public class HEPSDataRecord {
 
     private String uidOfCC;
@@ -8,8 +10,8 @@ public class HEPSDataRecord {
     private String schoolAddress;
     private long maleTeachers;
     private long femaleTeachers;
-    private long boys[];
-    private long girls[];
+    private ArrayList<Long> boys;
+    private ArrayList<Long> girls;
     private long boysToilets;
     private long functioningBoysToilets;
     private long girlsToilets;
@@ -27,8 +29,18 @@ public class HEPSDataRecord {
 
 
     public HEPSDataRecord() {
-        boys = new long[5];
-        girls = new long[5];
+        boys = new ArrayList<>();
+        boys.add(0L);
+        boys.add(0L);
+        boys.add(0L);
+        boys.add(0L);
+        boys.add(0L);
+        girls = new ArrayList<>();
+        girls.add(0L);
+        girls.add(0L);
+        girls.add(0L);
+        girls.add(0L);
+        girls.add(0L);
     }
 
     public HEPSDataRecord(String uidOfCC, String schoolCode, String schoolName, String schoolAddress, long maleTeachers, long femaleTeachers, long[] boys, long[] girls, long boysToilets, long functioningBoysToilets, long girlsToilets, long functioningGirlsToilets, long totalToilets, long functioningTotalToilets, long boysUrinals, long functioningBoysUrinals, long girlsUrinals, long functioningGirlsUrinals, long totalUrinals, long functioningTotalUrinals, long waterSource, long noOfTaps) {
@@ -38,8 +50,14 @@ public class HEPSDataRecord {
         this.schoolAddress = schoolAddress;
         this.maleTeachers = maleTeachers;
         this.femaleTeachers = femaleTeachers;
-        this.boys = boys;
-        this.girls = girls;
+        this.boys = new ArrayList<>();
+        for (long boy : boys) {
+            this.boys.add(boy);
+        }
+        this.girls = new ArrayList<>();
+        for (long girl : girls) {
+            this.girls.add(girl);
+        }
         this.boysToilets = boysToilets;
         this.functioningBoysToilets = functioningBoysToilets;
         this.girlsToilets = girlsToilets;
@@ -96,13 +114,13 @@ public class HEPSDataRecord {
         return femaleTeachers;
     }
 
-    public long[] getBoys() {
-        return boys;
+    public long getBoys(int Class) {
+        return boys.get(Class - 1);
     }
 
     public long getTotalClassStrength(int Class) {
         if (Class > 0 && Class <= 5)
-            return boys[Class - 1] + girls[Class - 1];
+            return boys.get(Class - 1) + girls.get(Class - 1);
         return 0;
     }
 
@@ -120,8 +138,8 @@ public class HEPSDataRecord {
         return total;
     }
 
-    public long[] getGirls() {
-        return girls;
+    public long getGirls(int Class) {
+        return girls.get(Class - 1);
     }
 
     public long getBoysToilets() {

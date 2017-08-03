@@ -23,20 +23,20 @@ public class HEPSDataDbHelper {
         values.put(Schemas.HEPSFormEntry.MALE_TEACHERS, record.getMaleTeachers());
         values.put(Schemas.HEPSFormEntry.FEMALE_TEACHERS, record.getFemaleTeachers());
         values.put(Schemas.HEPSFormEntry.TOTAL_TEACHERS, record.getMaleTeachers() + record.getFemaleTeachers());
-        values.put(Schemas.HEPSFormEntry.CLASS_1_BOYS, record.getBoys()[0]);
-        values.put(Schemas.HEPSFormEntry.CLASS_1_GIRLS, record.getGirls()[0]);
+        values.put(Schemas.HEPSFormEntry.CLASS_1_BOYS, record.getBoys(1));
+        values.put(Schemas.HEPSFormEntry.CLASS_1_GIRLS, record.getGirls(1));
         values.put(Schemas.HEPSFormEntry.CLASS_1_TOTAL, record.getTotalClassStrength(1));
-        values.put(Schemas.HEPSFormEntry.CLASS_2_BOYS, record.getBoys()[1]);
-        values.put(Schemas.HEPSFormEntry.CLASS_2_GIRLS, record.getGirls()[1]);
+        values.put(Schemas.HEPSFormEntry.CLASS_2_BOYS, record.getBoys(2));
+        values.put(Schemas.HEPSFormEntry.CLASS_2_GIRLS, record.getGirls(2));
         values.put(Schemas.HEPSFormEntry.CLASS_2_TOTAL, record.getTotalClassStrength(2));
-        values.put(Schemas.HEPSFormEntry.CLASS_3_BOYS, record.getBoys()[2]);
-        values.put(Schemas.HEPSFormEntry.CLASS_3_GIRLS, record.getGirls()[2]);
+        values.put(Schemas.HEPSFormEntry.CLASS_3_BOYS, record.getBoys(3));
+        values.put(Schemas.HEPSFormEntry.CLASS_3_GIRLS, record.getGirls(3));
         values.put(Schemas.HEPSFormEntry.CLASS_3_TOTAL, record.getTotalClassStrength(3));
-        values.put(Schemas.HEPSFormEntry.CLASS_4_BOYS, record.getBoys()[3]);
-        values.put(Schemas.HEPSFormEntry.CLASS_4_GIRLS, record.getGirls()[3]);
+        values.put(Schemas.HEPSFormEntry.CLASS_4_BOYS, record.getBoys(4));
+        values.put(Schemas.HEPSFormEntry.CLASS_4_GIRLS, record.getGirls(4));
         values.put(Schemas.HEPSFormEntry.CLASS_4_TOTAL, record.getTotalClassStrength(4));
-        values.put(Schemas.HEPSFormEntry.CLASS_5_BOYS, record.getBoys()[4]);
-        values.put(Schemas.HEPSFormEntry.CLASS_5_GIRLS, record.getGirls()[4]);
+        values.put(Schemas.HEPSFormEntry.CLASS_5_BOYS, record.getBoys(5));
+        values.put(Schemas.HEPSFormEntry.CLASS_5_GIRLS, record.getGirls(5));
         values.put(Schemas.HEPSFormEntry.CLASS_5_TOTAL, record.getTotalClassStrength(5));
         values.put(Schemas.HEPSFormEntry.CLASS_TOTAL_BOYS, record.getTotalBoys());
         values.put(Schemas.HEPSFormEntry.CLASS_TOTAL_GIRLS, record.getTotalGirls());
@@ -55,7 +55,7 @@ public class HEPSDataDbHelper {
         values.put(Schemas.HEPSFormEntry.URINALS_TOTAL_FUNCTIONING, record.getFunctioningTotalUrinals());
         values.put(Schemas.HEPSFormEntry.WATER_SOURCE, record.getWaterSource());
         values.put(Schemas.HEPSFormEntry.NO_OF_TAPS, record.getNoOfTaps());
-        values.put(Schemas.HEPSFormEntry.IS_SYNCED, 0);
+        values.put(Schemas.HEPSFormEntry.IS_SYNCED, "0");
 
         db.insert(Schemas.HEPSFormEntry.TABLE_NAME, null, values);
     }

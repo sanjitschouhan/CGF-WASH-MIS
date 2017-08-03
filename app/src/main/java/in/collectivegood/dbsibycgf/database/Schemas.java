@@ -79,7 +79,7 @@ public final class Schemas {
 
         public static final String CLASS_TOTAL_BOYS = "class_total_boys";
         public static final String CLASS_TOTAL_GIRLS = "class_total_girls";
-        public static final String CLASS_TOTAL_TOTAL = "class_5_total";
+        public static final String CLASS_TOTAL_TOTAL = "class_total_total";
 
         public static final String TOILETS_BOYS = "toilets_boys";
         public static final String TOILETS_BOYS_FUNCTIONING = "toilets_boys_functioning";

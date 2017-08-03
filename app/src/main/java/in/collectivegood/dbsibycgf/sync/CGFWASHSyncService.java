@@ -17,6 +17,7 @@ public class CGFWASHSyncService extends Service {
 
     @Override
     public void onCreate() {
+        super.onCreate();
         synchronized (sSyncAdapterLock) {
             if (hepsDataSyncAdapter == null) {
                 hepsDataSyncAdapter = new HEPSDataSyncAdapter(getApplicationContext(), true);
