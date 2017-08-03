@@ -15,12 +15,17 @@ import java.util.ArrayList;
 
 import in.collectivegood.dbsibycgf.R;
 import in.collectivegood.dbsibycgf.database.DbHelper;
+import in.collectivegood.dbsibycgf.database.HEPSDataDbHelper;
+import in.collectivegood.dbsibycgf.database.HEPSDataRecord;
 import in.collectivegood.dbsibycgf.database.Schemas;
 import in.collectivegood.dbsibycgf.database.SchoolDbHelper;
+import in.collectivegood.dbsibycgf.profiles.CCProfileActivity;
 
 public class HEPSDataFormActivity extends AppCompatActivity {
 
     private String schoolCode;
+    private String schoolName;
+    private String schoolAddress;
     private EditText maleTeachersEditText;
     private EditText femaleTeachersEditText;
     private TextView totalTeachersTextView;
@@ -153,16 +158,16 @@ public class HEPSDataFormActivity extends AppCompatActivity {
         SchoolDbHelper schoolDbHelper = new SchoolDbHelper(new DbHelper(this));
         Cursor read = schoolDbHelper.read(Schemas.SchoolDatabaseEntry.CODE, schoolCode);
         read.moveToNext();
-        String name = read.getString(read.getColumnIndexOrThrow(Schemas.SchoolDatabaseEntry.NAME));
-        String address = read.getString(read.getColumnIndexOrThrow(Schemas.SchoolDatabaseEntry.VILLAGE)) + ", " +
+        schoolName = read.getString(read.getColumnIndexOrThrow(Schemas.SchoolDatabaseEntry.NAME));
+        schoolAddress = read.getString(read.getColumnIndexOrThrow(Schemas.SchoolDatabaseEntry.VILLAGE)) + ", " +
                 read.getString(read.getColumnIndexOrThrow(Schemas.SchoolDatabaseEntry.DISTRICT)) + ", " +
                 read.getString(read.getColumnIndexOrThrow(Schemas.SchoolDatabaseEntry.STATE));
 
         read.close();
 
-        ((TextView) findViewById(R.id.school_name)).setText(name);
+        ((TextView) findViewById(R.id.school_name)).setText(schoolName);
         ((TextView) findViewById(R.id.school_code)).setText(schoolCode);
-        ((TextView) findViewById(R.id.school_address)).setText(address);
+        ((TextView) findViewById(R.id.school_address)).setText(schoolAddress);
     }
 
     @Override
@@ -278,7 +283,46 @@ public class HEPSDataFormActivity extends AppCompatActivity {
     }
 
     public void saveForm(View view) {
-        //// TODO: 3/8/17 save form
+        HEPSDataRecord record = new HEPSDataRecord(
+                CCProfileActivity.getCcUID(),
+                schoolCode, schoolName, schoolAddress,
+                getValue(R.id.male_teachers),
+                getValue(R.id.female_teachers),
+                new long[]{
+                        getValue(R.id.class_1_boys),
+                        getValue(R.id.class_2_boys),
+                        getValue(R.id.class_3_boys),
+                        getValue(R.id.class_4_boys),
+                        getValue(R.id.class_5_boys)
+                },
+                new long[]{
+                        getValue(R.id.class_1_girls),
+                        getValue(R.id.class_2_girls),
+                        getValue(R.id.class_3_girls),
+                        getValue(R.id.class_4_girls),
+                        getValue(R.id.class_5_girls)
+                },
+                getValue(R.id.toilets_separate_boys),
+                getValue(R.id.toilets_separate_boys_functioning),
+                getValue(R.id.toilets_separate_girls),
+                getValue(R.id.toilets_separate_girls_functioning),
+                getValue(R.id.toilets_total),
+                getValue(R.id.toilets_total_functioning),
+                getValue(R.id.urinals_separate_boys),
+                getValue(R.id.urinals_separate_boys_functioning),
+                getValue(R.id.urinals_separate_girls),
+                getValue(R.id.urinals_separate_girls_functioning),
+                getValue(R.id.urinals_total),
+                getValue(R.id.urinals_total_functioning),
+                waterSupply,
+                getValue(R.id.taps)
+        );
+
+        HEPSDataDbHelper dbHelper = new HEPSDataDbHelper(new DbHelper(this));
+        dbHelper.insert(record);
+
+        finish();
+        Runtime.getRuntime().gc();
     }
 
     public long getValue(int id) {
