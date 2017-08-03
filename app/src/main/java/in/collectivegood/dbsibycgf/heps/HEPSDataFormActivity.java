@@ -276,4 +276,20 @@ public class HEPSDataFormActivity extends AppCompatActivity {
         findViewById(R.id.tap_layout).setVisibility(View.GONE);
         reset(new int[]{R.id.taps});
     }
+
+    public void saveForm(View view) {
+
+    }
+
+    public long getValue(int id) {
+        EditText editText = (EditText) findViewById(id);
+        String valueString = editText.getText().toString().trim();
+        long value = 0;
+        try {
+            value = Long.parseLong(valueString);
+        } catch (Exception ignored) {
+        }
+
+        return value;
+    }
 }

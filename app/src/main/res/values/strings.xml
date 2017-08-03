@@ -82,4 +82,5 @@
     <string name="no_of_taps">No of Taps</string>
     <string name="what_is_the_source_of_water">What is the source of water?</string>
     <string name="water_supply">Water Supply</string>
+    <string name="save">Save</string>
 </resources>
