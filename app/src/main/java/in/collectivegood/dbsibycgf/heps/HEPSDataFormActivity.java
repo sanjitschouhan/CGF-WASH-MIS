@@ -24,6 +24,7 @@ public class HEPSDataFormActivity extends AppCompatActivity {
     private EditText maleTeachersEditText;
     private EditText femaleTeachersEditText;
     private TextView totalTeachersTextView;
+    private int waterSupply;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,6 +36,8 @@ public class HEPSDataFormActivity extends AppCompatActivity {
         femaleTeachersEditText = (EditText) findViewById(R.id.female_teachers);
         totalTeachersTextView = (TextView) findViewById(R.id.total_teachers);
 
+        waterSupply = 0;
+
         findViewById(R.id.toilets_layout).setVisibility(View.GONE);
         findViewById(R.id.toilets_separate_layout).setVisibility(View.GONE);
         findViewById(R.id.toilets_combined_layout).setVisibility(View.GONE);
@@ -42,6 +45,8 @@ public class HEPSDataFormActivity extends AppCompatActivity {
         findViewById(R.id.urinals_layout).setVisibility(View.GONE);
         findViewById(R.id.urinals_separate_layout).setVisibility(View.GONE);
         findViewById(R.id.urinals_combined_layout).setVisibility(View.GONE);
+
+        findViewById(R.id.tap_layout).setVisibility(View.GONE);
 
         setSchoolDetails();
 
@@ -214,8 +219,9 @@ public class HEPSDataFormActivity extends AppCompatActivity {
 
     private void reset(int[] ids) {
         for (int id : ids) {
-            ((EditText) findViewById(id)).setText("0");
+            ((EditText) findViewById(id)).setText("");
         }
+
     }
 
     public void showUrinalsLayout(View view) {
@@ -252,5 +258,22 @@ public class HEPSDataFormActivity extends AppCompatActivity {
                 R.id.urinals_separate_girls,
                 R.id.urinals_separate_girls_functioning
         });
+    }
+
+    public void toggleWaterSupplyBorewell(View view) {
+        waterSupply ^= 1;
+    }
+
+    public void toggleWaterSupplyGovtSupply(View view) {
+        waterSupply ^= 10;
+    }
+
+    public void showTapLayout(View view) {
+        findViewById(R.id.tap_layout).setVisibility(View.VISIBLE);
+    }
+
+    public void hideTapLayout(View view) {
+        findViewById(R.id.tap_layout).setVisibility(View.GONE);
+        reset(new int[]{R.id.taps});
     }
 }

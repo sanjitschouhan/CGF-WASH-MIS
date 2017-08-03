@@ -76,4 +76,10 @@
     <string name="boys">Boys</string>
     <string name="girls">Girls</string>
     <string name="are_there_any_urinal_blocks">Are there any urinal blocks?</string>
+    <string name="borewell">Borewell</string>
+    <string name="govt_supply">Govt Supply</string>
+    <string name="is_it_active_and_regular">Is it active and regular?</string>
+    <string name="no_of_taps">No of Taps</string>
+    <string name="what_is_the_source_of_water">What is the source of water?</string>
+    <string name="water_supply">Water Supply</string>
 </resources>

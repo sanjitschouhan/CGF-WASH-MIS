@@ -348,10 +348,10 @@ public class GallerySubActivity extends AppCompatActivity {
                         + "/" + System.currentTimeMillis();
         StorageReference storageReference = FirebaseStorage.getInstance().getReference(path + ".jpeg");
 
-        int byteCount = bitmap.getByteCount() / 1024 / 1024;
+        int byteCount = bitmap.getByteCount() / 1024;
 
         int quality = 100;
-        if (byteCount > 2) {
+        if (byteCount > 500) {
             quality = 200 / byteCount;
         }
 

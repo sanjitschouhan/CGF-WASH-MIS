@@ -215,7 +215,7 @@ public class GalleryMainActivity extends AppCompatActivity {
         int byteCount = bitmap.getByteCount() / 1024;
 
         int quality = 100;
-        if (byteCount > 100) {
+        if (byteCount > 500) {
             quality = 100 / byteCount;
         }
 
