@@ -321,8 +321,17 @@ public class HEPSDataFormActivity extends AppCompatActivity {
         HEPSDataDbHelper dbHelper = new HEPSDataDbHelper(new DbHelper(this));
         dbHelper.insert(record);
 
-        finish();
-        Runtime.getRuntime().gc();
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle(R.string.save_successful)
+                .setMessage(R.string.save_successful_msg)
+                .setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        finish();
+                        Runtime.getRuntime().gc();
+                    }
+                }).setCancelable(false);
+        builder.show();
     }
 
     public long getValue(int id) {
