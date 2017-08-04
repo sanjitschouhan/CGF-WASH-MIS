@@ -1,79 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
     tools:context="in.collectivegood.dbsibycgf.calender.CalendarActivity">
-<LinearLayout
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:orientation="vertical">
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Event Calendar"
-        android:gravity="center"
-        android:textSize="30dp"
-        android:background="@color/colorAccent"/>
+
     <CalendarView
+        android:id="@+id/calenderview"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/calenderview"
         android:dateTextAppearance="@android:style/TextAppearance.DeviceDefault.Medium"
         android:weekDayTextAppearance="@android:style/TextAppearance.DeviceDefault.Medium">
 
     </CalendarView>
-<LinearLayout
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:orientation="vertical"
-    android:layout_margin="5dp"
-    android:gravity="center">
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:textSize="20dp"
-        android:background="@color/colorAccent"
-        android:text="EVENTS"/>
-</LinearLayout>
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="10dp"
-        android:background="@color/primary_light"
-        android:orientation="vertical">
-       <TextView
-           android:layout_width="match_parent"
-           android:layout_height="wrap_content"
-           android:text="EVENT NAME"
-           android:id="@+id/Eventname"
-           android:gravity="center"
-           android:textSize="20sp"/>
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="TIME:"
-            android:gravity="center"
-            android:textSize="15dp"/>
-    </LinearLayout>
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-        <ScrollView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="SOME TEXT"
-                android:gravity="center"/>
 
-        </ScrollView>
-
-
-    </LinearLayout>
-</LinearLayout>
 </LinearLayout>
