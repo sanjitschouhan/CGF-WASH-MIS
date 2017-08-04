@@ -5,7 +5,7 @@ import android.content.Context;
 import in.collectivegood.dbsibycgf.database.Schemas;
 import in.collectivegood.dbsibycgf.support.InfoProvider;
 
-public class CCListItem {
+class CCListItem {
     private String Uid;
     private String Name;
 

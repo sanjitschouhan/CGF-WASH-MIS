@@ -8,10 +8,6 @@ import android.widget.ImageView;
 
 import in.collectivegood.dbsibycgf.R;
 
-/**
- * Created by sanjit on 23/5/17.
- */
-
 class ViewHolder extends RecyclerView.ViewHolder {
 
     ImageView imageView;
