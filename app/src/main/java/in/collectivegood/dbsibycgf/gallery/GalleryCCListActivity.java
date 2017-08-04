@@ -9,14 +9,12 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.GridView;
 
-import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-import com.google.firebase.storage.FirebaseStorage;
 
 import java.util.ArrayList;
 
@@ -27,11 +25,8 @@ import in.collectivegood.dbsibycgf.support.UserTypes;
 
 public class GalleryCCListActivity extends AppCompatActivity {
 
-    private static final int REQUEST_CODE_IMAGE = 1;
-    private ArrayList<String> list;
-    private ArrayAdapter<String> adapter;
-    private FirebaseStorage firebaseStorage;
-    private FirebaseDatabase firebaseDatabase;
+    private ArrayList<CCListItem> list;
+    private ArrayAdapter<CCListItem> adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,6 +44,7 @@ public class GalleryCCListActivity extends AppCompatActivity {
             public void onDataChange(DataSnapshot dataSnapshot) {
                 String value = dataSnapshot.getValue(String.class);
                 if (value.equals(UserTypes.USER_TYPE_ADMIN)) {
+                    //noinspection ConstantConditions
                     generateCCList(extras.getString("state").toLowerCase());
                 } else if (value.equals(UserTypes.USER_TYPE_ADMIN_AP)) {
                     generateCCList("ap");
@@ -69,10 +65,8 @@ public class GalleryCCListActivity extends AppCompatActivity {
     }
 
     private void ViewGallery() {
-        //noinspection ConstantConditions
-        String name = FirebaseAuth.getInstance().getCurrentUser().getDisplayName().toLowerCase();
         Intent intent = new Intent(GalleryCCListActivity.this, GallerySubActivity.class);
-        intent.putExtra("name", name);
+        intent.putExtra("uid", InfoProvider.getCcUID(this));
         intent.putExtra("state", InfoProvider.getCCState(this));
         startActivity(intent);
         finish();
@@ -86,8 +80,7 @@ public class GalleryCCListActivity extends AppCompatActivity {
         adapter = new ArrayAdapter<>(this, R.layout.gallery_cc, R.id.gallery_cc_name, list);
         gridView.setAdapter(adapter);
 
-        firebaseStorage = FirebaseStorage.getInstance();
-        firebaseDatabase = FirebaseDatabase.getInstance();
+        FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
 
         DatabaseReference gallery = firebaseDatabase.getReference("gallery").child(state);
 
@@ -103,7 +96,7 @@ public class GalleryCCListActivity extends AppCompatActivity {
         gallery.addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {
-                list.add(dataSnapshot.getKey().toUpperCase());
+                list.add(new CCListItem(dataSnapshot.getKey().toUpperCase(), GalleryCCListActivity.this));
                 adapter.notifyDataSetChanged();
             }
 
@@ -114,7 +107,13 @@ public class GalleryCCListActivity extends AppCompatActivity {
 
             @Override
             public void onChildRemoved(DataSnapshot dataSnapshot) {
-                list.remove(dataSnapshot.getKey().toUpperCase());
+                String uid = dataSnapshot.getKey().toUpperCase();
+                for (CCListItem ccListItem : list) {
+                    if (ccListItem.getUid().equals(uid)) {
+                        list.remove(ccListItem);
+                        break;
+                    }
+                }
                 adapter.notifyDataSetChanged();
             }
 
@@ -132,9 +131,9 @@ public class GalleryCCListActivity extends AppCompatActivity {
         gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                String name = list.get(position);
+                String uid = list.get(position).getUid();
                 Intent intent = new Intent(GalleryCCListActivity.this, GallerySubActivity.class);
-                intent.putExtra("name", name);
+                intent.putExtra("uid", uid);
                 intent.putExtra("state", state);
                 startActivity(intent);
             }

@@ -4,7 +4,6 @@ import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
-import android.os.Environment;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
@@ -25,6 +24,7 @@ import com.google.firebase.storage.StorageReference;
 import java.io.File;
 
 import in.collectivegood.dbsibycgf.R;
+import in.collectivegood.dbsibycgf.support.InfoProvider;
 
 public class GalleryPreviewActivity extends AppCompatActivity {
     private static final String TAG = "gallery_preview_activity";
@@ -44,7 +44,7 @@ public class GalleryPreviewActivity extends AppCompatActivity {
         System.out.println(url.split("\\.")[0]);
 
         reference = FirebaseStorage.getInstance().getReference(url);
-        File file = getFile();
+        File file = InfoProvider.getFile(url, this);
         if (file.exists()) {
             Glide.with(this)
                     .load(file)
@@ -63,7 +63,7 @@ public class GalleryPreviewActivity extends AppCompatActivity {
     }
 
     public void download(View view) {
-        File downloadFile = getFile();
+        File downloadFile = InfoProvider.getFile(url, this);
         final ProgressDialog dialog = new ProgressDialog(this);
         dialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
         dialog.setIndeterminate(true);
@@ -91,31 +91,6 @@ public class GalleryPreviewActivity extends AppCompatActivity {
             Toast.makeText(this, getString(R.string.cannot_create_file), Toast.LENGTH_SHORT).show();
             dialog.dismiss();
         }
-    }
-
-    public File getFile() {
-        File file = null;
-        boolean success = true;
-        File rootFolder = new File(Environment.getExternalStorageDirectory() + "/" + getString(R.string.app_name));
-        if (!rootFolder.exists()) {
-            success = rootFolder.mkdir();
-        }
-        if (success) {
-            File galleryFolder = new File(rootFolder.getPath() + "/Gallery");
-            if (!galleryFolder.exists()) {
-                success = galleryFolder.mkdir();
-            }
-            if (success) {
-                File userFolder = new File(galleryFolder.getPath() + "/" + url.split("/")[1]);
-                if (!userFolder.exists()) {
-                    success = userFolder.mkdir();
-                }
-                if (success) {
-                    file = new File(userFolder.getPath() + "/" + url.split("/")[2]);
-                }
-            }
-        }
-        return file;
     }
 
     private void deleteConfirm() {

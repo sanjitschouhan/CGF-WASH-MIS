@@ -7,7 +7,6 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.Environment;
 import android.os.Handler;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
@@ -47,11 +46,12 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 import in.collectivegood.dbsibycgf.R;
+import in.collectivegood.dbsibycgf.support.InfoProvider;
 import in.collectivegood.dbsibycgf.support.UserTypes;
 
 public class GallerySubActivity extends AppCompatActivity {
     private static final int REQUEST_CODE_IMAGE = 1;
-    private String name;
+    private String uid;
     private GalleryAdapter adapter;
     private FirebaseDatabase firebaseDatabase;
     private ArrayList<String> list;
@@ -86,17 +86,17 @@ public class GallerySubActivity extends AppCompatActivity {
         recyclerView.setAdapter(adapter);
 
         //noinspection ConstantConditions
-        name = getIntent().getExtras().getString("name").toLowerCase();
+        uid = getIntent().getExtras().getString("uid").toLowerCase();
         //noinspection ConstantConditions
         state = getIntent().getExtras().getString("state").toLowerCase();
         final DatabaseReference gallery = firebaseDatabase.getReference("gallery")
                 .child(state)
-                .child(name);
+                .child(uid);
 
         gallery.addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {
-                list.add(state + "/" + name + "/" + dataSnapshot.getKey());
+                list.add(state + "/" + uid + "/" + dataSnapshot.getKey());
                 adapter.notifyDataSetChanged();
                 findViewById(R.id.empty).setVisibility(View.GONE);
                 findViewById(R.id.empty2).setVisibility(View.GONE);
@@ -110,7 +110,7 @@ public class GallerySubActivity extends AppCompatActivity {
             @Override
             public void onChildRemoved(DataSnapshot dataSnapshot) {
                 if (!deleting) {
-                    list.remove(state + "/" + name + "/" + dataSnapshot.getKey());
+                    list.remove(state + "/" + uid + "/" + dataSnapshot.getKey());
                     adapter.notifyDataSetChanged();
                     if (list.size() == 0) {
                         findViewById(R.id.empty2).setVisibility(View.VISIBLE);
@@ -231,7 +231,7 @@ public class GallerySubActivity extends AppCompatActivity {
         dialog.setMax(list.size());
         dialog.show();
         for (final String fileName : list) {
-            File downloadFile = getFile(fileName);
+            File downloadFile = InfoProvider.getFile(fileName, this);
 
             if (downloadFile != null) {
                 StorageReference reference = FirebaseStorage.getInstance().getReference("gallery/" + fileName + ".jpeg");
@@ -266,37 +266,6 @@ public class GallerySubActivity extends AppCompatActivity {
             dialog.dismiss();
             Toast.makeText(this, R.string.no_pictures_to_download, Toast.LENGTH_SHORT).show();
         }
-    }
-
-    public File getFile(String url) {
-        File file = null;
-        boolean success = true;
-        File rootFolder = new File(Environment.getExternalStorageDirectory() + "/" + getString(R.string.app_name));
-        if (!rootFolder.exists()) {
-            success = rootFolder.mkdir();
-        }
-        if (success) {
-            File galleryFolder = new File(rootFolder.getPath() + "/Gallery");
-            if (!galleryFolder.exists()) {
-                success = galleryFolder.mkdir();
-            }
-            if (success) {
-                File stateFolder = new File(galleryFolder.getPath() + "/" + url.split("/")[0]);
-                if (!stateFolder.exists()) {
-                    success = stateFolder.mkdir();
-                }
-                if (success) {
-                    File userFolder = new File(galleryFolder.getPath() + "/" + url.split("/")[1]);
-                    if (!userFolder.exists()) {
-                        success = userFolder.mkdir();
-                    }
-                    if (success) {
-                        file = new File(userFolder.getPath() + "/" + url.split("/")[1] + "/" + url.split("/")[2] + ".jpeg");
-                    }
-                }
-            }
-        }
-        return file;
     }
 
     public void uploadPicture(View view) {
@@ -353,7 +322,7 @@ public class GallerySubActivity extends AppCompatActivity {
 
         //noinspection ConstantConditions
         final String path =
-                "gallery/" + state + "/" + name
+                "gallery/" + state + "/" + uid
                         + "/" + System.currentTimeMillis();
         StorageReference storageReference = FirebaseStorage.getInstance().getReference(path + ".jpeg");
 
