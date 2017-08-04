@@ -7,20 +7,16 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.TextView;
 
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
-
 import in.collectivegood.dbsibycgf.R;
 import in.collectivegood.dbsibycgf.dashboard.DashboardActivity;
-import in.collectivegood.dbsibycgf.database.CCDbHelper;
 import in.collectivegood.dbsibycgf.database.DbHelper;
 import in.collectivegood.dbsibycgf.database.Schemas;
 import in.collectivegood.dbsibycgf.database.SchoolDbHelper;
-import in.collectivegood.dbsibycgf.support.JavaMail;
+import in.collectivegood.dbsibycgf.support.InfoProvider;
 
 public class CCProfileActivity extends AppCompatActivity {
 
-    private static String ccUID;
+    private String ccUID;
     private int noOfSchools;
     private String mandal;
     private String district;
@@ -37,15 +33,12 @@ public class CCProfileActivity extends AppCompatActivity {
     private TextView districtView;
     private TextView uidView;
 
-    public static String getCcUID() {
-        return ccUID;
-    }
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_cc_profile);
 
+        //noinspection ConstantConditions
         getSupportActionBar().setElevation(0);
 
         init();
@@ -80,18 +73,11 @@ public class CCProfileActivity extends AppCompatActivity {
      * Get information about current cluster coordinator
      */
     private void getCCData() {
-        FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
-        assert currentUser != null;
-        email = currentUser.getEmail();
-
-        CCDbHelper ccDbHelper = new CCDbHelper(new DbHelper(this));
-        Cursor read = ccDbHelper.read(Schemas.CCDatabaseEntry.EMAIL, email);
-        read.moveToNext();
-        name = read.getString(read.getColumnIndexOrThrow(Schemas.CCDatabaseEntry.NAME));
-        reportingManager = read.getString(read.getColumnIndexOrThrow(Schemas.CCDatabaseEntry.PROJECT_COORDINATOR));
-        ccUID = read.getString(read.getColumnIndexOrThrow(Schemas.CCDatabaseEntry.UID));
-        phone = read.getString(read.getColumnIndexOrThrow(Schemas.CCDatabaseEntry.PHONE));
-        read.close();
+        email = InfoProvider.getCCData(this, Schemas.CCDatabaseEntry.EMAIL);
+        name = InfoProvider.getCCData(this, Schemas.CCDatabaseEntry.NAME);
+        reportingManager = InfoProvider.getCCData(this, Schemas.CCDatabaseEntry.PROJECT_COORDINATOR);
+        ccUID = InfoProvider.getCcUID(this);
+        phone = InfoProvider.getCCData(this, Schemas.CCDatabaseEntry.PHONE);
     }
 
     /**

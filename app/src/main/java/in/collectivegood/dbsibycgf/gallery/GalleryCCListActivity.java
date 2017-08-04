@@ -4,18 +4,19 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.GridView;
 
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.storage.FirebaseStorage;
 
 import java.util.ArrayList;
 
@@ -24,29 +25,37 @@ import in.collectivegood.dbsibycgf.database.Schemas;
 import in.collectivegood.dbsibycgf.support.InfoProvider;
 import in.collectivegood.dbsibycgf.support.UserTypes;
 
-public class GalleryMainActivity extends AppCompatActivity {
+public class GalleryCCListActivity extends AppCompatActivity {
 
+    private static final int REQUEST_CODE_IMAGE = 1;
     private ArrayList<String> list;
     private ArrayAdapter<String> adapter;
+    private FirebaseStorage firebaseStorage;
+    private FirebaseDatabase firebaseDatabase;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_gallery_main);
+        setContentView(R.layout.activity_gallery_cc_list);
 
         String email = InfoProvider.getCCData(this, Schemas.CCDatabaseEntry.EMAIL);
         final DatabaseReference user_type = FirebaseDatabase.getInstance()
                 .getReference("user_types")
                 .child(email.replaceAll("\\.", "(dot)"));
+
+        final Bundle extras = getIntent().getExtras();
         user_type.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 String value = dataSnapshot.getValue(String.class);
                 if (value.equals(UserTypes.USER_TYPE_ADMIN)) {
-                    InitialiseMainGallery();
+                    generateCCList(extras.getString("state").toLowerCase());
+                } else if (value.equals(UserTypes.USER_TYPE_ADMIN_AP)) {
+                    generateCCList("ap");
+                } else if (value.equals(UserTypes.USER_TYPE_ADMIN_TL)) {
+                    generateCCList("tl");
                 } else {
-                    startActivity(new Intent(GalleryMainActivity.this, GalleryCCListActivity.class));
-                    finish();
+                    ViewGallery();
                 }
             }
 
@@ -56,19 +65,31 @@ public class GalleryMainActivity extends AppCompatActivity {
             }
         });
 
+
     }
 
-    private void InitialiseMainGallery() {
-        final GridView gridView = (GridView) findViewById(R.id.gallery_state_list);
+    private void ViewGallery() {
+        //noinspection ConstantConditions
+        String name = FirebaseAuth.getInstance().getCurrentUser().getDisplayName().toLowerCase();
+        Intent intent = new Intent(GalleryCCListActivity.this, GallerySubActivity.class);
+        intent.putExtra("name", name);
+        intent.putExtra("state", InfoProvider.getCCState(this));
+        startActivity(intent);
+        finish();
+    }
+
+    private void generateCCList(final String state) {
+        final GridView gridView = (GridView) findViewById(R.id.gallery_cc_list);
         gridView.setEmptyView(findViewById(R.id.empty));
 
         list = new ArrayList<>();
         adapter = new ArrayAdapter<>(this, R.layout.gallery_cc, R.id.gallery_cc_name, list);
         gridView.setAdapter(adapter);
 
-        FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
+        firebaseStorage = FirebaseStorage.getInstance();
+        firebaseDatabase = FirebaseDatabase.getInstance();
 
-        DatabaseReference gallery = firebaseDatabase.getReference("gallery");
+        DatabaseReference gallery = firebaseDatabase.getReference("gallery").child(state);
 
         Handler handler = new Handler();
         handler.postDelayed(new Runnable() {
@@ -111,11 +132,14 @@ public class GalleryMainActivity extends AppCompatActivity {
         gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                String state = list.get(position);
-                Intent intent = new Intent(GalleryMainActivity.this, GalleryCCListActivity.class);
+                String name = list.get(position);
+                Intent intent = new Intent(GalleryCCListActivity.this, GallerySubActivity.class);
+                intent.putExtra("name", name);
                 intent.putExtra("state", state);
                 startActivity(intent);
             }
         });
     }
+
+
 }

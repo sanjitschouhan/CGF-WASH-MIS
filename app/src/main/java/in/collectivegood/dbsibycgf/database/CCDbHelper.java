@@ -20,6 +20,7 @@ public class CCDbHelper {
         values.put(Schemas.CCDatabaseEntry.PHONE, record.getPhone());
         values.put(Schemas.CCDatabaseEntry.PROJECT_COORDINATOR, record.getProjectCoordinator());
         db.insert(Schemas.CCDatabaseEntry.TABLE_NAME, null, values);
+        db.close();
     }
 
     public Cursor read(String attribute, String value) {
@@ -38,7 +39,7 @@ public class CCDbHelper {
             conditionArgs = new String[]{value};
         }
 
-        Cursor query = db.query(
+        return db.query(
                 Schemas.CCDatabaseEntry.TABLE_NAME,  // Table name
                 projection,                             // Columns to return
                 condition,                              // Columns for WHERE clause
@@ -47,8 +48,6 @@ public class CCDbHelper {
                 null,                                   // HAVING clause
                 null                                    // SORT BY clause
         );
-
-        return query;
     }
 
     public int update(String uid, String[] columns, String[] values) {
@@ -70,6 +69,7 @@ public class CCDbHelper {
                     selection,
                     selectionArgs);
         }
+        db.close();
         return update;
     }
 

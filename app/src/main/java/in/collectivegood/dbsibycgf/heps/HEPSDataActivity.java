@@ -18,7 +18,7 @@ import in.collectivegood.dbsibycgf.database.DbHelper;
 import in.collectivegood.dbsibycgf.database.Schemas;
 import in.collectivegood.dbsibycgf.database.SchoolDbHelper;
 import in.collectivegood.dbsibycgf.database.SchoolRecord;
-import in.collectivegood.dbsibycgf.profiles.CCProfileActivity;
+import in.collectivegood.dbsibycgf.support.InfoProvider;
 
 public class HEPSDataActivity extends AppCompatActivity {
 
@@ -82,7 +82,7 @@ public class HEPSDataActivity extends AppCompatActivity {
     private void updateSchoolList(String query) {
         schoolList.clear();
 
-        Cursor read = schoolDbHelper.read(query);
+        Cursor read = schoolDbHelper.search(query, InfoProvider.getCcUID(this));
 
         while (read.moveToNext()) {
             String name = read.getString(read.getColumnIndexOrThrow(Schemas.CCDatabaseEntry.NAME));
@@ -101,7 +101,7 @@ public class HEPSDataActivity extends AppCompatActivity {
                     email,
                     state,
                     district,
-                    CCProfileActivity.getCcUID())
+                    InfoProvider.getCcUID(this))
             );
         }
 

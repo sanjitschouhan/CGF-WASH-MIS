@@ -10,18 +10,14 @@ import android.util.Log;
 
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.FirebaseApp;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
-import in.collectivegood.dbsibycgf.database.CCDbHelper;
 import in.collectivegood.dbsibycgf.database.DbHelper;
 import in.collectivegood.dbsibycgf.database.HEPSDataDbHelper;
 import in.collectivegood.dbsibycgf.database.HEPSDataRecord;
 import in.collectivegood.dbsibycgf.database.Schemas;
-import in.collectivegood.dbsibycgf.database.SchoolDbHelper;
-import in.collectivegood.dbsibycgf.profiles.CCProfileActivity;
+import in.collectivegood.dbsibycgf.support.InfoProvider;
 
 import static android.content.Context.ACCOUNT_SERVICE;
 
@@ -81,7 +77,7 @@ public class SyncFunctions {
             String schoolCode = cursor.getString(cursor.getColumnIndexOrThrow(Schemas.HEPSFormEntry.SCHOOL_CODE));
 
             HEPSDataRecord record = new HEPSDataRecord(
-                    getCCUid(context),
+                    InfoProvider.getCcUID(context),
                     cursor.getString(cursor.getColumnIndexOrThrow(Schemas.HEPSFormEntry.SCHOOL_CODE)),
                     cursor.getString(cursor.getColumnIndexOrThrow(Schemas.HEPSFormEntry.SCHOOL_NAME)),
                     cursor.getString(cursor.getColumnIndexOrThrow(Schemas.HEPSFormEntry.SCHOOL_ADDRESS)),
@@ -125,7 +121,7 @@ public class SyncFunctions {
                     cursor.getLong(cursor.getColumnIndexOrThrow(Schemas.HEPSFormEntry.NO_OF_TAPS))
             );
             System.out.println(record);
-            myRef.child(getCCState(context)).child(getCCUid(context)).child(schoolCode)
+            myRef.child(InfoProvider.getCCState(context)).child(InfoProvider.getCcUID(context)).child(schoolCode)
                     .setValue(record)
                     .addOnSuccessListener(new OnSuccessListener<Void>() {
                         @Override
@@ -137,32 +133,5 @@ public class SyncFunctions {
         cursor.close();
     }
 
-    /**
-     * Get UID of current cluster coordinator
-     *
-     * @param context
-     */
-    private static String getCCUid(Context context) {
-        FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
-        assert currentUser != null;
-        String email = currentUser.getEmail();
 
-        CCDbHelper ccDbHelper = new CCDbHelper(new DbHelper(context));
-        Cursor read = ccDbHelper.read(Schemas.CCDatabaseEntry.EMAIL, email);
-        read.moveToNext();
-        String ccUID = read.getString(read.getColumnIndexOrThrow(Schemas.CCDatabaseEntry.UID));
-        read.close();
-
-        return ccUID;
-    }
-
-    private static String getCCState(Context context) {
-        SchoolDbHelper schoolDbHelper = new SchoolDbHelper(new DbHelper(context));
-        Cursor read = schoolDbHelper.read(Schemas.SchoolDatabaseEntry.UID_OF_CC, CCProfileActivity.getCcUID());
-        read.moveToNext();
-        String state = read.getString(read.getColumnIndexOrThrow(Schemas.SchoolDatabaseEntry.STATE));
-        read.close();
-
-        return state;
-    }
 }

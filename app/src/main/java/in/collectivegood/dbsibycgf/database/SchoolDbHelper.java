@@ -4,8 +4,6 @@ import android.content.ContentValues;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
-import in.collectivegood.dbsibycgf.profiles.CCProfileActivity;
-
 public class SchoolDbHelper {
 
     private DbHelper dbHelper;
@@ -26,6 +24,7 @@ public class SchoolDbHelper {
         values.put(Schemas.SchoolDatabaseEntry.STATE, record.getState());
         values.put(Schemas.SchoolDatabaseEntry.UID_OF_CC, record.getUidOfCC());
         db.insert(Schemas.SchoolDatabaseEntry.TABLE_NAME, null, values);
+        db.close();
     }
 
     public Cursor read(String attribute, String value) {
@@ -47,7 +46,7 @@ public class SchoolDbHelper {
             conditionArgs = new String[]{value};
         }
 
-        Cursor query = db.query(
+        return db.query(
                 Schemas.SchoolDatabaseEntry.TABLE_NAME,  // Table name
                 projection,                             // Columns to return
                 condition,                              // Columns for WHERE clause
@@ -56,7 +55,6 @@ public class SchoolDbHelper {
                 null,                                   // HAVING clause
                 null                                    // SORT BY clause
         );
-        return query;
     }
 
     public int update(int code, String[] columns, String[] values) {
@@ -78,10 +76,11 @@ public class SchoolDbHelper {
                     selection,
                     selectionArgs);
         }
+        db.close();
         return update;
     }
 
-    public Cursor read(String queryString) {
+    public Cursor search(String queryString, String UID) {
         SQLiteDatabase db = dbHelper.getReadableDatabase();
         String[] projection = {
                 Schemas.SchoolDatabaseEntry.CODE,
@@ -100,11 +99,11 @@ public class SchoolDbHelper {
                     + Schemas.SchoolDatabaseEntry.DISTRICT + " like ? ) and "
                     + Schemas.SchoolDatabaseEntry.UID_OF_CC + " = ? ";
 
-            conditionArgs = new String[]{"%" + queryString + "%", "%" + queryString + "%", "%" + queryString + "%", CCProfileActivity.getCcUID()};
+            conditionArgs = new String[]{"%" + queryString + "%", "%" + queryString + "%", "%" + queryString + "%", UID};
         } else {
             condition = Schemas.SchoolDatabaseEntry.UID_OF_CC + " = ? ";
 
-            conditionArgs = new String[]{CCProfileActivity.getCcUID()};
+            conditionArgs = new String[]{UID};
         }
 
         return db.query(

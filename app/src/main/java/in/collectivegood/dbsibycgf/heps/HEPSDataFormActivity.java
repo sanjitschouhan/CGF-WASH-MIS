@@ -22,6 +22,7 @@ import in.collectivegood.dbsibycgf.database.HEPSDataRecord;
 import in.collectivegood.dbsibycgf.database.Schemas;
 import in.collectivegood.dbsibycgf.database.SchoolDbHelper;
 import in.collectivegood.dbsibycgf.profiles.CCProfileActivity;
+import in.collectivegood.dbsibycgf.support.InfoProvider;
 
 import static in.collectivegood.dbsibycgf.sync.SyncFunctions.SyncHEPSData;
 
@@ -394,7 +395,7 @@ public class HEPSDataFormActivity extends AppCompatActivity {
 
     public void saveForm(View view) {
         HEPSDataRecord record = new HEPSDataRecord(
-                CCProfileActivity.getCcUID(),
+                InfoProvider.getCcUID(this),
                 schoolCode, schoolName, schoolAddress,
                 getValue(R.id.male_teachers),
                 getValue(R.id.female_teachers),

@@ -11,6 +11,7 @@ import java.util.ArrayList;
 
 import in.collectivegood.dbsibycgf.R;
 import in.collectivegood.dbsibycgf.calender.CalendarActivity;
+import in.collectivegood.dbsibycgf.gallery.GalleryCCListActivity;
 import in.collectivegood.dbsibycgf.gallery.GalleryMainActivity;
 import in.collectivegood.dbsibycgf.gis.GISActivity;
 import in.collectivegood.dbsibycgf.heps.HEPSDataActivity;

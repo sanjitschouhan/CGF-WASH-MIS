@@ -57,6 +57,7 @@ public class GallerySubActivity extends AppCompatActivity {
     private ArrayList<String> list;
     private RecyclerView recyclerView;
     private boolean deleting = false;
+    private String state;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -86,12 +87,16 @@ public class GallerySubActivity extends AppCompatActivity {
 
         //noinspection ConstantConditions
         name = getIntent().getExtras().getString("name").toLowerCase();
-        final DatabaseReference gallery = firebaseDatabase.getReference("gallery").child(name);
+        //noinspection ConstantConditions
+        state = getIntent().getExtras().getString("state").toLowerCase();
+        final DatabaseReference gallery = firebaseDatabase.getReference("gallery")
+                .child(state)
+                .child(name);
 
         gallery.addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {
-                list.add(name + "/" + dataSnapshot.getKey());
+                list.add(state + "/" + name + "/" + dataSnapshot.getKey());
                 adapter.notifyDataSetChanged();
                 findViewById(R.id.empty).setVisibility(View.GONE);
                 findViewById(R.id.empty2).setVisibility(View.GONE);
@@ -105,7 +110,7 @@ public class GallerySubActivity extends AppCompatActivity {
             @Override
             public void onChildRemoved(DataSnapshot dataSnapshot) {
                 if (!deleting) {
-                    list.remove(name + "/" + dataSnapshot.getKey());
+                    list.remove(state + "/" + name + "/" + dataSnapshot.getKey());
                     adapter.notifyDataSetChanged();
                     if (list.size() == 0) {
                         findViewById(R.id.empty2).setVisibility(View.VISIBLE);
@@ -276,12 +281,18 @@ public class GallerySubActivity extends AppCompatActivity {
                 success = galleryFolder.mkdir();
             }
             if (success) {
-                File userFolder = new File(galleryFolder.getPath() + "/" + url.split("/")[0]);
-                if (!userFolder.exists()) {
-                    success = userFolder.mkdir();
+                File stateFolder = new File(galleryFolder.getPath() + "/" + url.split("/")[0]);
+                if (!stateFolder.exists()) {
+                    success = stateFolder.mkdir();
                 }
                 if (success) {
-                    file = new File(userFolder.getPath() + "/" + url.split("/")[1] + ".jpeg");
+                    File userFolder = new File(galleryFolder.getPath() + "/" + url.split("/")[1]);
+                    if (!userFolder.exists()) {
+                        success = userFolder.mkdir();
+                    }
+                    if (success) {
+                        file = new File(userFolder.getPath() + "/" + url.split("/")[1] + "/" + url.split("/")[2] + ".jpeg");
+                    }
                 }
             }
         }
@@ -342,9 +353,7 @@ public class GallerySubActivity extends AppCompatActivity {
 
         //noinspection ConstantConditions
         final String path =
-                "gallery/" +
-                        FirebaseAuth.getInstance().getCurrentUser()
-                                .getDisplayName().toLowerCase()
+                "gallery/" + state + "/" + name
                         + "/" + System.currentTimeMillis();
         StorageReference storageReference = FirebaseStorage.getInstance().getReference(path + ".jpeg");
 

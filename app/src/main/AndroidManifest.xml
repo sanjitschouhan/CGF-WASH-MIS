@@ -30,7 +30,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".InitializingActivity" />
-        <activity android:name=".gallery.GalleryMainActivity" />
+        <activity android:name=".gallery.GalleryCCListActivity" />
         <activity android:name=".gallery.GallerySubActivity" />
         <activity android:name=".gallery.GalleryPreviewActivity" />
         <activity android:name=".BarCodeActivity" />
@@ -92,7 +92,8 @@
         <activity android:name=".heps.HEPSDataActivity" />
         <activity android:name=".gis.GISActivity" />
         <activity android:name=".wash_resources.WashResourcesActivity" />
-        <activity android:name=".heps.HEPSDataFormActivity"></activity>
+        <activity android:name=".heps.HEPSDataFormActivity" />
+        <activity android:name=".gallery.GalleryMainActivity"></activity>
     </application>
 
 </manifest>

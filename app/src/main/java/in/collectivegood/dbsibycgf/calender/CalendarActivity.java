@@ -36,19 +36,9 @@ public class CalendarActivity extends AppCompatActivity {
           TODO: Create constructor and getters using Alt+Insert in that class
           TODO: 3/8/17 Retrieve calendar data from /calendar/<state>/<ccuid> for all cc,
           TODO:      ccuid can be found by CCProfileActivity.getCcUID()
-          TODO:     state can be retrieved from getCCState() function below
+          TODO:     state can be retrieved from InfoProvider.getCCState(CCProfileActivity.getCcUID()) function below
           TODO: 3/8/17 Retrive calendar data from /calendar/all for all cc
           */
 
-    }
-
-    private String getCCState() {
-        SchoolDbHelper schoolDbHelper = new SchoolDbHelper(new DbHelper(this));
-        Cursor read = schoolDbHelper.read(Schemas.SchoolDatabaseEntry.UID_OF_CC, CCProfileActivity.getCcUID());
-        read.moveToNext();
-        String state = read.getString(read.getColumnIndexOrThrow(Schemas.SchoolDatabaseEntry.STATE));
-        read.close();
-
-        return state;
     }
 }
