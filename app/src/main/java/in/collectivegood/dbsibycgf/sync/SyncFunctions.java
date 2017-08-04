@@ -34,24 +34,17 @@ public class SyncFunctions {
         AccountManager accountManager = (AccountManager) context.getSystemService(ACCOUNT_SERVICE);
         if (accountManager.addAccountExplicitly(newAccount, null, null)) {
             account = newAccount;
-        } else {
-            Account[] list = accountManager.getAccounts();
 
-            for (Account ac : list) {
-                if (ac.type.equalsIgnoreCase(ACCOUNT_TYPE)) {
-                    account = ac;
-                    break;
-                }
-            }
-        }
-        Log.d(TAG, "CreateSyncAccount: " + account);
-        ContentResolver.setSyncAutomatically(account, AUTHORITY, true);
-        mResolver = context.getContentResolver();
+            Log.d(TAG, "CreateSyncAccount: " + account);
+            ContentResolver.setSyncAutomatically(account, AUTHORITY, true);
+            mResolver = context.getContentResolver();
         /*
          * Turn on periodic syncing
          */
-        ContentResolver.addPeriodicSync(account, AUTHORITY, Bundle.EMPTY, 10);
-
+            ContentResolver.addPeriodicSync(account, AUTHORITY, Bundle.EMPTY, 10);
+        } else {
+            account = null;
+        }
         ContentResolver.setMasterSyncAutomatically(true);
 
     }
