@@ -11,6 +11,7 @@ import java.util.ArrayList;
 
 import in.collectivegood.dbsibycgf.R;
 import in.collectivegood.dbsibycgf.calender.CalendarActivity;
+import in.collectivegood.dbsibycgf.calender.CalenderProfileActivity;
 import in.collectivegood.dbsibycgf.gallery.GalleryCCListActivity;
 import in.collectivegood.dbsibycgf.gallery.GalleryMainActivity;
 import in.collectivegood.dbsibycgf.gis.GISActivity;
@@ -29,7 +30,7 @@ public class DashboardActivity extends AppCompatActivity {
         gridView = (GridView) findViewById(R.id.gridview);
         dashboardItems = new ArrayList<>();
         dashboardItems.add(new GridItem(R.mipmap.ic_launcher_round, getString(R.string.photos), GalleryMainActivity.class));
-        dashboardItems.add(new GridItem(R.mipmap.ic_launcher_round, getString(R.string.calender), CalendarActivity.class));
+        dashboardItems.add(new GridItem(R.mipmap.ic_launcher_round, getString(R.string.calender), CalenderProfileActivity.class));
         dashboardItems.add(new GridItem(R.mipmap.ic_launcher_round, getString(R.string.heps_data), HEPSDataActivity.class));
 //        dashboardItems.add(new GridItem(R.mipmap.ic_launcher_round, getString(R.string.svp_data)));
         dashboardItems.add(new GridItem(R.mipmap.ic_launcher_round, getString(R.string.gis), GISActivity.class));

@@ -93,7 +93,6 @@
     <string name="urinals">Urinals</string>
 
     <string-array name="states">
-        <item>Select State:</item>
         <item>Telangana</item>
         <item>Andhra Pradesh</item>
         <item>Common</item>

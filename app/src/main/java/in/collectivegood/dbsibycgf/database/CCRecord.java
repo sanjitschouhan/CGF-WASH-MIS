@@ -57,4 +57,9 @@ public class CCRecord {
     public void setProjectCoordinator(String projectCoordinator) {
         this.projectCoordinator = projectCoordinator;
     }
+
+    @Override
+    public String toString() {
+        return name;
+    }
 }
