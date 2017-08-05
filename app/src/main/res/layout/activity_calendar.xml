@@ -1,20 +1,37 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context="in.collectivegood.dbsibycgf.calender.CalendarActivity">
 
 
-
-    <CalendarView
-        android:id="@+id/calenderview"
+    <LinearLayout
         android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+
+        <CalendarView
+            android:id="@+id/calenderview"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:dateTextAppearance="@android:style/TextAppearance.DeviceDefault.Medium"
+            android:weekDayTextAppearance="@android:style/TextAppearance.DeviceDefault.Medium">
+
+        </CalendarView>
+
+    </LinearLayout>
+    <android.support.design.widget.FloatingActionButton
+        android:layout_width="wrap_content"
+        android:layout_alignParentEnd="true"
         android:layout_height="wrap_content"
-        android:dateTextAppearance="@android:style/TextAppearance.DeviceDefault.Medium"
-        android:weekDayTextAppearance="@android:style/TextAppearance.DeviceDefault.Medium">
-
-    </CalendarView>
-
-</LinearLayout>
+        android:layout_margin="20dp"
+        app:fabSize="normal"
+        android:id="@+id/add_cc_event"
+        android:onClick="addccevent"
+        android:src="@android:drawable/ic_input_add"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true" />
+</RelativeLayout>

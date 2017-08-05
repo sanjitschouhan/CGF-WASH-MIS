@@ -2,6 +2,7 @@ package in.collectivegood.dbsibycgf.calender;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.view.View;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -46,5 +47,9 @@ public class CalendarActivity extends AppCompatActivity {
 
             }
         });
+    }
+
+    public void addccevent(View view) {
+
     }
 }

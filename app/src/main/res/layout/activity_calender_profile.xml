@@ -10,8 +10,8 @@
     <Spinner
         android:layout_width="match_parent"
         android:id="@+id/spinnerstates"
+        android:layout_marginTop="10dp"
         style="@style/Base.TextAppearance.AppCompat.Large"
-        android:prompt="Select state"
         android:layout_height="wrap_content"
         android:entries="@array/states">
     </Spinner>
