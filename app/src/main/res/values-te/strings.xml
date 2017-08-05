@@ -31,7 +31,7 @@
     <string name="girls">అమ్మాయిలు</string>
     <string name="male">పురుషుడు</string>
     <string name="activities">కార్యకలాపాలు</string>
-    <string name="are_there_any_urinal_blocks">ఏ మూత్ర బ్లాక్లు ఉన్నాయా?</string>
+    <string name="are_there_any_urinal_blocks">ఏకీకృత బ్లాక్స్ ఉన్నాయి ?</string>
     <string name="are_there_separate_toilets_for_boys_and_girls">అబ్బాయిలు మరియు బాలికలకు ప్రత్యేక మరుగుదొడ్లు ఉన్నాయా?</string>
     <string name="are_there_toilets_in_the_school">పాఠశాలలో మరుగుదొడ్లు ఉన్నాయా?</string>
     <string name="delete">తొలగించు</string>
@@ -81,4 +81,14 @@
     <string name="toilets">మరుగుదొడ్లు</string>
     <string name="urinal_blocks">యురినల్ బ్లాక్స్</string>
     <string name="urinals">మూత్రశాలను</string>
+    <string name="advocacy" translatable="false">"అడ్వొకేసీ "</string>
+    <string name="app_name" translatable="false">సీ జీ ఏఫ్ వాష్ మిస్</string>
+    <string name="calender">క్యాలెండర్</string>
+    <string name="classwise_strength" translatable="false">క్లాస్వైజ్ స్ట్రెంత్</string>
+    <string name="close" translatable="false">"క్లోజ్ "</string>
+    <string name="gis">జి ఆి  యస్</string>
+    <string name="heps_data">హ్ ఈ పి ఎస్ డేటా</string>
+    <string name="reports" translatable="false">రిపోర్ట్స్</string>
+    <string name="svp_data">"ఎస్ వీ పి డేటా "</string>
+    <string name="uid">"యూ ఐ డీ "</string>
 </resources>
