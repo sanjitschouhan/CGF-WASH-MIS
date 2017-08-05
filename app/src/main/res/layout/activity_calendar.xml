@@ -6,6 +6,7 @@
     android:orientation="vertical"
     tools:context="in.collectivegood.dbsibycgf.calender.CalendarActivity">
 
+
     <CalendarView
         android:id="@+id/calenderview"
         android:layout_width="match_parent"

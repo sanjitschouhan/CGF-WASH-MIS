@@ -69,101 +69,101 @@ public class HEPSDataFormActivity extends AppCompatActivity {
 
         Cursor cursor = dbHelper.read(Schemas.HEPSFormEntry.SCHOOL_CODE, schoolCode);
 
-        cursor.moveToNext();
-        setValueToIdFromDatabase(R.id.male_teachers, String.valueOf(cursor.getLong(cursor.getColumnIndexOrThrow(Schemas.HEPSFormEntry.MALE_TEACHERS))));
-        setValueToIdFromDatabase(R.id.female_teachers, String.valueOf(cursor.getLong(cursor.getColumnIndexOrThrow(Schemas.HEPSFormEntry.FEMALE_TEACHERS))));
+        if(cursor.moveToNext()) {
+            setValueToIdFromDatabase(R.id.male_teachers, String.valueOf(cursor.getLong(cursor.getColumnIndexOrThrow(Schemas.HEPSFormEntry.MALE_TEACHERS))));
+            setValueToIdFromDatabase(R.id.female_teachers, String.valueOf(cursor.getLong(cursor.getColumnIndexOrThrow(Schemas.HEPSFormEntry.FEMALE_TEACHERS))));
 
-        setValueToIdFromDatabase(R.id.class_1_boys, String.valueOf(cursor.getLong(cursor.getColumnIndexOrThrow(Schemas.HEPSFormEntry.CLASS_1_BOYS))));
-        setValueToIdFromDatabase(R.id.class_2_boys, String.valueOf(cursor.getLong(cursor.getColumnIndexOrThrow(Schemas.HEPSFormEntry.CLASS_2_BOYS))));
-        setValueToIdFromDatabase(R.id.class_3_boys, String.valueOf(cursor.getLong(cursor.getColumnIndexOrThrow(Schemas.HEPSFormEntry.CLASS_3_BOYS))));
-        setValueToIdFromDatabase(R.id.class_4_boys, String.valueOf(cursor.getLong(cursor.getColumnIndexOrThrow(Schemas.HEPSFormEntry.CLASS_4_BOYS))));
-        setValueToIdFromDatabase(R.id.class_5_boys, String.valueOf(cursor.getLong(cursor.getColumnIndexOrThrow(Schemas.HEPSFormEntry.CLASS_5_BOYS))));
+            setValueToIdFromDatabase(R.id.class_1_boys, String.valueOf(cursor.getLong(cursor.getColumnIndexOrThrow(Schemas.HEPSFormEntry.CLASS_1_BOYS))));
+            setValueToIdFromDatabase(R.id.class_2_boys, String.valueOf(cursor.getLong(cursor.getColumnIndexOrThrow(Schemas.HEPSFormEntry.CLASS_2_BOYS))));
+            setValueToIdFromDatabase(R.id.class_3_boys, String.valueOf(cursor.getLong(cursor.getColumnIndexOrThrow(Schemas.HEPSFormEntry.CLASS_3_BOYS))));
+            setValueToIdFromDatabase(R.id.class_4_boys, String.valueOf(cursor.getLong(cursor.getColumnIndexOrThrow(Schemas.HEPSFormEntry.CLASS_4_BOYS))));
+            setValueToIdFromDatabase(R.id.class_5_boys, String.valueOf(cursor.getLong(cursor.getColumnIndexOrThrow(Schemas.HEPSFormEntry.CLASS_5_BOYS))));
 
-        setValueToIdFromDatabase(R.id.class_1_girls, String.valueOf(cursor.getLong(cursor.getColumnIndexOrThrow(Schemas.HEPSFormEntry.CLASS_1_GIRLS))));
-        setValueToIdFromDatabase(R.id.class_2_girls, String.valueOf(cursor.getLong(cursor.getColumnIndexOrThrow(Schemas.HEPSFormEntry.CLASS_2_GIRLS))));
-        setValueToIdFromDatabase(R.id.class_3_girls, String.valueOf(cursor.getLong(cursor.getColumnIndexOrThrow(Schemas.HEPSFormEntry.CLASS_3_GIRLS))));
-        setValueToIdFromDatabase(R.id.class_4_girls, String.valueOf(cursor.getLong(cursor.getColumnIndexOrThrow(Schemas.HEPSFormEntry.CLASS_4_GIRLS))));
-        setValueToIdFromDatabase(R.id.class_5_girls, String.valueOf(cursor.getLong(cursor.getColumnIndexOrThrow(Schemas.HEPSFormEntry.CLASS_5_GIRLS))));
+            setValueToIdFromDatabase(R.id.class_1_girls, String.valueOf(cursor.getLong(cursor.getColumnIndexOrThrow(Schemas.HEPSFormEntry.CLASS_1_GIRLS))));
+            setValueToIdFromDatabase(R.id.class_2_girls, String.valueOf(cursor.getLong(cursor.getColumnIndexOrThrow(Schemas.HEPSFormEntry.CLASS_2_GIRLS))));
+            setValueToIdFromDatabase(R.id.class_3_girls, String.valueOf(cursor.getLong(cursor.getColumnIndexOrThrow(Schemas.HEPSFormEntry.CLASS_3_GIRLS))));
+            setValueToIdFromDatabase(R.id.class_4_girls, String.valueOf(cursor.getLong(cursor.getColumnIndexOrThrow(Schemas.HEPSFormEntry.CLASS_4_GIRLS))));
+            setValueToIdFromDatabase(R.id.class_5_girls, String.valueOf(cursor.getLong(cursor.getColumnIndexOrThrow(Schemas.HEPSFormEntry.CLASS_5_GIRLS))));
 
 
-        long boysToilet = cursor.getLong(cursor.getColumnIndexOrThrow(Schemas.HEPSFormEntry.TOILETS_BOYS));
-        long boysToiletFunctioning = cursor.getLong(cursor.getColumnIndexOrThrow(Schemas.HEPSFormEntry.TOILETS_BOYS_FUNCTIONING));
-        long girlsToilet = cursor.getLong(cursor.getColumnIndexOrThrow(Schemas.HEPSFormEntry.TOILETS_GIRLS));
-        long girlsToiletFunctioning = cursor.getLong(cursor.getColumnIndexOrThrow(Schemas.HEPSFormEntry.TOILETS_GIRLS_FUNCTIONING));
+            long boysToilet = cursor.getLong(cursor.getColumnIndexOrThrow(Schemas.HEPSFormEntry.TOILETS_BOYS));
+            long boysToiletFunctioning = cursor.getLong(cursor.getColumnIndexOrThrow(Schemas.HEPSFormEntry.TOILETS_BOYS_FUNCTIONING));
+            long girlsToilet = cursor.getLong(cursor.getColumnIndexOrThrow(Schemas.HEPSFormEntry.TOILETS_GIRLS));
+            long girlsToiletFunctioning = cursor.getLong(cursor.getColumnIndexOrThrow(Schemas.HEPSFormEntry.TOILETS_GIRLS_FUNCTIONING));
 
-        long totalToilets = cursor.getLong(cursor.getColumnIndexOrThrow(Schemas.HEPSFormEntry.TOILETS_TOTAL));
-        long totalToiletsFunctioning = cursor.getLong(cursor.getColumnIndexOrThrow(Schemas.HEPSFormEntry.TOILETS_TOTAL_FUNCTIONING));
+            long totalToilets = cursor.getLong(cursor.getColumnIndexOrThrow(Schemas.HEPSFormEntry.TOILETS_TOTAL));
+            long totalToiletsFunctioning = cursor.getLong(cursor.getColumnIndexOrThrow(Schemas.HEPSFormEntry.TOILETS_TOTAL_FUNCTIONING));
 
-        if (boysToilet + girlsToilet + totalToilets == 0) {
-            ((RadioButton) findViewById(R.id.radio_toilets_no)).toggle();
-            hideToiletsLayout(new View(this));
-        } else {
-            ((RadioButton) findViewById(R.id.radio_toilets_yes)).toggle();
-            showToiletsLayout(new View(this));
-
-            if (boysToilet + girlsToilet == 0) {
-                ((RadioButton) findViewById(R.id.radio_toilets_separate_no)).toggle();
-                showCombinedLayout(new View(this));
-                setValueToIdFromDatabase(R.id.toilets_total, String.valueOf(totalToilets));
-                setValueToIdFromDatabase(R.id.toilets_total_functioning, String.valueOf(totalToiletsFunctioning));
+            if (boysToilet + girlsToilet + totalToilets == 0) {
+                ((RadioButton) findViewById(R.id.radio_toilets_no)).toggle();
+                hideToiletsLayout(new View(this));
             } else {
-                ((RadioButton) findViewById(R.id.radio_toilets_separate_yes)).toggle();
-                showSeparateLayout(new View(this));
-                setValueToIdFromDatabase(R.id.toilets_separate_boys, String.valueOf(boysToilet));
-                setValueToIdFromDatabase(R.id.toilets_separate_boys_functioning, String.valueOf(boysToiletFunctioning));
-                setValueToIdFromDatabase(R.id.toilets_separate_girls, String.valueOf(girlsToilet));
-                setValueToIdFromDatabase(R.id.toilets_separate_girls_functioning, String.valueOf(girlsToiletFunctioning));
+                ((RadioButton) findViewById(R.id.radio_toilets_yes)).toggle();
+                showToiletsLayout(new View(this));
+
+                if (boysToilet + girlsToilet == 0) {
+                    ((RadioButton) findViewById(R.id.radio_toilets_separate_no)).toggle();
+                    showCombinedLayout(new View(this));
+                    setValueToIdFromDatabase(R.id.toilets_total, String.valueOf(totalToilets));
+                    setValueToIdFromDatabase(R.id.toilets_total_functioning, String.valueOf(totalToiletsFunctioning));
+                } else {
+                    ((RadioButton) findViewById(R.id.radio_toilets_separate_yes)).toggle();
+                    showSeparateLayout(new View(this));
+                    setValueToIdFromDatabase(R.id.toilets_separate_boys, String.valueOf(boysToilet));
+                    setValueToIdFromDatabase(R.id.toilets_separate_boys_functioning, String.valueOf(boysToiletFunctioning));
+                    setValueToIdFromDatabase(R.id.toilets_separate_girls, String.valueOf(girlsToilet));
+                    setValueToIdFromDatabase(R.id.toilets_separate_girls_functioning, String.valueOf(girlsToiletFunctioning));
+                }
+            }
+            long boysUrinal = cursor.getLong(cursor.getColumnIndexOrThrow(Schemas.HEPSFormEntry.URINALS_BOYS));
+            long boysUrinalFunctioning = cursor.getLong(cursor.getColumnIndexOrThrow(Schemas.HEPSFormEntry.URINALS_BOYS_FUNCTIONING));
+            long girlsUrinal = cursor.getLong(cursor.getColumnIndexOrThrow(Schemas.HEPSFormEntry.URINALS_GIRLS));
+            long girlsUrinalFunctioning = cursor.getLong(cursor.getColumnIndexOrThrow(Schemas.HEPSFormEntry.URINALS_GIRLS_FUNCTIONING));
+
+            long totalUrinals = cursor.getLong(cursor.getColumnIndexOrThrow(Schemas.HEPSFormEntry.URINALS_TOTAL));
+            long totalUrinalsFunctioning = cursor.getLong(cursor.getColumnIndexOrThrow(Schemas.HEPSFormEntry.URINALS_TOTAL_FUNCTIONING));
+
+            if (boysUrinal + girlsUrinal + totalUrinals == 0) {
+                ((RadioButton) findViewById(R.id.radio_urinals_no)).toggle();
+                hideUrinalsLayout(new View(this));
+            } else {
+                ((RadioButton) findViewById(R.id.radio_urinals_yes)).toggle();
+                showUrinalsLayout(new View(this));
+
+                if (boysUrinal + girlsUrinal == 0) {
+                    ((RadioButton) findViewById(R.id.radio_urinals_separate_no)).toggle();
+                    showUrinalsCombinedLayout(new View(this));
+                    setValueToIdFromDatabase(R.id.urinals_total, String.valueOf(totalUrinals));
+                    setValueToIdFromDatabase(R.id.urinals_total_functioning, String.valueOf(totalUrinalsFunctioning));
+                } else {
+                    ((RadioButton) findViewById(R.id.radio_urinals_separate_yes)).toggle();
+                    showUrinalsSeparateLayout(new View(this));
+                    setValueToIdFromDatabase(R.id.urinals_separate_boys, String.valueOf(boysUrinal));
+                    setValueToIdFromDatabase(R.id.urinals_separate_boys_functioning, String.valueOf(boysUrinalFunctioning));
+                    setValueToIdFromDatabase(R.id.urinals_separate_girls, String.valueOf(girlsUrinal));
+                    setValueToIdFromDatabase(R.id.urinals_separate_girls_functioning, String.valueOf(girlsUrinalFunctioning));
+                }
+            }
+
+
+            waterSupply = cursor.getInt(cursor.getColumnIndexOrThrow(Schemas.HEPSFormEntry.WATER_SOURCE));
+            if ((waterSupply & 1) != 0) {
+                ((CheckBox) findViewById(R.id.check_water_borewell)).setChecked(true);
+            }
+            if ((waterSupply & 10) != 0) {
+                ((CheckBox) findViewById(R.id.check_water_govt_supply)).setChecked(true);
+            }
+
+            long taps = cursor.getLong(cursor.getColumnIndexOrThrow(Schemas.HEPSFormEntry.NO_OF_TAPS));
+            if (taps == 0) {
+                ((RadioButton) findViewById(R.id.radio_water_active_no)).toggle();
+                hideTapLayout(new View(this));
+            } else {
+                ((RadioButton) findViewById(R.id.radio_water_active_yes)).toggle();
+                showTapLayout(new View(this));
+                setValueToIdFromDatabase(R.id.taps, String.valueOf(taps));
             }
         }
-        long boysUrinal = cursor.getLong(cursor.getColumnIndexOrThrow(Schemas.HEPSFormEntry.URINALS_BOYS));
-        long boysUrinalFunctioning = cursor.getLong(cursor.getColumnIndexOrThrow(Schemas.HEPSFormEntry.URINALS_BOYS_FUNCTIONING));
-        long girlsUrinal = cursor.getLong(cursor.getColumnIndexOrThrow(Schemas.HEPSFormEntry.URINALS_GIRLS));
-        long girlsUrinalFunctioning = cursor.getLong(cursor.getColumnIndexOrThrow(Schemas.HEPSFormEntry.URINALS_GIRLS_FUNCTIONING));
-
-        long totalUrinals = cursor.getLong(cursor.getColumnIndexOrThrow(Schemas.HEPSFormEntry.URINALS_TOTAL));
-        long totalUrinalsFunctioning = cursor.getLong(cursor.getColumnIndexOrThrow(Schemas.HEPSFormEntry.URINALS_TOTAL_FUNCTIONING));
-
-        if (boysUrinal + girlsUrinal + totalUrinals == 0) {
-            ((RadioButton) findViewById(R.id.radio_urinals_no)).toggle();
-            hideUrinalsLayout(new View(this));
-        } else {
-            ((RadioButton) findViewById(R.id.radio_urinals_yes)).toggle();
-            showUrinalsLayout(new View(this));
-
-            if (boysUrinal + girlsUrinal == 0) {
-                ((RadioButton) findViewById(R.id.radio_urinals_separate_no)).toggle();
-                showUrinalsCombinedLayout(new View(this));
-                setValueToIdFromDatabase(R.id.urinals_total, String.valueOf(totalUrinals));
-                setValueToIdFromDatabase(R.id.urinals_total_functioning, String.valueOf(totalUrinalsFunctioning));
-            } else {
-                ((RadioButton) findViewById(R.id.radio_urinals_separate_yes)).toggle();
-                showUrinalsSeparateLayout(new View(this));
-                setValueToIdFromDatabase(R.id.urinals_separate_boys, String.valueOf(boysUrinal));
-                setValueToIdFromDatabase(R.id.urinals_separate_boys_functioning, String.valueOf(boysUrinalFunctioning));
-                setValueToIdFromDatabase(R.id.urinals_separate_girls, String.valueOf(girlsUrinal));
-                setValueToIdFromDatabase(R.id.urinals_separate_girls_functioning, String.valueOf(girlsUrinalFunctioning));
-            }
-        }
-
-
-        waterSupply = cursor.getInt(cursor.getColumnIndexOrThrow(Schemas.HEPSFormEntry.WATER_SOURCE));
-        if ((waterSupply & 1) != 0) {
-            ((CheckBox) findViewById(R.id.check_water_borewell)).setChecked(true);
-        }
-        if ((waterSupply & 10) != 0) {
-            ((CheckBox) findViewById(R.id.check_water_govt_supply)).setChecked(true);
-        }
-
-        long taps = cursor.getLong(cursor.getColumnIndexOrThrow(Schemas.HEPSFormEntry.NO_OF_TAPS));
-        if (taps == 0) {
-            ((RadioButton) findViewById(R.id.radio_water_active_no)).toggle();
-            hideTapLayout(new View(this));
-        } else {
-            ((RadioButton) findViewById(R.id.radio_water_active_yes)).toggle();
-            showTapLayout(new View(this));
-            setValueToIdFromDatabase(R.id.taps, String.valueOf(taps));
-        }
-
         cursor.close();
     }
 
