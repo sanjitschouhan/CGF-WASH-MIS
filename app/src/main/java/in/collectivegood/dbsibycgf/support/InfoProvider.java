@@ -24,8 +24,17 @@ public class InfoProvider {
      * @param context
      */
     public static String getCCState(Context context) {
+        return getCCState(context, getCcUID(context));
+    }
+
+    /**
+     * Get State of current cluster coordinator
+     *
+     * @param context
+     */
+    public static String getCCState(Context context, String Uid) {
         SchoolDbHelper schoolDbHelper = new SchoolDbHelper(new DbHelper(context));
-        Cursor read = schoolDbHelper.read(Schemas.SchoolDatabaseEntry.UID_OF_CC, getCcUID(context));
+        Cursor read = schoolDbHelper.read(Schemas.SchoolDatabaseEntry.UID_OF_CC, Uid);
         read.moveToNext();
         String state = read.getString(read.getColumnIndexOrThrow(Schemas.SchoolDatabaseEntry.STATE));
         read.close();
