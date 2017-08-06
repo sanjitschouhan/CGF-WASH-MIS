@@ -94,4 +94,10 @@
     <string name="event_name">ఈవెంట్ పేరు</string>
     <string name="new_event">కొత్త సంఘటన</string>
     <string name="event_detail">ఈవెంట్ వివరాలు</string>
+    <string-array name="states">
+        <item>రాష్ట్రం ఎంచుకోండి:</item>
+        <item>తెలంగాణ</item>
+        <item>ఆంధ్రప్రదేశ్</item>
+        <item>సాధారణ</item>
+    </string-array>
 </resources>
