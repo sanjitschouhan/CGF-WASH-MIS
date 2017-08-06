@@ -23,16 +23,14 @@ import in.collectivegood.dbsibycgf.database.CCDbHelper;
 import in.collectivegood.dbsibycgf.database.CCRecord;
 import in.collectivegood.dbsibycgf.database.DbHelper;
 import in.collectivegood.dbsibycgf.database.Schemas;
-import in.collectivegood.dbsibycgf.gallery.GalleryCCListActivity;
-import in.collectivegood.dbsibycgf.gallery.GalleryMainActivity;
 import in.collectivegood.dbsibycgf.support.InfoProvider;
 import in.collectivegood.dbsibycgf.support.UserTypes;
 
 public class CalenderProfileActivity extends AppCompatActivity {
     ArrayAdapter<CCRecord> ccRecordArrayAdapter;
-    ArrayList<CCRecord> cclist;
+    ArrayList<CCRecord> ccList;
     ListView listView;
-    String selectedstate;
+    String selectedState;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,23 +61,23 @@ public class CalenderProfileActivity extends AppCompatActivity {
     }
 
     private void admin() {
-        cclist = new ArrayList<>();
-        ccRecordArrayAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, cclist);
+        ccList = new ArrayList<>();
+        ccRecordArrayAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, ccList);
         listView = (ListView) findViewById(R.id.cclist);
         Spinner spinner = (Spinner) findViewById(R.id.spinnerstates);
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 if (position == 1) {
-                    selectedstate = "TL";
+                    selectedState = "TL";
                 } else if (position == 2) {
-                    selectedstate = "AP";
+                    selectedState = "AP";
                 } else {
                     return;
                 }
                 CCDbHelper dbHelper = new CCDbHelper(new DbHelper(CalenderProfileActivity.this));
                 Cursor read = dbHelper.read(null, null);
-                cclist.clear();
+                ccList.clear();
                 while (read.moveToNext()) {
                     String Uid = read.getString(read.getColumnIndexOrThrow(Schemas.CCDatabaseEntry.UID));
                     String Name = read.getString(read.getColumnIndexOrThrow(Schemas.CCDatabaseEntry.NAME));
@@ -87,9 +85,9 @@ public class CalenderProfileActivity extends AppCompatActivity {
                     String Email = read.getString(read.getColumnIndexOrThrow(Schemas.CCDatabaseEntry.EMAIL));
                     String ProjectCoordinator = read.getString(read.getColumnIndexOrThrow(Schemas.CCDatabaseEntry.PROJECT_COORDINATOR));
                     String ccState = InfoProvider.getCCState(CalenderProfileActivity.this, Uid);
-                    if (ccState.equalsIgnoreCase(selectedstate)) {
+                    if (ccState.equalsIgnoreCase(selectedState)) {
                         CCRecord ccRecord = new CCRecord(Uid, Name, Phone, Email, ProjectCoordinator);
-                        cclist.add(ccRecord);
+                        ccList.add(ccRecord);
                     }
                 }
                 read.close();
@@ -106,8 +104,8 @@ public class CalenderProfileActivity extends AppCompatActivity {
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                String uid = cclist.get(position).getUid();
-                openCalendar(selectedstate, uid);
+                String uid = ccList.get(position).getUid();
+                openCalendar(selectedState, uid);
             }
         });
 

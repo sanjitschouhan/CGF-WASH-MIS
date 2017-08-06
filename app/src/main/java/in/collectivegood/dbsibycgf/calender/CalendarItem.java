@@ -26,4 +26,13 @@ public class CalendarItem {
     public String getTitle() {
         return title;
     }
+
+    @Override
+    public String toString() {
+        return "CalendarItem{" +
+                "date=" + date +
+                ", detail='" + detail + '\'' +
+                ", title='" + title + '\'' +
+                '}';
+    }
 }

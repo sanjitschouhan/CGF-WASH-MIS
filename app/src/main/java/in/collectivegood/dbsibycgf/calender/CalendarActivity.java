@@ -5,14 +5,17 @@ import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.ListView;
 import android.widget.TimePicker;
 
 import com.google.firebase.database.DataSnapshot;
@@ -24,6 +27,7 @@ import com.prolificinteractive.materialcalendarview.CalendarDay;
 import com.prolificinteractive.materialcalendarview.DayViewDecorator;
 import com.prolificinteractive.materialcalendarview.DayViewFacade;
 import com.prolificinteractive.materialcalendarview.MaterialCalendarView;
+import com.prolificinteractive.materialcalendarview.OnDateSelectedListener;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -59,6 +63,10 @@ public class CalendarActivity extends AppCompatActivity {
     private ArrayList<CalendarItem> commonEvents;
     private ArrayList<CalendarItem> localEvents;
 
+    private ListView eventListView;
+    private ArrayList<CalendarItem> selectedDayEvents;
+    private ArrayAdapter<CalendarItem> adapter;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -66,10 +74,20 @@ public class CalendarActivity extends AppCompatActivity {
         Bundle extras = getIntent().getExtras();
         state = extras.getString("state");
         uid = extras.getString("uid");
+
         calendarView = (MaterialCalendarView) findViewById(R.id.calendar_view);
+        calendarView.setSelectedDate(new Date());
+        eventListView = (ListView) findViewById(R.id.event_list);
+
         ccEvents = new ArrayList<>();
         commonEvents = new ArrayList<>();
         localEvents = new ArrayList<>();
+        selectedDayEvents = new ArrayList<>();
+
+        adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, selectedDayEvents);
+        eventListView.setAdapter(adapter);
+        updateEventList();
+
         getCalendarData(state, uid, ccEvents);
         getCalendarData(state, "all", localEvents);
         getCommonCalendarData(commonEvents);
@@ -95,19 +113,47 @@ public class CalendarActivity extends AppCompatActivity {
             }
         });
 
+        calendarView.setOnDateChangedListener(new OnDateSelectedListener() {
+            @Override
+            public void onDateSelected(@NonNull MaterialCalendarView widget, @NonNull CalendarDay date, boolean selected) {
+                updateEventList();
+            }
+        });
 
+
+    }
+
+    private void updateEventList() {
+        selectedDayEvents.clear();
+        Date date = calendarView.getSelectedDate().getDate();
+        ArrayList<CalendarItem>[] arrayLists = new ArrayList[]{commonEvents, localEvents, ccEvents};
+        for (ArrayList<CalendarItem> list : arrayLists) {
+            for (CalendarItem calendarItem : list) {
+                Date day = new Date(calendarItem.getDate());
+                if (date.getDate() == day.getDate()) {
+                    if (date.getMonth() == day.getMonth()) {
+                        if (date.getYear() == day.getYear()) {
+                            selectedDayEvents.add(calendarItem);
+                        }
+                    }
+                }
+            }
+        }
+        adapter.notifyDataSetChanged();
     }
 
     private void updateCalendarView() {
         calendarView.removeDecorators();
+
         calendarView.addDecorator(new DayViewDecorator() {
             @Override
             public boolean shouldDecorate(CalendarDay day) {
+                Date date1 = day.getDate();
                 for (CalendarItem calendarItem : ccEvents) {
                     Date date = new Date(calendarItem.getDate());
-                    if (date.getDate() == day.getDay()) {
-                        if (date.getMonth() == day.getMonth()) {
-                            if (date.getYear() == day.getYear()) {
+                    if (date.getDate() == date1.getDate()) {
+                        if (date.getMonth() == date1.getMonth()) {
+                            if (date.getYear() == date1.getYear()) {
                                 return true;
                             }
                         }
@@ -124,11 +170,12 @@ public class CalendarActivity extends AppCompatActivity {
         calendarView.addDecorator(new DayViewDecorator() {
             @Override
             public boolean shouldDecorate(CalendarDay day) {
+                Date date1 = day.getDate();
                 for (CalendarItem calendarItem : commonEvents) {
                     Date date = new Date(calendarItem.getDate());
-                    if (date.getDate() == day.getDay()) {
-                        if (date.getMonth() == day.getMonth()) {
-                            if (date.getYear() == day.getYear()) {
+                    if (date.getDate() == date1.getDate()) {
+                        if (date.getMonth() == date1.getMonth()) {
+                            if (date.getYear() == date1.getYear()) {
                                 return true;
                             }
                         }
@@ -145,11 +192,12 @@ public class CalendarActivity extends AppCompatActivity {
         calendarView.addDecorator(new DayViewDecorator() {
             @Override
             public boolean shouldDecorate(CalendarDay day) {
+                Date date1 = day.getDate();
                 for (CalendarItem calendarItem : localEvents) {
                     Date date = new Date(calendarItem.getDate());
-                    if (date.getDate() == day.getDay()) {
-                        if (date.getMonth() == day.getMonth()) {
-                            if (date.getYear() == day.getYear()) {
+                    if (date.getDate() == date1.getDate()) {
+                        if (date.getMonth() == date1.getMonth()) {
+                            if (date.getYear() == date1.getYear()) {
                                 return true;
                             }
                         }
@@ -183,6 +231,7 @@ public class CalendarActivity extends AppCompatActivity {
                     list.add(item);
                 }
                 updateCalendarView();
+                updateEventList();
             }
 
             @Override
@@ -208,7 +257,7 @@ public class CalendarActivity extends AppCompatActivity {
 
     private void saveEvent(String title, String detail) {
         Date date = new Date();
-        date.setYear(year);
+        date.setYear(year - 1900);
         date.setMonth(month);
         date.setDate(dayOfMonth);
         date.setHours(hour);
@@ -220,6 +269,8 @@ public class CalendarActivity extends AppCompatActivity {
                 .child(String.valueOf(date.getTime()))
                 .setValue(calendarItem);
         ccEvents.add(calendarItem);
+        updateCalendarView();
+        updateEventList();
     }
 
     private void picDate() {
@@ -282,6 +333,8 @@ public class CalendarActivity extends AppCompatActivity {
                 String name = eventName.getText().toString().trim();
                 String detail = eventDetail.getText().toString().trim();
                 saveEvent(name, detail);
+                eventName.setText("");
+                eventDetail.setText("");
             }
         });
 
