@@ -14,7 +14,7 @@
 
 
         <CalendarView
-            android:id="@+id/calenderview"
+            android:id="@+id/calendar_view"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:dateTextAppearance="@android:style/TextAppearance.DeviceDefault.Medium"
@@ -30,7 +30,7 @@
         android:layout_margin="20dp"
         app:fabSize="normal"
         android:id="@+id/add_cc_event"
-        android:onClick="addccevent"
+        android:onClick="addCCEvent"
         android:src="@android:drawable/ic_input_add"
         android:layout_alignParentBottom="true"
         android:layout_alignParentRight="true" />

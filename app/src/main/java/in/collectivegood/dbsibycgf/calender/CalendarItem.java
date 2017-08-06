@@ -2,21 +2,28 @@ package in.collectivegood.dbsibycgf.calender;
 
 public class CalendarItem {
     private long date;
-    private long detail;
+    private String detail;
+    private String title;
 
     public CalendarItem() {
     }
 
-    public CalendarItem(long date, long detail) {
+    public CalendarItem(long date, String detail, String title) {
+
         this.date = date;
         this.detail = detail;
+        this.title = title;
     }
 
     public long getDate() {
         return date;
     }
 
-    public long getDetail() {
+    public String getDetail() {
         return detail;
+    }
+
+    public String getTitle() {
+        return title;
     }
 }
