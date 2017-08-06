@@ -7,31 +7,61 @@
     android:orientation="vertical"
     tools:context="in.collectivegood.dbsibycgf.MainActivity">
 
-    <Button
-        style="@style/Base.Widget.AppCompat.Button.Colored"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:onClick="getStarted"
-        android:text="@string/english" />
+    <android.support.v7.widget.CardView
+        android:layout_width="250dp"
+        android:layout_height="wrap_content">
 
-    <Button
-        style="@style/Base.Widget.AppCompat.Button.Colored"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:onClick="getStartedTelugu"
-        android:text="@string/telugu" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:padding="10dp">
 
-    <Button
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:onClick="scanQR"
-        android:text="Scan QR"
-        android:visibility="gone" />
+            <TextView
+                style="@style/TextAppearance.AppCompat.Widget.Button.Borderless.Colored"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="10dp"
+                android:text="Select Language\nభాషను ఎంచుకోండి"
+                android:textAlignment="center"
+                android:textSize="15sp" />
 
-    <ImageView
-        android:id="@+id/bar_code_image"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/border_only"
+                android:onClick="getStartedWithEnglish"
+                android:padding="10dp">
+
+                <TextView
+                    style="@style/TextAppearance.AppCompat.Widget.Button.Borderless.Colored"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:drawableLeft="@drawable/en_us"
+                    android:drawableStart="@drawable/en_us"
+                    android:gravity="center"
+                    android:text="@string/english" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/border_only"
+                android:onClick="getStartedTeluguWithEnglish"
+                android:padding="10dp">
+
+                <TextView
+                    style="@style/TextAppearance.AppCompat.Widget.Button.Borderless.Colored"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:drawableLeft="@drawable/te_in"
+                    android:drawableStart="@drawable/te_in"
+                    android:gravity="center"
+                    android:text="@string/telugu" />
+            </LinearLayout>
+        </LinearLayout>
+    </android.support.v7.widget.CardView>
 
 
 </LinearLayout>

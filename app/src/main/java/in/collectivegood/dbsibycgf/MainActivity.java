@@ -21,7 +21,7 @@ public class MainActivity extends AppCompatActivity {
         FirebaseDatabase.getInstance().setPersistenceEnabled(true);
     }
 
-    public void getStarted(View view) {
+    public void getStartedWithEnglish(View view) {
         Resources res2 = getApplicationContext().getResources();
         DisplayMetrics dm2 = res2.getDisplayMetrics();
         android.content.res.Configuration conf2 = res2.getConfiguration();
@@ -31,7 +31,7 @@ public class MainActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
-    public void getStartedTelugu(View view) {
+    public void getStartedTeluguWithEnglish(View view) {
         Resources res2 = getApplicationContext().getResources();
         DisplayMetrics dm2 = res2.getDisplayMetrics();
         android.content.res.Configuration conf2 = res2.getConfiguration();
@@ -39,10 +39,6 @@ public class MainActivity extends AppCompatActivity {
         res2.updateConfiguration(conf2, dm2);
         Intent intent = new Intent(this, LoginActivity.class);
         startActivity(intent);
-    }
-
-    public void scanQR(View view) {
-        startActivity(new Intent(this, BarCodeActivity.class));
     }
 
 
