@@ -10,7 +10,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
@@ -65,7 +64,7 @@ public class CalendarActivity extends AppCompatActivity {
 
     private ListView eventListView;
     private ArrayList<CalendarItem> selectedDayEvents;
-    private ArrayAdapter<CalendarItem> adapter;
+    private CalendarEventListAdapter adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -84,7 +83,7 @@ public class CalendarActivity extends AppCompatActivity {
         localEvents = new ArrayList<>();
         selectedDayEvents = new ArrayList<>();
 
-        adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, selectedDayEvents);
+        adapter = new CalendarEventListAdapter(this, selectedDayEvents);
         eventListView.setAdapter(adapter);
         updateEventList();
 

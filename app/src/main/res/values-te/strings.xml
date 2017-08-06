@@ -91,4 +91,7 @@
     <string name="svp_data">"ఎస్ వీ పి డేటా"</string>
     <string name="uid">"యూ ఐ డీ"</string>
     <string name="advocacy">అడ్వొకేసీ</string>
+    <string name="event_name">ఈవెంట్ పేరు</string>
+    <string name="new_event">కొత్త సంఘటన</string>
+    <string name="event_detail">ఈవెంట్ వివరాలు</string>
 </resources>

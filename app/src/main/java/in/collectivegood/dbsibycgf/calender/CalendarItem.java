@@ -8,7 +8,7 @@ public class CalendarItem {
     public CalendarItem() {
     }
 
-    public CalendarItem(long date, String detail, String title) {
+    public CalendarItem(long date, String title, String detail) {
 
         this.date = date;
         this.detail = detail;
