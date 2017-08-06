@@ -35,33 +35,19 @@ public class CalendarActivity extends AppCompatActivity {
     private int dayOfMonth;
     private int hour;
     private int minute;
+    private String months[];
+
+    private LinearLayout linearLayout;
+    private EditText eventName;
+    private EditText eventDetail;
     private Button dateButton;
     private Button timeButton;
+
     private String state;
     private String uid;
 
-    private TimePickerDialog.OnTimeSetListener onTimeSetListener = new TimePickerDialog.OnTimeSetListener() {
-        @Override
-        public void onTimeSet(TimePicker view, int h, int m) {
-            hour = h;
-            minute = m;
-            timeButton.setText(hour + ":" + minute);
-        }
-    };
-    private DatePickerDialog.OnDateSetListener onDateSetListener = new DatePickerDialog.OnDateSetListener() {
-        @Override
-        public void onDateSet(DatePicker view, int y, int m, int d) {
-            year = y;
-            month = m;
-            dayOfMonth = d;
-            dateButton.setText(dayOfMonth + "/" + month + "/" + year);
-        }
-    };
-
-    private void pickTime() {
-        TimePickerDialog timePickerDialog = new TimePickerDialog(this, onTimeSetListener, hour, minute, false);
-        timePickerDialog.show();
-    }
+    private TimePickerDialog.OnTimeSetListener onTimeSetListener;
+    private DatePickerDialog.OnDateSetListener onDateSetListener;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -71,25 +57,11 @@ public class CalendarActivity extends AppCompatActivity {
         state = extras.getString("state");
         uid = extras.getString("uid");
         calendarView = (CalendarView) findViewById(R.id.calendar_view);
-        dateButton = new Button(this);
-        dateButton.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
-        timeButton = new Button(this);
-        timeButton.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
 
-        dateButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                picDate();
-            }
-        });
-
-        timeButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                pickTime();
-            }
-        });
+        generateNewEventDialogElements();
+        initSetListeners();
     }
+
 
     private void getCalendarData(String state, String uid, ArrayList<CalendarItem> list) {
         getCalendarData("calendar/" + state + "/" + uid, list);
@@ -126,28 +98,8 @@ public class CalendarActivity extends AppCompatActivity {
         hour = 10;
         minute = 0;
 
-        LinearLayout linearLayout = new LinearLayout(this);
-        linearLayout.setOrientation(LinearLayout.VERTICAL);
-        linearLayout.setPadding(20, 10, 20, 10);
-
-        final EditText eventName = new EditText(this);
-        eventName.setHint(R.string.event_name);
-        eventName.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
-        eventName.setSingleLine(true);
-        linearLayout.addView(eventName);
-
-        final EditText eventDetail = new EditText(this);
-        eventDetail.setHint(R.string.event_detail);
-        eventDetail.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, 200));
-        eventDetail.setSingleLine(false);
-        eventDetail.setGravity(Gravity.TOP);
-        linearLayout.addView(eventDetail);
-
-        dateButton.setText(dayOfMonth + "/" + month + "/" + year);
-        linearLayout.addView(dateButton);
-
-        timeButton.setText(hour + ":" + minute);
-        linearLayout.addView(timeButton);
+        dateButton.setText(String.format("%02d %s %4d", dayOfMonth, months[month - 1], year));
+        timeButton.setText(String.format("%02d:%02d", hour, minute));
 
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle(R.string.new_event);
@@ -184,4 +136,84 @@ public class CalendarActivity extends AppCompatActivity {
         DatePickerDialog datePickerDialog = new DatePickerDialog(this, onDateSetListener, year, month, dayOfMonth);
         datePickerDialog.show();
     }
+
+    private void generateNewEventDialogElements() {
+        months = new String[]{
+                "Jan", "Feb", "Mar",
+                "Apr", "May", "Jun",
+                "Jul", "Aug", "Sept",
+                "Oct", "Nov", "Dec"
+        };
+
+        dateButton = new Button(this);
+        dateButton.setTextColor(getResources().getColor(R.color.colorAccent));
+        dateButton.setBackground(getResources().getDrawable(android.R.drawable.screen_background_light_transparent));
+        dateButton.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
+
+        timeButton = new Button(this);
+        timeButton.setTextColor(getResources().getColor(R.color.colorAccent));
+        timeButton.setBackground(getResources().getDrawable(android.R.drawable.screen_background_light_transparent));
+        timeButton.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
+
+        eventName = new EditText(this);
+        eventName.setHint(R.string.event_name);
+        eventName.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
+        eventName.setSingleLine(true);
+
+        eventDetail = new EditText(this);
+        eventDetail.setHint(R.string.event_detail);
+        eventDetail.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, 200));
+        eventDetail.setSingleLine(false);
+        eventDetail.setGravity(Gravity.TOP);
+
+        linearLayout = new LinearLayout(this);
+        linearLayout.setOrientation(LinearLayout.VERTICAL);
+        linearLayout.setPadding(50, 10, 50, 10);
+
+        linearLayout.addView(eventName);
+        linearLayout.addView(eventDetail);
+        linearLayout.addView(dateButton);
+        linearLayout.addView(timeButton);
+
+
+        dateButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                picDate();
+            }
+        });
+
+        timeButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                pickTime();
+            }
+        });
+    }
+
+    private void initSetListeners() {
+        onTimeSetListener = new TimePickerDialog.OnTimeSetListener() {
+            @Override
+            public void onTimeSet(TimePicker view, int h, int m) {
+                hour = h;
+                minute = m;
+                timeButton.setText(String.format("%02d:%02d", hour, minute));
+            }
+        };
+        onDateSetListener = new DatePickerDialog.OnDateSetListener() {
+            @Override
+            public void onDateSet(DatePicker view, int y, int m, int d) {
+                year = y;
+                month = m;
+                dayOfMonth = d;
+                dateButton.setText(String.format("%02d %s %4d", dayOfMonth, months[month - 1], year));
+            }
+        };
+    }
+
+    private void pickTime() {
+        TimePickerDialog timePickerDialog = new TimePickerDialog(this, onTimeSetListener, hour, minute, false);
+        timePickerDialog.show();
+    }
+
 }
