@@ -6,6 +6,7 @@ import android.app.TimePickerDialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -119,7 +120,7 @@ public class CalendarActivity extends AppCompatActivity {
     public void addCCEvent(View view) {
         long timestamp = calendarView.getDate();
         Date date = new Date(timestamp);
-        year = date.getYear();
+        year = date.getYear() + 1900;
         month = date.getMonth();
         dayOfMonth = date.getDate();
         hour = 10;
@@ -127,6 +128,7 @@ public class CalendarActivity extends AppCompatActivity {
 
         LinearLayout linearLayout = new LinearLayout(this);
         linearLayout.setOrientation(LinearLayout.VERTICAL);
+        linearLayout.setPadding(20, 10, 20, 10);
 
         final EditText eventName = new EditText(this);
         eventName.setHint(R.string.event_name);
@@ -138,14 +140,18 @@ public class CalendarActivity extends AppCompatActivity {
         eventDetail.setHint(R.string.event_detail);
         eventDetail.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, 200));
         eventDetail.setSingleLine(false);
+        eventDetail.setGravity(Gravity.TOP);
         linearLayout.addView(eventDetail);
 
         dateButton.setText(dayOfMonth + "/" + month + "/" + year);
+        linearLayout.addView(dateButton);
 
         timeButton.setText(hour + ":" + minute);
+        linearLayout.addView(timeButton);
 
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle(R.string.new_event);
+        builder.setView(linearLayout);
         builder.setNegativeButton(R.string.cancel, null);
         builder.setPositiveButton(R.string.save, new DialogInterface.OnClickListener() {
             @Override
@@ -155,6 +161,8 @@ public class CalendarActivity extends AppCompatActivity {
                 saveEvent(name, detail);
             }
         });
+
+        builder.show();
     }
 
     private void saveEvent(String title, String detail) {
@@ -165,7 +173,11 @@ public class CalendarActivity extends AppCompatActivity {
         date.setHours(hour);
         date.setMinutes(minute);
         CalendarItem calendarItem = new CalendarItem(date.getTime(), title, detail);
-        FirebaseDatabase.getInstance().getReference("calendar").child(state).child(uid).setValue(calendarItem);
+        FirebaseDatabase.getInstance().getReference("calendar")
+                .child(state)
+                .child(uid)
+                .child(String.valueOf(date.getTime()))
+                .setValue(calendarItem);
     }
 
     private void picDate() {
