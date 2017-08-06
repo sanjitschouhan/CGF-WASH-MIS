@@ -38,5 +38,6 @@ dependencies {
     compile 'com.sun.mail:android-mail:1.5.5'
     compile 'com.sun.mail:android-activation:1.5.5'
     testCompile 'junit:junit:4.12'
+    compile 'com.prolificinteractive:material-calendarview:1.4.3'
 }
 apply plugin: 'com.google.gms.google-services'

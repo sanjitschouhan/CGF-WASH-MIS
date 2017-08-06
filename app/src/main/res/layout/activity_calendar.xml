@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context="in.collectivegood.dbsibycgf.calender.CalendarActivity">
 
 
@@ -12,26 +12,25 @@
         android:layout_height="match_parent"
         android:orientation="vertical">
 
-
-        <CalendarView
+        <com.prolificinteractive.materialcalendarview.MaterialCalendarView
             android:id="@+id/calendar_view"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:dateTextAppearance="@android:style/TextAppearance.DeviceDefault.Medium"
-            android:weekDayTextAppearance="@android:style/TextAppearance.DeviceDefault.Medium">
-
-        </CalendarView>
+            android:weekDayTextAppearance="@android:style/TextAppearance.DeviceDefault.Medium" />
 
     </LinearLayout>
+
     <android.support.design.widget.FloatingActionButton
-        android:layout_width="wrap_content"
-        android:layout_alignParentEnd="true"
-        android:layout_height="wrap_content"
-        android:layout_margin="20dp"
-        app:fabSize="normal"
         android:id="@+id/add_cc_event"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_margin="20dp"
         android:onClick="addCCEvent"
         android:src="@android:drawable/ic_input_add"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentRight="true" />
+        android:visibility="gone"
+        app:fabSize="normal" />
 </RelativeLayout>

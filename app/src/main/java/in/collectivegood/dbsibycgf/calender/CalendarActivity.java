@@ -10,7 +10,6 @@ import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.CalendarView;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.LinearLayout;
@@ -21,15 +20,22 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.prolificinteractive.materialcalendarview.CalendarDay;
+import com.prolificinteractive.materialcalendarview.DayViewDecorator;
+import com.prolificinteractive.materialcalendarview.DayViewFacade;
+import com.prolificinteractive.materialcalendarview.MaterialCalendarView;
 
 import java.util.ArrayList;
 import java.util.Date;
 
 import in.collectivegood.dbsibycgf.R;
+import in.collectivegood.dbsibycgf.database.Schemas;
+import in.collectivegood.dbsibycgf.support.InfoProvider;
+import in.collectivegood.dbsibycgf.support.UserTypes;
 
 public class CalendarActivity extends AppCompatActivity {
 
-    private CalendarView calendarView;
+    private MaterialCalendarView calendarView;
     private int year;
     private int month;
     private int dayOfMonth;
@@ -37,7 +43,7 @@ public class CalendarActivity extends AppCompatActivity {
     private int minute;
     private String months[];
 
-    private LinearLayout linearLayout;
+    private AlertDialog addEventDailog;
     private EditText eventName;
     private EditText eventDetail;
     private Button dateButton;
@@ -49,6 +55,10 @@ public class CalendarActivity extends AppCompatActivity {
     private TimePickerDialog.OnTimeSetListener onTimeSetListener;
     private DatePickerDialog.OnDateSetListener onDateSetListener;
 
+    private ArrayList<CalendarItem> ccEvents;
+    private ArrayList<CalendarItem> commonEvents;
+    private ArrayList<CalendarItem> localEvents;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -56,12 +66,104 @@ public class CalendarActivity extends AppCompatActivity {
         Bundle extras = getIntent().getExtras();
         state = extras.getString("state");
         uid = extras.getString("uid");
-        calendarView = (CalendarView) findViewById(R.id.calendar_view);
+        calendarView = (MaterialCalendarView) findViewById(R.id.calendar_view);
+        ccEvents = new ArrayList<>();
+        commonEvents = new ArrayList<>();
+        localEvents = new ArrayList<>();
+        getCalendarData(state, uid, ccEvents);
+        getCalendarData(state, "all", localEvents);
+        getCommonCalendarData(commonEvents);
 
-        generateNewEventDialogElements();
-        initSetListeners();
+        String email = InfoProvider.getCCData(this, Schemas.CCDatabaseEntry.EMAIL);
+        final DatabaseReference user_type = FirebaseDatabase.getInstance()
+                .getReference("user_types")
+                .child(email.replaceAll("\\.", "(dot)"));
+        user_type.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                String value = dataSnapshot.getValue(String.class);
+                if (value.equals(UserTypes.USER_TYPE_CC)) {
+                    (findViewById(R.id.add_cc_event)).setVisibility(View.VISIBLE);
+                    generateNewEventDialog();
+                    initSetListeners();
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+
+
     }
 
+    private void updateCalendarView() {
+        calendarView.removeDecorators();
+        calendarView.addDecorator(new DayViewDecorator() {
+            @Override
+            public boolean shouldDecorate(CalendarDay day) {
+                for (CalendarItem calendarItem : ccEvents) {
+                    Date date = new Date(calendarItem.getDate());
+                    if (date.getDate() == day.getDay()) {
+                        if (date.getMonth() == day.getMonth()) {
+                            if (date.getYear() == day.getYear()) {
+                                return true;
+                            }
+                        }
+                    }
+                }
+                return false;
+            }
+
+            @Override
+            public void decorate(DayViewFacade view) {
+                view.setBackgroundDrawable(getResources().getDrawable(R.drawable.calendar_cc_event));
+            }
+        });
+        calendarView.addDecorator(new DayViewDecorator() {
+            @Override
+            public boolean shouldDecorate(CalendarDay day) {
+                for (CalendarItem calendarItem : commonEvents) {
+                    Date date = new Date(calendarItem.getDate());
+                    if (date.getDate() == day.getDay()) {
+                        if (date.getMonth() == day.getMonth()) {
+                            if (date.getYear() == day.getYear()) {
+                                return true;
+                            }
+                        }
+                    }
+                }
+                return false;
+            }
+
+            @Override
+            public void decorate(DayViewFacade view) {
+                view.setBackgroundDrawable(getResources().getDrawable(R.drawable.calendar_common_event));
+            }
+        });
+        calendarView.addDecorator(new DayViewDecorator() {
+            @Override
+            public boolean shouldDecorate(CalendarDay day) {
+                for (CalendarItem calendarItem : localEvents) {
+                    Date date = new Date(calendarItem.getDate());
+                    if (date.getDate() == day.getDay()) {
+                        if (date.getMonth() == day.getMonth()) {
+                            if (date.getYear() == day.getYear()) {
+                                return true;
+                            }
+                        }
+                    }
+                }
+                return false;
+            }
+
+            @Override
+            public void decorate(DayViewFacade view) {
+                view.setBackgroundDrawable(getResources().getDrawable(R.drawable.calendar_local_event));
+            }
+        });
+    }
 
     private void getCalendarData(String state, String uid, ArrayList<CalendarItem> list) {
         getCalendarData("calendar/" + state + "/" + uid, list);
@@ -80,6 +182,7 @@ public class CalendarActivity extends AppCompatActivity {
                     CalendarItem item = snapshot.getValue(CalendarItem.class);
                     list.add(item);
                 }
+                updateCalendarView();
             }
 
             @Override
@@ -90,31 +193,17 @@ public class CalendarActivity extends AppCompatActivity {
     }
 
     public void addCCEvent(View view) {
-        long timestamp = calendarView.getDate();
-        Date date = new Date(timestamp);
-        year = date.getYear() + 1900;
-        month = date.getMonth();
-        dayOfMonth = date.getDate();
-        hour = 10;
-        minute = 0;
-
+        CalendarDay selectedDate = calendarView.getSelectedDate();
+        year = selectedDate.getYear();
+        month = selectedDate.getMonth();
+        dayOfMonth = selectedDate.getDay();
+        Date date = new Date(System.currentTimeMillis());
+        hour = date.getHours();
+        minute = date.getMinutes();
         dateButton.setText(String.format("%02d %s %4d", dayOfMonth, months[month - 1], year));
         timeButton.setText(String.format("%02d:%02d", hour, minute));
 
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle(R.string.new_event);
-        builder.setView(linearLayout);
-        builder.setNegativeButton(R.string.cancel, null);
-        builder.setPositiveButton(R.string.save, new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                String name = eventName.getText().toString().trim();
-                String detail = eventDetail.getText().toString().trim();
-                saveEvent(name, detail);
-            }
-        });
-
-        builder.show();
+        addEventDailog.show();
     }
 
     private void saveEvent(String title, String detail) {
@@ -130,6 +219,7 @@ public class CalendarActivity extends AppCompatActivity {
                 .child(uid)
                 .child(String.valueOf(date.getTime()))
                 .setValue(calendarItem);
+        ccEvents.add(calendarItem);
     }
 
     private void picDate() {
@@ -137,7 +227,14 @@ public class CalendarActivity extends AppCompatActivity {
         datePickerDialog.show();
     }
 
-    private void generateNewEventDialogElements() {
+    private void generateNewEventDialog() {
+        Date date = new Date(System.currentTimeMillis());
+        year = date.getYear() + 1900;
+        month = date.getMonth();
+        dayOfMonth = date.getDate();
+        hour = date.getHours();
+        minute = date.getMinutes();
+
         months = new String[]{
                 "Jan", "Feb", "Mar",
                 "Apr", "May", "Jun",
@@ -166,7 +263,7 @@ public class CalendarActivity extends AppCompatActivity {
         eventDetail.setSingleLine(false);
         eventDetail.setGravity(Gravity.TOP);
 
-        linearLayout = new LinearLayout(this);
+        LinearLayout linearLayout = new LinearLayout(this);
         linearLayout.setOrientation(LinearLayout.VERTICAL);
         linearLayout.setPadding(50, 10, 50, 10);
 
@@ -174,6 +271,21 @@ public class CalendarActivity extends AppCompatActivity {
         linearLayout.addView(eventDetail);
         linearLayout.addView(dateButton);
         linearLayout.addView(timeButton);
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle(R.string.new_event);
+        builder.setView(linearLayout);
+        builder.setNegativeButton(R.string.cancel, null);
+        builder.setPositiveButton(R.string.save, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                String name = eventName.getText().toString().trim();
+                String detail = eventDetail.getText().toString().trim();
+                saveEvent(name, detail);
+            }
+        });
+
+        addEventDailog = builder.create();
 
 
         dateButton.setOnClickListener(new View.OnClickListener() {
