@@ -21,8 +21,6 @@ import in.collectivegood.dbsibycgf.database.Schemas;
 import in.collectivegood.dbsibycgf.database.SchoolDbHelper;
 import in.collectivegood.dbsibycgf.discussion.DiscussionActivity;
 
-import static in.collectivegood.dbsibycgf.sync.SyncFunctions.Sync;
-
 public class CCOtherActivity extends AppCompatActivity {
     private String ccUid;
     private CardView checkInCard;
@@ -102,8 +100,6 @@ public class CCOtherActivity extends AppCompatActivity {
         long end_time = System.currentTimeMillis();
         CheckInRecord checkInRecord = new CheckInRecord(ccUid, schoolCode, start_time, end_time);
         checkInDbHelper.insert(checkInRecord);
-
-        Sync();
 
         SharedPreferences.Editor editor = preferences.edit();
         editor.remove("school_code");

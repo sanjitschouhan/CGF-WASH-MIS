@@ -50,8 +50,6 @@ import in.collectivegood.dbsibycgf.discussion.DiscussionActivity;
 import in.collectivegood.dbsibycgf.profiles.CCProfileActivity;
 import in.collectivegood.dbsibycgf.support.UserTypes;
 
-import static in.collectivegood.dbsibycgf.sync.SyncFunctions.CreateSyncAccount;
-
 public class InitializingActivity extends AppCompatActivity {
     private static final String TAG = "Activity_Initializing";
     private static final int PERMISSIONS_REQUEST_READ_WRITE_EXTERNAL_STORAGE = 1;
@@ -277,7 +275,6 @@ public class InitializingActivity extends AppCompatActivity {
                     .addOnSuccessListener(new OnSuccessListener<Void>() {
                         @Override
                         public void onSuccess(Void aVoid) {
-                            CreateSyncAccount(InitializingActivity.this, finalName);
                             startActivity(intent);
                             dialog.dismiss();
                             finish();
@@ -294,7 +291,6 @@ public class InitializingActivity extends AppCompatActivity {
                         }
                     });
         } else {
-            CreateSyncAccount(InitializingActivity.this, name);
             startActivity(intent);
             dialog.dismiss();
             finish();
