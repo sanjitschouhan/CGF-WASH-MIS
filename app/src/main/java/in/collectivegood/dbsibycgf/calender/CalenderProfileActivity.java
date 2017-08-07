@@ -2,8 +2,8 @@ package in.collectivegood.dbsibycgf.calender;
 
 import android.content.Intent;
 import android.database.Cursor;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -27,10 +27,11 @@ import in.collectivegood.dbsibycgf.support.InfoProvider;
 import in.collectivegood.dbsibycgf.support.UserTypes;
 
 public class CalenderProfileActivity extends AppCompatActivity {
-    ArrayAdapter<CCRecord> ccRecordArrayAdapter;
-    ArrayList<CCRecord> ccList;
-    ListView listView;
-    String selectedState;
+    private ArrayAdapter<CCRecord> ccRecordArrayAdapter;
+    private ArrayList<CCRecord> ccList;
+    private ListView listView;
+    private String selectedState;
+    private String storagePath;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,6 +50,18 @@ public class CalenderProfileActivity extends AppCompatActivity {
                     finish();
                 } else {
                     admin();
+                    findViewById(R.id.add_event).setVisibility(View.VISIBLE);
+                    findViewById(R.id.loading).setVisibility(View.GONE);
+                    findViewById(R.id.spinnerstates).setVisibility(View.VISIBLE);
+                    if (value.equals(UserTypes.USER_TYPE_ADMIN_AP)) {
+                        storagePath = "tl/all";
+                        findViewById(R.id.ap_button).setVisibility(View.GONE);
+                    } else if (value.equals(UserTypes.USER_TYPE_ADMIN_TL)) {
+                        storagePath = "ap/all";
+                        findViewById(R.id.tl_button).setVisibility(View.GONE);
+                    } else {
+                        storagePath = "all";
+                    }
                 }
             }
 
@@ -68,11 +81,21 @@ public class CalenderProfileActivity extends AppCompatActivity {
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                if (position == 1) {
+                if (position == 0) {
+                    listView.setVisibility(View.GONE);
+                    findViewById(R.id.common).setVisibility(View.GONE);
+                    return;
+                } else if (position == 1) {
                     selectedState = "TL";
+                    listView.setVisibility(View.VISIBLE);
+                    findViewById(R.id.common).setVisibility(View.GONE);
                 } else if (position == 2) {
                     selectedState = "AP";
+                    listView.setVisibility(View.VISIBLE);
+                    findViewById(R.id.common).setVisibility(View.GONE);
                 } else {
+                    findViewById(R.id.common).setVisibility(View.VISIBLE);
+                    listView.setVisibility(View.GONE);
                     return;
                 }
                 CCDbHelper dbHelper = new CCDbHelper(new DbHelper(CalenderProfileActivity.this));
@@ -116,7 +139,21 @@ public class CalenderProfileActivity extends AppCompatActivity {
         intent.putExtra("state", state);
         intent.putExtra("uid", Uid);
         startActivity(intent);
-
     }
 
+    public void openTelanganaEvents(View view) {
+        openCalendar("tl", "all");
+    }
+
+    public void openAPEvents(View view) {
+        openCalendar("ap", "all");
+    }
+
+    public void openCommonEvents(View view) {
+        openCalendar("both", "all");
+    }
+
+    public void addEvent(View view) {
+
+    }
 }

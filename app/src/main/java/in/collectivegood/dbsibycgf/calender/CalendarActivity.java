@@ -87,8 +87,12 @@ public class CalendarActivity extends AppCompatActivity {
         eventListView.setAdapter(adapter);
         updateEventList();
 
-        getCalendarData(state, uid, ccEvents);
-        getCalendarData(state, "all", localEvents);
+        if (!state.equalsIgnoreCase("both")) {
+            if (!uid.equalsIgnoreCase("all")) {
+                getCalendarData(state, uid, ccEvents);
+            }
+            getCalendarData(state, "all", localEvents);
+        }
         getCommonCalendarData(commonEvents);
 
         String email = InfoProvider.getCCData(this, Schemas.CCDatabaseEntry.EMAIL);

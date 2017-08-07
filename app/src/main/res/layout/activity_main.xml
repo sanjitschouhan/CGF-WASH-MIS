@@ -32,14 +32,12 @@
                 android:layout_height="wrap_content"
                 android:background="@drawable/border_only"
                 android:onClick="getStartedWithEnglish"
-                android:padding="10dp">
+                android:padding="15dp">
 
                 <TextView
                     style="@style/TextAppearance.AppCompat.Widget.Button.Borderless.Colored"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:drawableLeft="@drawable/en_us"
-                    android:drawableStart="@drawable/en_us"
                     android:gravity="center"
                     android:text="@string/english" />
             </LinearLayout>
@@ -49,19 +47,16 @@
                 android:layout_height="wrap_content"
                 android:background="@drawable/border_only"
                 android:onClick="getStartedTeluguWithEnglish"
-                android:padding="10dp">
+                android:padding="15dp">
 
                 <TextView
                     style="@style/TextAppearance.AppCompat.Widget.Button.Borderless.Colored"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:drawableLeft="@drawable/te_in"
-                    android:drawableStart="@drawable/te_in"
                     android:gravity="center"
                     android:text="@string/telugu" />
             </LinearLayout>
         </LinearLayout>
     </android.support.v7.widget.CardView>
-
 
 </LinearLayout>

@@ -1,27 +1,90 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
     tools:context="in.collectivegood.dbsibycgf.calender.CalenderProfileActivity">
 
-    <Spinner
+    <LinearLayout
         android:layout_width="match_parent"
-        android:id="@+id/spinnerstates"
-        android:layout_marginTop="10dp"
-        style="@style/Base.TextAppearance.AppCompat.Large"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:orientation="vertical">
+
+        <ProgressBar
+            android:id="@+id/loading"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <Spinner
+            android:id="@+id/spinnerstates"
+            style="@style/Base.TextAppearance.AppCompat.Large"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/border_only"
+            android:entries="@array/states"
+            android:minHeight="40dp"
+            android:padding="10dp"
+            android:textAlignment="center"
+            android:visibility="gone" />
+
+        <ListView
+            android:id="@+id/cclist"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="20dp"
+            android:visibility="gone">
+
+        </ListView>
+
+        <LinearLayout
+            android:id="@+id/common"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:padding="50dp"
+            android:visibility="gone">
+
+            <Button
+                android:id="@+id/tl_button"
+                style="@style/Base.Widget.AppCompat.Button.Colored"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:onClick="openTelanganaEvents"
+                android:text="Telangana" />
+
+            <Button
+                android:id="@+id/ap_button"
+                style="@style/Base.Widget.AppCompat.Button.Colored"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:onClick="openAPEvents"
+                android:text="Andhra Pradesh" />
+
+            <Button
+                style="@style/Base.Widget.AppCompat.Button.Colored"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:onClick="openCommonEvents"
+                android:text="Both" />
+        </LinearLayout>
+    </LinearLayout>
+
+    <android.support.design.widget.FloatingActionButton
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:entries="@array/states">
-    </Spinner>
-   <ListView
-       android:layout_width="match_parent"
-       android:layout_height="match_parent"
-       android:layout_marginTop="20dp"
-       android:id="@+id/cclist">
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentEnd="true"
+        android:id="@+id/add_event"
+        android:layout_alignParentRight="true"
+        android:onClick="addEvent"
+        android:visibility="gone"
+        android:layout_margin="20dp"
+        android:src="@android:drawable/ic_input_add"
+        app:fabSize="normal" />
 
-   </ListView>
-
-
-</LinearLayout>
+</RelativeLayout>
