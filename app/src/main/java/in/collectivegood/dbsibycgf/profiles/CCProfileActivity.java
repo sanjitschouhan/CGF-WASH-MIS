@@ -13,6 +13,7 @@ import in.collectivegood.dbsibycgf.dashboard.DashboardActivity;
 import in.collectivegood.dbsibycgf.database.DbHelper;
 import in.collectivegood.dbsibycgf.database.Schemas;
 import in.collectivegood.dbsibycgf.database.SchoolDbHelper;
+import in.collectivegood.dbsibycgf.listofschools.ListOfSchoolsActivity;
 import in.collectivegood.dbsibycgf.support.InfoProvider;
 
 public class CCProfileActivity extends AppCompatActivity {
@@ -106,5 +107,10 @@ public class CCProfileActivity extends AppCompatActivity {
     public void checkin(View view) {
 
         startActivity(new Intent(CCProfileActivity.this, CheckInActivity.class));
+    }
+
+    public void listofschools(View view) {
+        startActivity(new Intent(CCProfileActivity.this, ListOfSchoolsActivity.class));
+
     }
 }
