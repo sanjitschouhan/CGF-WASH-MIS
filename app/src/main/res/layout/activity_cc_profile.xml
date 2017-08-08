@@ -157,7 +157,7 @@
                 style="@style/TextAppearance.AppCompat.Large"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/mandals" />
+                android:text="@string/mandal" />
 
             <TextView
                 android:id="@+id/cc_mandal"

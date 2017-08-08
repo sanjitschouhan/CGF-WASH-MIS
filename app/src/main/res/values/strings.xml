@@ -31,7 +31,7 @@
     <string name="error_downloading_data">Error downloading data, Please check your internet connection</string>
     <string name="no_of_schools">No of Schools:</string>
     <string name="district">District:</string>
-    <string name="mandals">Mandals:</string>
+    <string name="mandal">Mandal:</string>
     <string name="check_in">CHECK IN</string>
     <string name="activities">ACTIVITIES</string>
     <string name="list_of_schools">list of schools</string>
@@ -99,6 +99,10 @@
     <string name="heps_data_will_be_sent_to_the_following_email_id">HEPS Data will be sent to the following email id.</string>
     <string name="send_data">Send Data</string>
     <string name="sending_mail">Sending Mail</string>
+    <string name="dise_code">DISE code:</string>
+    <string name="village">Village:</string>
+    <string name="geo_address">Geo Address:</string>
+    <string name="state">State:</string>
 
     <string-array name="states">
         <item>Select State:</item>

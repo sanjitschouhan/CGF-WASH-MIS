@@ -5,14 +5,6 @@ public class Location {
     private double lat;
     private double lon;
 
-    public double getLat() {
-        return lat;
-    }
-
-    public double getLon() {
-        return lon;
-    }
-
     public Location(double lat, double lon) {
 
         this.lat = lat;
@@ -21,5 +13,19 @@ public class Location {
 
     public Location() {
 
+    }
+
+    public double getLat() {
+        return lat;
+    }
+
+    public double getLon() {
+        return lon;
+    }
+
+    @Override
+    public String toString() {
+        return "Latitude: " + lat +
+                "\nlongitude: " + lon;
     }
 }

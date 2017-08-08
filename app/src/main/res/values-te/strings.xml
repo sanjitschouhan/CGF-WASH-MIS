@@ -53,7 +53,7 @@
     <string name="govt_supply">ప్రభుత్వ సరఫరా</string>
     <string name="borewell">బోర్</string>
     <string name="is_it_active_and_regular">ఐటి చురుకుగా మరియు సాధారణ?</string>
-    <string name="mandals">మండలాల్లో:</string>
+    <string name="mandal">మండలాల్లో:</string>
     <string name="no">తోబుట్టువుల</string>
     <string name="no_data_found">డేటా కనుగొనబడలేదు</string>
     <string name="no_of_schools">పాఠశాలలు నం:</string>
@@ -100,4 +100,13 @@
         <item>ఆంధ్రప్రదేశ్</item>
         <item>సాధారణ</item>
     </string-array>
+    <string name="check_out">తనిఖీ చేయండి</string>
+    <string name="dise_code">డాయిస్ కోడ్:</string>
+    <string name="geo_address">భౌగోళిక చిరునామా:</string>
+    <string name="gis_info_not_found">ఈ పాఠశాల కోసం GIS సమాచారం కనుగొనబడలేదు</string>
+    <string name="heps_data_will_be_sent_to_the_following_email_id">HEPS డేటా క్రింది ఇమెయిల్ ఐడికి పంపబడుతుంది.</string>
+    <string name="send_data">డేటా పంపండి</string>
+    <string name="sending_mail">మెయిల్ పంపుతోంది</string>
+    <string name="state">రాష్ట్రం:</string>
+    <string name="village">గ్రామం:</string>
 </resources>
