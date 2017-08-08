@@ -11,7 +11,6 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -54,7 +53,6 @@ public class CheckInLoadingActivity extends AppCompatActivity {
             public void onLocationChanged(Location loc) {
                 DatabaseReference gis;
                 if (code != null) {
-                    Log.e("onLocationChanged: ", "updating gis " + code);
                     gis = FirebaseDatabase.getInstance().getReference("gis").child(code);
                     in.collectivegood.dbsibycgf.gis.Location location =
                             new in.collectivegood.dbsibycgf.gis.Location(loc.getLatitude(), loc.getLongitude());
@@ -83,7 +81,6 @@ public class CheckInLoadingActivity extends AppCompatActivity {
                         CheckIn();
                     }
                 }
-                Log.e("onChildAdded: ", "getting gis");
                 getGis();
             }
 

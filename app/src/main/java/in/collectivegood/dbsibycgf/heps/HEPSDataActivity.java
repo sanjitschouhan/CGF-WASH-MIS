@@ -11,6 +11,12 @@ import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.ListView;
 
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+
 import java.util.ArrayList;
 
 import in.collectivegood.dbsibycgf.R;
@@ -19,6 +25,7 @@ import in.collectivegood.dbsibycgf.database.Schemas;
 import in.collectivegood.dbsibycgf.database.SchoolDbHelper;
 import in.collectivegood.dbsibycgf.database.SchoolRecord;
 import in.collectivegood.dbsibycgf.support.InfoProvider;
+import in.collectivegood.dbsibycgf.support.UserTypes;
 
 public class HEPSDataActivity extends AppCompatActivity {
 
@@ -32,6 +39,28 @@ public class HEPSDataActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_hepsdata);
+
+        String email = InfoProvider.getCCData(this, Schemas.CCDatabaseEntry.EMAIL);
+        final DatabaseReference user_type = FirebaseDatabase.getInstance()
+                .getReference("user_types")
+                .child(email.replaceAll("\\.", "(dot)"));
+        user_type.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                String value = dataSnapshot.getValue(String.class);
+                if (value.equals(UserTypes.USER_TYPE_ADMIN) ||
+                        value.equals(UserTypes.USER_TYPE_ADMIN_AP) ||
+                        value.equals(UserTypes.USER_TYPE_ADMIN_TL)) {
+                    startActivity(new Intent(HEPSDataActivity.this, MailHEPSDataActivity.class));
+                    finish();
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
 
         initialiseReferences();
         updateSchoolList(null);

@@ -102,7 +102,8 @@
         <activity android:name=".checkin.CheckInActivity" />
         <activity android:name=".checkin.CheckInLoadingActivity" />
         <activity android:name=".listofschools.ListOfSchoolsActivity" />
-        <activity android:name=".checkin.CheckOutActivity"></activity>
+        <activity android:name=".checkin.CheckOutActivity" />
+        <activity android:name=".heps.MailHEPSDataActivity"></activity>
     </application>
 
 </manifest>

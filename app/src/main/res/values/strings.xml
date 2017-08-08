@@ -96,6 +96,9 @@
     <string name="event_detail">Event Detail</string>
     <string name="check_out">CHECK OUT</string>
     <string name="gis_info_not_found">GIS Information not found for this school</string>
+    <string name="heps_data_will_be_sent_to_the_following_email_id">HEPS Data will be sent to the following email id.</string>
+    <string name="send_data">Send Data</string>
+    <string name="sending_mail">Sending Mail</string>
 
     <string-array name="states">
         <item>Select State:</item>
