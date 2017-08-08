@@ -26,7 +26,6 @@ public class CheckInLoadingActivity extends AppCompatActivity {
     private static final int PERMISSIONS_REQUEST_LOCATION = 1;
     LocationManager locationManager;
     LocationListener locationListener;
-    Location location;
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
@@ -55,8 +54,10 @@ public class CheckInLoadingActivity extends AppCompatActivity {
                 if (code != null) {
                     Log.e("onLocationChanged: ", "updating gis " + code);
                     gis = FirebaseDatabase.getInstance().getReference("gis").child(code);
-
-                    gis.setValue(loc).addOnSuccessListener(new OnSuccessListener<Void>() {
+                    in.collectivegood.dbsibycgf.gis.Location location =
+                            new in.collectivegood.dbsibycgf.gis.Location(loc.getLatitude(), loc.getLongitude());
+                    locationManager.removeUpdates(locationListener);
+                    gis.setValue(location).addOnSuccessListener(new OnSuccessListener<Void>() {
                         @Override
                         public void onSuccess(Void aVoid) {
                             CheckIn(code);

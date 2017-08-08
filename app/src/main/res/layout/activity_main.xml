@@ -32,7 +32,7 @@
                 android:layout_height="wrap_content"
                 android:background="@drawable/border_only"
                 android:onClick="getStartedWithEnglish"
-                android:padding="15dp">
+                android:padding="18dp">
 
                 <TextView
                     style="@style/TextAppearance.AppCompat.Widget.Button.Borderless.Colored"
@@ -47,7 +47,7 @@
                 android:layout_height="wrap_content"
                 android:background="@drawable/border_only"
                 android:onClick="getStartedTeluguWithEnglish"
-                android:padding="15dp">
+                android:padding="18dp">
 
                 <TextView
                     style="@style/TextAppearance.AppCompat.Widget.Button.Borderless.Colored"
