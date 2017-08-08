@@ -3,14 +3,11 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="in.collectivegood.dbsibycgf.gis.MapActivity">
+    tools:context="in.collectivegood.dbsibycgf.checkin.CheckOutActivity">
 
-    <TextView
-        android:id="@+id/map_location_status_text"
-        style="@style/Base.TextAppearance.AppCompat.Medium"
+    <ProgressBar
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
-        android:text="@string/loading_data" />
+        android:layout_centerInParent="true" />
 
 </RelativeLayout>

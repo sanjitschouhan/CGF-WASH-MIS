@@ -94,6 +94,8 @@
     <string name="event_name">Event Name</string>
     <string name="new_event">New Event</string>
     <string name="event_detail">Event Detail</string>
+    <string name="check_out">CHECK OUT</string>
+    <string name="gis_info_not_found">GIS Information not found for this school</string>
 
     <string-array name="states">
         <item>Select State:</item>

@@ -107,7 +107,4 @@ public class CheckInActivity extends AppCompatActivity {
 
         adapter.notifyDataSetChanged();
     }
-
-
-
 }

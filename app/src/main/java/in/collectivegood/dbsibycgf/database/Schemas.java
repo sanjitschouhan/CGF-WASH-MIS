@@ -41,6 +41,8 @@ public final class Schemas {
         public static final String SCHOOL_CODE = "school_code";
         public static final String START_TIME = "start_time";
         public static final String END_TIME = "end_time";
+        public static final String CHECK_IN_DISTANCE = "check_in_distance";
+        public static final String CHECK_OUT_DISTANCE = "check_out_distance";
     }
 
     public static class HEPSFormEntry implements BaseColumns {

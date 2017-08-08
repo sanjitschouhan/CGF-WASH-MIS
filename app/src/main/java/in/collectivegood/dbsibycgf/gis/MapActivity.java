@@ -15,19 +15,25 @@ import com.google.firebase.database.ValueEventListener;
 import in.collectivegood.dbsibycgf.R;
 
 public class MapActivity extends AppCompatActivity {
-TextView textView;
+    TextView textView;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_map);
-        Intent intent=getIntent();
-        String Text=intent.getExtras().getString("code").toLowerCase();
-        DatabaseReference gis = FirebaseDatabase.getInstance().getReference("gis").child(Text);
+        Intent intent = getIntent();
+        String code = intent.getExtras().getString("code").toLowerCase();
+        DatabaseReference gis = FirebaseDatabase.getInstance().getReference("gis").child(code);
         gis.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 Location value = dataSnapshot.getValue(Location.class);
-                directions(value);
+                if (value == null) {
+                    textView = (TextView) findViewById(R.id.map_location_status_text);
+                    textView.setText(R.string.gis_info_not_found);
+                } else {
+                    directions(value);
+                }
             }
 
             @Override
@@ -35,15 +41,15 @@ TextView textView;
 
             }
         });
-        textView=(TextView)findViewById(R.id.textformap);
-        textView.setText(Text);
 
 
     }
+
     public void directions(Location location) {
         Uri gmmIntentUri = Uri.parse("google.navigation:q=" + location.getLat() + "," + location.getLon());
         Intent mapIntent = new Intent(Intent.ACTION_VIEW, gmmIntentUri);
         mapIntent.setPackage("com.google.android.apps.maps");
         startActivity(mapIntent);
+        finish();
     }
 }

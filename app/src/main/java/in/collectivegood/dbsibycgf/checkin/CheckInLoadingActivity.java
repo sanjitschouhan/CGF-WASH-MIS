@@ -2,6 +2,7 @@ package in.collectivegood.dbsibycgf.checkin;
 
 import android.Manifest;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.location.LocationListener;
@@ -26,12 +27,13 @@ public class CheckInLoadingActivity extends AppCompatActivity {
     private static final int PERMISSIONS_REQUEST_LOCATION = 1;
     LocationManager locationManager;
     LocationListener locationListener;
+    String code;
+    Location schoolLocation;
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         if (requestCode == PERMISSIONS_REQUEST_LOCATION) {
             if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
-                locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 0, locationListener);
                 locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, locationListener);
             } else {
                 Toast.makeText(this, "Permission Denied", Toast.LENGTH_SHORT).show();
@@ -45,42 +47,26 @@ public class CheckInLoadingActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_check_in_loading);
-        final String code = getIntent().getExtras().getString("code");
+        code = getIntent().getExtras().getString("code");
         locationManager = (LocationManager) this.getSystemService(Context.LOCATION_SERVICE);
-        locationListener = new LocationListener() {
+        locationListener = new mLocationListener() {
             @Override
             public void onLocationChanged(Location loc) {
-                DatabaseReference gis = null;
+                DatabaseReference gis;
                 if (code != null) {
                     Log.e("onLocationChanged: ", "updating gis " + code);
                     gis = FirebaseDatabase.getInstance().getReference("gis").child(code);
                     in.collectivegood.dbsibycgf.gis.Location location =
                             new in.collectivegood.dbsibycgf.gis.Location(loc.getLatitude(), loc.getLongitude());
-                    locationManager.removeUpdates(locationListener);
+                    schoolLocation = new Location(loc);
+                    locationManager.removeUpdates(this);
                     gis.setValue(location).addOnSuccessListener(new OnSuccessListener<Void>() {
                         @Override
                         public void onSuccess(Void aVoid) {
-                            CheckIn(code);
+                            CheckIn();
                         }
                     });
                 }
-            }
-
-
-            @Override
-
-            public void onStatusChanged(String provider, int status, Bundle extras) {
-
-            }
-
-            @Override
-            public void onProviderEnabled(String provider) {
-
-            }
-
-            @Override
-            public void onProviderDisabled(String provider) {
-
             }
         };
 
@@ -88,11 +74,13 @@ public class CheckInLoadingActivity extends AppCompatActivity {
         databaseReference.addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {
-
                 for (DataSnapshot g : dataSnapshot.getChildren()) {
                     if (g.getKey().equals(code)) {
-                        CheckIn(code);
-                        finish();
+                        in.collectivegood.dbsibycgf.gis.Location value = g.getValue(in.collectivegood.dbsibycgf.gis.Location.class);
+                        schoolLocation = new Location(LocationManager.GPS_PROVIDER);
+                        schoolLocation.setLatitude(value.getLat());
+                        schoolLocation.setLongitude(value.getLon());
+                        CheckIn();
                     }
                 }
                 Log.e("onChildAdded: ", "getting gis");
@@ -101,22 +89,18 @@ public class CheckInLoadingActivity extends AppCompatActivity {
 
             @Override
             public void onChildChanged(DataSnapshot dataSnapshot, String s) {
-
             }
 
             @Override
             public void onChildRemoved(DataSnapshot dataSnapshot) {
-
             }
 
             @Override
             public void onChildMoved(DataSnapshot dataSnapshot, String s) {
-
             }
 
             @Override
             public void onCancelled(DatabaseError databaseError) {
-
             }
         });
 
@@ -130,11 +114,47 @@ public class CheckInLoadingActivity extends AppCompatActivity {
                     PERMISSIONS_REQUEST_LOCATION);
             return;
         }
-        locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 2, 1, locationListener);
         locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 2, 1, locationListener);
     }
 
-    private void CheckIn(String code) {
-        finish();
+    private void CheckIn() {
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this,
+                    new String[]{Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION},
+                    PERMISSIONS_REQUEST_LOCATION);
+            return;
+        }
+        locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 2, 1, new mLocationListener() {
+            @Override
+            public void onLocationChanged(Location location) {
+                locationManager.removeUpdates(this);
+                SharedPreferences preferences = getSharedPreferences(getString(R.string.app_name), MODE_PRIVATE);
+                SharedPreferences.Editor editor = preferences.edit();
+                editor.putString("school_code", code);
+                editor.putLong("start_time", System.currentTimeMillis());
+                float distance = location.distanceTo(schoolLocation);
+                editor.putFloat("distance", distance);
+                editor.putString("lat", String.valueOf(schoolLocation.getLatitude()));
+                editor.putString("lon", String.valueOf(schoolLocation.getLongitude()));
+                editor.apply();
+                Toast.makeText(CheckInLoadingActivity.this, "Checked In", Toast.LENGTH_SHORT).show();
+                finish();
+            }
+        });
+    }
+}
+
+
+abstract class mLocationListener implements LocationListener {
+    @Override
+    public void onStatusChanged(String provider, int status, Bundle extras) {
+    }
+
+    @Override
+    public void onProviderEnabled(String provider) {
+    }
+
+    @Override
+    public void onProviderDisabled(String provider) {
     }
 }

@@ -19,6 +19,8 @@ public class CheckInDbHelper {
         values.put(Schemas.CheckInEntry.SCHOOL_CODE, record.getSchoolCode());
         values.put(Schemas.CheckInEntry.START_TIME, record.getStartTime());
         values.put(Schemas.CheckInEntry.END_TIME, record.getEndTime());
+        values.put(Schemas.CheckInEntry.CHECK_IN_DISTANCE, record.getCheckInDistance());
+        values.put(Schemas.CheckInEntry.CHECK_OUT_DISTANCE, record.getCheckOutDistance());
         db.insert(Schemas.CheckInEntry.TABLE_NAME, null, values);
     }
 
@@ -29,7 +31,9 @@ public class CheckInDbHelper {
                 Schemas.CheckInEntry.UID_OF_CC,
                 Schemas.CheckInEntry.SCHOOL_CODE,
                 Schemas.CheckInEntry.START_TIME,
-                Schemas.CheckInEntry.END_TIME
+                Schemas.CheckInEntry.END_TIME,
+                Schemas.CheckInEntry.CHECK_IN_DISTANCE,
+                Schemas.CheckInEntry.CHECK_OUT_DISTANCE
         };
 
         return db.query(

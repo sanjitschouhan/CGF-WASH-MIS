@@ -196,21 +196,36 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
-            <Button
-                android:id="@+id/btn_check_in"
-                style="@style/Widget.AppCompat.Button.Borderless.Colored"
+            <LinearLayout
+                android:id="@+id/check_in_out_btns"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:onClick="checkin"
                 android:layout_alignParentBottom="true"
-                android:text="@string/check_in" />
+                android:orientation="vertical">
+
+                <Button
+                    android:id="@+id/btn_check_in"
+                    style="@style/Widget.AppCompat.Button.Borderless.Colored"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:onClick="CheckIn"
+                    android:text="@string/check_in" />
+
+                <Button
+                    android:id="@+id/btn_check_out"
+                    style="@style/Widget.AppCompat.Button.Borderless.Colored"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:onClick="CheckOut"
+                    android:text="@string/check_out" />
+            </LinearLayout>
 
             <Button
                 android:id="@+id/btn_activities"
                 style="@style/Widget.AppCompat.Button.Colored"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_above="@id/btn_check_in"
+                android:layout_above="@id/check_in_out_btns"
                 android:onClick="OpenActivityScreen"
                 android:text="@string/activities" />
 
@@ -218,8 +233,8 @@
                 style="@style/Widget.AppCompat.Button.Borderless.Colored"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:onClick="listofschools"
                 android:layout_above="@id/btn_activities"
+                android:onClick="ListOfSchools"
                 android:text="@string/list_of_schools" />
 
         </RelativeLayout>

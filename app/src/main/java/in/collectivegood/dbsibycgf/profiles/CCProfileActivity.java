@@ -1,14 +1,17 @@
 package in.collectivegood.dbsibycgf.profiles;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 
 import in.collectivegood.dbsibycgf.R;
 import in.collectivegood.dbsibycgf.checkin.CheckInActivity;
+import in.collectivegood.dbsibycgf.checkin.CheckOutActivity;
 import in.collectivegood.dbsibycgf.dashboard.DashboardActivity;
 import in.collectivegood.dbsibycgf.database.DbHelper;
 import in.collectivegood.dbsibycgf.database.Schemas;
@@ -42,7 +45,6 @@ public class CCProfileActivity extends AppCompatActivity {
 
         //noinspection ConstantConditions
         getSupportActionBar().setElevation(0);
-
         init();
         getCCData();
         getSchoolData();
@@ -104,13 +106,33 @@ public class CCProfileActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
-    public void checkin(View view) {
-
+    public void CheckIn(View view) {
         startActivity(new Intent(CCProfileActivity.this, CheckInActivity.class));
     }
 
-    public void listofschools(View view) {
+    public void ListOfSchools(View view) {
         startActivity(new Intent(CCProfileActivity.this, ListOfSchoolsActivity.class));
 
+    }
+
+    @Override
+    protected void onResume() {
+        SharedPreferences preferences = getSharedPreferences(getString(R.string.app_name), MODE_PRIVATE);
+        String school_code = preferences.getString("school_code", null);
+        Button checkInButton = (Button) findViewById(R.id.btn_check_in);
+        Button checkOutButton = (Button) findViewById(R.id.btn_check_out);
+        if (school_code == null) {
+            checkInButton.setVisibility(View.VISIBLE);
+            checkOutButton.setVisibility(View.GONE);
+        } else {
+            checkInButton.setVisibility(View.GONE);
+            checkOutButton.setVisibility(View.VISIBLE);
+        }
+        super.onResume();
+    }
+
+
+    public void CheckOut(View view) {
+        startActivity(new Intent(this, CheckOutActivity.class));
     }
 }
