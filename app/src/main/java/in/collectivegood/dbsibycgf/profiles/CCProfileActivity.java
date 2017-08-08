@@ -8,6 +8,7 @@ import android.view.View;
 import android.widget.TextView;
 
 import in.collectivegood.dbsibycgf.R;
+import in.collectivegood.dbsibycgf.checkin.CheckInActivity;
 import in.collectivegood.dbsibycgf.dashboard.DashboardActivity;
 import in.collectivegood.dbsibycgf.database.DbHelper;
 import in.collectivegood.dbsibycgf.database.Schemas;
@@ -100,5 +101,10 @@ public class CCProfileActivity extends AppCompatActivity {
     public void OpenActivityScreen(View view) {
         Intent intent = new Intent(this, DashboardActivity.class);
         startActivity(intent);
+    }
+
+    public void checkin(View view) {
+
+        startActivity(new Intent(CCProfileActivity.this, CheckInActivity.class));
     }
 }

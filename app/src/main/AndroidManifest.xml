@@ -8,6 +8,13 @@
     <uses-permission android:name="android.permission.READ_SYNC_SETTINGS" />
     <uses-permission android:name="android.permission.WRITE_SYNC_SETTINGS" />
     <uses-permission android:name="android.permission.AUTHENTICATE_ACCOUNTS" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+
+    <!-- Needed only if your app targets Android 5.0 (API level 21) or higher. -->
+
+    <uses-feature android:name="android.hardware.location.gps" />
+
+
 
     <application
         android:allowBackup="true"
@@ -93,7 +100,9 @@
         <activity android:name=".wash_resources.WashResourcesActivity" />
         <activity android:name=".heps.HEPSDataFormActivity" />
         <activity android:name=".gallery.GalleryMainActivity" />
-        <activity android:name=".calender.CalenderProfileActivity"></activity>
+        <activity android:name=".calender.CalenderProfileActivity" />
+        <activity android:name=".checkin.CheckInActivity" />
+        <activity android:name=".checkin.CheckInLoadingActivity"></activity>
     </application>
 
 </manifest>
