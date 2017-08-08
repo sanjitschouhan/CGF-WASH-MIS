@@ -29,22 +29,38 @@
                 android:layout_marginLeft="8dp"
                 android:orientation="vertical">
 
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="15dp">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textStyle="bold"
+                    android:text="School name:"/>
                 <TextView
                     android:id="@+id/school_name"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_margin="5dp"
                     android:layout_toRightOf="@id/school_picture"
-                    android:text="SchoolName:"
-                    android:textStyle="bold" />
-
+                    android:text=" SchoolName"
+                     />
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="15dp">
                 <TextView
                     android:id="@+id/dise_code"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_margin="5dp"
                     android:text="DISE code:"
                     android:textStyle="bold" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="  Dise code"/>
+                </LinearLayout>
             </LinearLayout>
         </LinearLayout>
 
@@ -94,88 +110,6 @@
             android:textStyle="bold" />
     </LinearLayout>
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginTop="10dp"
-        android:orientation="vertical">
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-            <android.support.v7.widget.CardView
-                android:id="@+id/SVP"
-                android:layout_width="0dp"
-                android:layout_height="120dp"
-                android:layout_margin="10dp"
-                android:layout_weight="1">
-
-                <TextView
-                    style="@style/Base.TextAppearance.AppCompat.Large"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    tools:text="SVP" />
-
-
-            </android.support.v7.widget.CardView>
-
-            <android.support.v7.widget.CardView
-                android:id="@+id/calender"
-                android:layout_width="0dp"
-                android:layout_height="120dp"
-                android:layout_margin="10dp"
-                android:layout_weight="1"
-                android:elevation="3dp">
-
-                <TextView
-                    style="@style/Base.TextAppearance.AppCompat.Large"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    tools:text="Calender" />
-            </android.support.v7.widget.CardView>
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-            <android.support.v7.widget.CardView
-                android:id="@+id/data_entry"
-                android:layout_width="0dp"
-                android:layout_height="120dp"
-                android:layout_margin="10dp"
-                android:layout_weight="1">
-
-                <TextView
-                    style="@style/Base.TextAppearance.AppCompat.Large"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    tools:text="Data Entry" />
-
-
-            </android.support.v7.widget.CardView>
-
-            <android.support.v7.widget.CardView
-                android:id="@+id/Upload_photos"
-                android:layout_width="0dp"
-                android:layout_height="120dp"
-                android:layout_margin="10dp"
-                android:layout_weight="1"
-                android:elevation="3dp">
-
-                <TextView
-                    style="@style/Base.TextAppearance.AppCompat.Large"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    tools:text="Upload photos" />
-            </android.support.v7.widget.CardView>
-        </LinearLayout>
 
 
     </LinearLayout>
-</LinearLayout>
