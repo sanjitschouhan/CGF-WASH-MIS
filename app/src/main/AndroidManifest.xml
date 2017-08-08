@@ -95,6 +95,7 @@
 
         <activity android:name=".heps.HEPSDataActivity" />
         <activity android:name=".gis.GISActivity" />
+        <activity android:name=".gis.MapActivity"/>
         <activity android:name=".wash_resources.WashResourcesActivity" />
         <activity android:name=".heps.HEPSDataFormActivity" />
         <activity android:name=".gallery.GalleryMainActivity" />
