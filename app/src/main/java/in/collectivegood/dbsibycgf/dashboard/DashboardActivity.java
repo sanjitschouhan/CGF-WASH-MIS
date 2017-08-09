@@ -7,22 +7,13 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.GridView;
 
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
-
 import java.util.ArrayList;
 
 import in.collectivegood.dbsibycgf.R;
 import in.collectivegood.dbsibycgf.calender.CalenderProfileActivity;
-import in.collectivegood.dbsibycgf.database.Schemas;
 import in.collectivegood.dbsibycgf.gallery.GalleryMainActivity;
 import in.collectivegood.dbsibycgf.gis.GISActivity;
 import in.collectivegood.dbsibycgf.heps.HEPSDataActivity;
-import in.collectivegood.dbsibycgf.support.InfoProvider;
-import in.collectivegood.dbsibycgf.support.UserTypes;
 import in.collectivegood.dbsibycgf.wash_resources.WashResourcesActivity;
 
 public class DashboardActivity extends AppCompatActivity {
