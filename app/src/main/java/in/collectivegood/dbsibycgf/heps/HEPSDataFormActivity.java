@@ -21,7 +21,6 @@ import in.collectivegood.dbsibycgf.database.HEPSDataDbHelper;
 import in.collectivegood.dbsibycgf.database.HEPSDataRecord;
 import in.collectivegood.dbsibycgf.database.Schemas;
 import in.collectivegood.dbsibycgf.database.SchoolDbHelper;
-import in.collectivegood.dbsibycgf.profiles.CCProfileActivity;
 import in.collectivegood.dbsibycgf.support.InfoProvider;
 
 import static in.collectivegood.dbsibycgf.sync.SyncFunctions.SyncHEPSData;
@@ -69,7 +68,7 @@ public class HEPSDataFormActivity extends AppCompatActivity {
 
         Cursor cursor = dbHelper.read(Schemas.HEPSFormEntry.SCHOOL_CODE, schoolCode);
 
-        if(cursor.moveToNext()) {
+        if (cursor.moveToNext()) {
             setValueToIdFromDatabase(R.id.male_teachers, String.valueOf(cursor.getLong(cursor.getColumnIndexOrThrow(Schemas.HEPSFormEntry.MALE_TEACHERS))));
             setValueToIdFromDatabase(R.id.female_teachers, String.valueOf(cursor.getLong(cursor.getColumnIndexOrThrow(Schemas.HEPSFormEntry.FEMALE_TEACHERS))));
 
@@ -214,6 +213,14 @@ public class HEPSDataFormActivity extends AppCompatActivity {
         addWatcherToIds(new int[]{R.id.urinals_separate_boys}, R.id.urinals_separate_boys_functioning);
         addWatcherToIds(new int[]{R.id.urinals_separate_girls}, R.id.urinals_separate_girls_functioning);
         addWatcherToIds(new int[]{R.id.urinals_total}, R.id.urinals_total_functioning);
+
+        addLimitWatcherToIds(R.id.toilets_separate_boys_functioning, R.id.toilets_separate_boys);
+        addLimitWatcherToIds(R.id.toilets_separate_girls_functioning, R.id.toilets_separate_girls);
+        addLimitWatcherToIds(R.id.toilets_total_functioning, R.id.toilets_total);
+
+        addLimitWatcherToIds(R.id.urinals_separate_boys_functioning, R.id.urinals_separate_boys);
+        addLimitWatcherToIds(R.id.urinals_separate_girls_functioning, R.id.urinals_separate_girls);
+        addLimitWatcherToIds(R.id.urinals_total_functioning, R.id.urinals_total);
     }
 
     private void addWatcherToIds(int[] ids, int resultId) {
@@ -224,6 +231,13 @@ public class HEPSDataFormActivity extends AppCompatActivity {
         TextView resultView = (TextView) findViewById(resultId);
 
         addWatcher(editTexts, resultView);
+    }
+
+    private void addLimitWatcherToIds(int target, int source) {
+        EditText targetView = (EditText) findViewById(target);
+        EditText sourceView = (EditText) findViewById(source);
+
+        addLimitWatcher(targetView, sourceView);
     }
 
     private void addWatcher(final ArrayList<EditText> edits, final TextView resultView) {
@@ -262,6 +276,42 @@ public class HEPSDataFormActivity extends AppCompatActivity {
         for (EditText edit : edits) {
             edit.addTextChangedListener(teachersTextWatcher);
         }
+    }
+
+    private void addLimitWatcher(final EditText target, final EditText limitSource) {
+        TextWatcher teachersTextWatcher = new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                long limit = 0;
+                try {
+                    limit = Long.parseLong(limitSource.getText().toString().trim());
+                } catch (Exception ignored) {
+                }
+
+                long current = 0;
+                try {
+                    current = Long.parseLong(target.getText().toString().trim());
+                } catch (Exception ignored) {
+                }
+
+                if (current > limit) {
+                    target.setError("Invalid Value. Should be less than or equal to " + limit);
+                }
+
+            }
+        };
+
+        target.addTextChangedListener(teachersTextWatcher);
     }
 
 
@@ -394,6 +444,10 @@ public class HEPSDataFormActivity extends AppCompatActivity {
     }
 
     public void saveForm(View view) {
+        if (!isDataValid()) {
+            return;
+        }
+
         HEPSDataRecord record = new HEPSDataRecord(
                 InfoProvider.getCcUID(this),
                 schoolCode, schoolName, schoolAddress,
@@ -444,6 +498,42 @@ public class HEPSDataFormActivity extends AppCompatActivity {
                     }
                 }).setCancelable(false);
         builder.show();
+    }
+
+    private boolean isDataValid() {
+        int idsToCheck[][] = {
+                {R.id.toilets_separate_boys_functioning, R.id.toilets_separate_boys},
+                {R.id.toilets_separate_girls_functioning, R.id.toilets_separate_girls},
+                {R.id.toilets_total_functioning, R.id.toilets_total},
+                {R.id.urinals_separate_boys_functioning, R.id.urinals_separate_boys},
+                {R.id.urinals_separate_girls_functioning, R.id.urinals_separate_girls},
+                {R.id.urinals_total_functioning, R.id.urinals_total},
+        };
+        for (int[] idPairs : idsToCheck) {
+            if (!hasValidData(idPairs[0], idPairs[1])) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    private boolean hasValidData(int target, int source) {
+        EditText targetView = (EditText) findViewById(target);
+        EditText sourceView = (EditText) findViewById(source);
+        Long targetValue = 0L;
+        Long sourceValue = 0L;
+        try {
+            targetValue = Long.valueOf(targetView.getText().toString().trim());
+            sourceValue = Long.valueOf(sourceView.getText().toString().trim());
+        } catch (Exception ignored) {
+        }
+
+        if (targetValue > sourceValue) {
+            targetView.setError("Invalid Value");
+            targetView.requestFocus();
+            return false;
+        }
+        return true;
     }
 
     public long getValue(int id) {
