@@ -38,7 +38,7 @@ public class CheckOutActivity extends AppCompatActivity {
                     PERMISSIONS_REQUEST_LOCATION);
             return;
         }
-        locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 2, 1, new mLocationListener() {
+        locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 2, 1, new mLocationListener() {
             @Override
             public void onLocationChanged(Location location) {
                 locationManager.removeUpdates(this);

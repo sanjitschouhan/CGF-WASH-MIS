@@ -14,11 +14,11 @@ import android.support.v7.app.AppCompatActivity;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import in.collectivegood.dbsibycgf.R;
 
@@ -33,7 +33,7 @@ public class CheckInLoadingActivity extends AppCompatActivity {
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         if (requestCode == PERMISSIONS_REQUEST_LOCATION) {
             if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
-                locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, locationListener);
+                locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 2, 1, locationListener);
             } else {
                 Toast.makeText(this, "Permission Denied", Toast.LENGTH_SHORT).show();
                 finish();
@@ -69,35 +69,29 @@ public class CheckInLoadingActivity extends AppCompatActivity {
         };
 
         DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("gis");
-        databaseReference.addChildEventListener(new ChildEventListener() {
+        databaseReference.addValueEventListener(new ValueEventListener() {
             @Override
-            public void onChildAdded(DataSnapshot dataSnapshot, String s) {
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                boolean found = false;
                 for (DataSnapshot g : dataSnapshot.getChildren()) {
-                    if (g.getKey().equals(code)) {
+                    if (String.valueOf(g.getKey()).equals(code)) {
+                        found = true;
                         in.collectivegood.dbsibycgf.gis.Location value = g.getValue(in.collectivegood.dbsibycgf.gis.Location.class);
                         schoolLocation = new Location(LocationManager.GPS_PROVIDER);
                         schoolLocation.setLatitude(value.getLat());
                         schoolLocation.setLongitude(value.getLon());
                         CheckIn();
+                        break;
                     }
                 }
-                getGis();
-            }
-
-            @Override
-            public void onChildChanged(DataSnapshot dataSnapshot, String s) {
-            }
-
-            @Override
-            public void onChildRemoved(DataSnapshot dataSnapshot) {
-            }
-
-            @Override
-            public void onChildMoved(DataSnapshot dataSnapshot, String s) {
+                if (!found) {
+                    getGis();
+                }
             }
 
             @Override
             public void onCancelled(DatabaseError databaseError) {
+
             }
         });
 
@@ -111,7 +105,7 @@ public class CheckInLoadingActivity extends AppCompatActivity {
                     PERMISSIONS_REQUEST_LOCATION);
             return;
         }
-        locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 2, 1, locationListener);
+        locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 2, 1, locationListener);
     }
 
     private void CheckIn() {
@@ -121,7 +115,7 @@ public class CheckInLoadingActivity extends AppCompatActivity {
                     PERMISSIONS_REQUEST_LOCATION);
             return;
         }
-        locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 2, 1, new mLocationListener() {
+        locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 2, 1, new mLocationListener() {
             @Override
             public void onLocationChanged(Location location) {
                 locationManager.removeUpdates(this);
@@ -135,7 +129,7 @@ public class CheckInLoadingActivity extends AppCompatActivity {
                 editor.putString("lon", String.valueOf(schoolLocation.getLongitude()));
                 editor.apply();
                 Toast.makeText(CheckInLoadingActivity.this, "Checked In", Toast.LENGTH_SHORT).show();
-                finish();
+                CheckInLoadingActivity.this.finish();
             }
         });
     }
